@@ -1,3 +1,33 @@
+.navbar{
+    color: #282828;
+    background: #F8F7F4;
+    margin: 1rem auto;
+    padding: 1rem 1rem;
+    text-decoration: none;
+    height: 3rem;
+    width: 50%;
+    box-shadow: 0 0 1rem #282828;
+}
+
+#mode{
+    margin-top: -0.2rem;
+    margin-left: -0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.nav-link,
+.nav-link:focus{
+    color: #282828;
+}
+
+.nav-link:hover{
+    text-decoration: none;
+    color: #f87060;
+    text-shadow: 0 0 1rem #f86f60ad;
+}
+
 h1,
 h2{
   padding: 1rem 0rem 0rem 1rem;
@@ -7,7 +37,8 @@ h3{
   padding: 0rem 0rem 0rem 1rem;
 }
 
-h1 {
+.navbar,
+h1{
   font-family: "Roboto Slab", serif;
   font-optical-sizing: auto;
   font-weight: 800;
