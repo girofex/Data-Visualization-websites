@@ -1,0 +1,61 @@
+.navbar{
+  color: #102542;
+  margin: 1rem auto;
+  padding: 1rem 1rem;
+  text-decoration: none;
+  height: 3rem;
+  width: 75%;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 0 1rem #102542;
+  border-radius: 1rem;
+  
+  font-family: "Roboto Slab", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+#mode{
+  color: #102542;
+  margin-top: -0.2rem;
+  margin-left: -0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+#mode:hover{
+  color: #f87060 !important;
+}
+
+.nav-link,
+.nav-link:focus,
+.nav-link:active{
+  color: #102542;
+}
+
+.nav-link:hover{
+  text-decoration: none;
+  color: #f87060;
+  text-shadow: 0 0 1rem #f86f60ad;
+}
+
+/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+DARK MODE
+/*//*/*//*//*//*//*//*//*//*//*//*//*/
+
+.navbar-mode .nav-link,
+.navbar-mode .nav-link:focus,
+.navbar-mode .nav-link:active {
+  color: #ebe7e6 !important;
+}
+
+.navbar-mode{
+  box-shadow: 0 0 1rem #ebe7e6;
+}
+
+.navbar-mode .nav-link:hover {
+  color: #f87060 !important;
+}
