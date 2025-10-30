@@ -9,12 +9,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/index.css">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scrolling.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/barchart.js" defer type="module"></script>
 </head>
 
 <body>
@@ -39,33 +42,31 @@
     </nav>
 
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col side_col">
-                
-            </div>
-            <div class="col central_col">
-                <h1>War, war never changes... Or does it?</h1>
-                <h2>Group: Plot twist</h2>
-                <h3>
-                    Edoardo Vassallo S4965918
-                    Federica Tamerisco S4942412
-                    Iryna Savchuk S4847306
-                    Sara Caviglia S5163676
-                </h3>
+        <div class="column">
+            <h1>War, war never changes... Or does it?</h1>
+            <h2>Group: Plot twist</h2>
+            <h3>
+                Edoardo Vassallo S4965918
+                Federica Tamerisco S4942412
+                Iryna Savchuk S4847306
+                Sara Caviglia S5163676
+            </h3>
 
-                <hr>
+            <hr>
 
-                <h2>Project description</h2>
-                <p>
-                    While war seems to have returned to be a constant in daily news and discussions, the public often loses sight of<br>
-                    the real distribution of conflicts around the globe. Through data visualization and interactive elements, we seek <br>
-                    to provide a clearer understanding of the situation.
-                </p>
-            </div>
-            <div class="col side_col">
-                <i class="bi bi-arrow-up-circle-fill" id="top" alt="Go to the top" onclick="GoTop()"></i>
-            </div>
+            <h2>Project description</h2>
+            <p>
+                While war seems to have returned to be a constant in daily news and discussions, the public often loses sight of<br>
+                the real distribution of conflicts around the globe. Through data visualization and interactive elements, we seek <br>
+                to provide a clearer understanding of the situation.
+            </p>
+
+            <hr>
         </div>
+
+        <div id="barchart"></div>
     </div>
+
+    <i class="bi bi-arrow-up-circle-fill" id="top" alt="Go to the top" onclick="GoTop()"></i>
 </body>
 </html>
