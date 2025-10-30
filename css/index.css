@@ -1,52 +1,6 @@
 .body{
   background: #ebe7e6;
   color: #102542;
-  transition: .3s;
-}
-
-.navbar{
-    color: #102542;
-    margin: 1rem auto;
-    padding: 1rem 1rem;
-    text-decoration: none;
-    height: 3rem;
-    width: 75%;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    box-shadow: 0 0 1rem #102542;
-    border-radius: 1rem;
-    transition: .3s;
-}
-
-#mode{
-    color: #102542;
-    margin-top: -0.2rem;
-    margin-left: -0.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    cursor: pointer;
-    transition: .3s;
-}
-
-#mode:hover,
-#top:hover{
-  color: #f87060;
-  transition: .3s;
-}
-
-.nav-link,
-.nav-link:focus,
-.nav-link:active{
-    color: #102542;
-    transition: .3s;
-}
-
-.nav-link:hover{
-    text-decoration: none;
-    color: #f87060;
-    text-shadow: 0 0 1rem #f86f60ad;
-    transition: .3s;
 }
 
 h1,
@@ -54,11 +8,6 @@ h2{
   padding: 1rem 0rem 0rem 1rem;
 }
 
-h3{
-  padding: 0rem 0rem 0rem 1rem;
-}
-
-.navbar,
 h1{
   font-family: "Roboto Slab", serif;
   font-optical-sizing: auto;
@@ -76,6 +25,7 @@ h3 {
   font-family: "Fira Sans", sans-serif;
   font-weight: 400;
   font-style: normal;
+  padding: 0rem 0rem 0rem 1rem;
 }
 
 p {
@@ -109,7 +59,10 @@ p {
   right: 30px;
   z-index: 1000;
   cursor: pointer;
-  transition: .3s;
+}
+
+#top:hover{
+  color: #f87060 !important;
 }
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
@@ -118,21 +71,5 @@ DARK MODE
 
 .body-mode{
   background: #102542;
-  color: #ebe7e6;
-  transition: .3s;
-}
-
-.navbar-mode{
-  box-shadow: 0 0 1rem #ebe7e6;
-  transition: .3s;
-}
-
-.navbar-mode .nav-link,
-.navbar-mode .nav-link:focus,
-.navbar-mode .nav-link:active {
-    color: #ebe7e6 !important;
-}
-
-.navbar-mode .nav-link:hover {
-    color: #f87060 !important;
+  color: #ebe7e6 !important;
 }
