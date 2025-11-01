@@ -19,11 +19,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scrolling.js"></script>
     <script src="js/theme.js"></script>
-    <script src="js/barchart.js" defer type="module"></script>
-    <script src="js/stackedbar.js" defer type="module"></script>
-    <script src="js/groupedbar.js" defer type="module"></script>
-    <script src="js/heatmap.js" defer type="module"></script>
-    <!--<script src="js/wafflechart.js" defer type="module"></script>-->
+    <script src="js/charts/barchart.js" defer type="module"></script>
+    <script src="js/charts/stackedbar.js" defer type="module"></script>
+    <script src="js/charts/groupedbar.js" defer type="module"></script>
+    <script src="js/charts/heatmap.js" defer type="module"></script>
+    <script src="js/charts/wafflechart.js" defer type="module"></script>
 </head>
 
 <body>
@@ -50,30 +50,86 @@
     <div class="container">
         <div class="column">
             <h1>War, war never changes... Or does it?</h1>
-            <h2>Group: Plot twist</h2>
-            <h3>
-                Edoardo Vassallo S4965918
-                Federica Tamerisco S4942412
-                Iryna Savchuk S4847306
-                Sara Caviglia S5163676
-            </h3>
+            <h3>Group: Plot twist</h3>
+            <p>
+                Edoardo Vassallo S4965918<br>
+                Federica Tamerisco S4942412<br>
+                Iryna Savchuk S4847306<br>
+                Sara Caviglia S5163676<br>
+            </p>
 
             <hr>
 
             <h2>Project description</h2>
             <p>
-                While war seems to have returned to be a constant in daily news and discussions, the public often loses sight of<br>
-                the real distribution of conflicts around the globe. Through data visualization and interactive elements, we seek <br>
-                to provide a clearer understanding of the situation.
+                While war seems to have returned to be a constant in daily news and discussions, the public often loses sight of
+                the real distribution of conflicts around the globe.<br>
+                Through data visualization and interactive elements, we seek to provide a clearer understanding of the situation.
             </p>
 
             <hr>
+
+            <h2>Bar chart</h2>
+            <p>
+                Eventi per regione del mondo.<br>
+                Regioni selezionabili per avere una chart per volta.
+            </p>
         </div>
 
         <div id="barchart"></div>
+    </div>
+
+    <div class="container">
+        <div class="column">
+            <hr>
+
+            <h2>Waffle Chart</h2>
+            <p>
+                Tipi di eventi per regione, on hover popup con percentuale generica, se clicchi si apre sezione con sotto percentuali.<br>
+                Regioni selezionabili per avere una chart per volta.
+            </p>
+        </div>
+        
         <div id="wafflechart"></div>
+    </div>
+
+    <div class="container">
+        <div class="column">
+            <hr>
+
+            <h2>Heat Map</h2>
+            <p>
+                Data la regione del mondo e tipo di evento, la population exposure.<br>
+                Regioni selezionabili per avere una chart per volta.
+            </p>
+        </div>
+        
         <div id="heatmap"></div>
+    </div>
+
+    <div class="container">
+        <div class="column">
+            <hr>
+
+            <h2>Grouped Bar Chart</h2>
+            <p>
+                Scontri militari: per regione del mondo, scontri fra militari e contro i civili.
+            </p>
+        </div>
+        
         <div id="groupedbarchart"></div>
+    </div>
+
+    <div class="container">
+        <div class="column">
+            <hr>
+
+            <h2>Stacked Bar Chart</h2>
+            <p>
+                Proporzione di proteste violente e non violente (per regione).
+            </p>
+        </div>
+        
         <div id="stackedbarchart"></div>
     </div>
 

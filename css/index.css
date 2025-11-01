@@ -35,6 +35,11 @@ p {
   padding: 1rem 0rem 0rem 1rem;
 }
 
+hr{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .container{
   width: 80%;
   display: flex;
@@ -44,12 +49,6 @@ p {
 
 .column{
   width: 45%;
-}
-
-#barchart{
-  width: 80%;
-  display: flex;
-  justify-content: center;
 }
 
 #top{

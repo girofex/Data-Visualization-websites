@@ -21,17 +21,17 @@ const tooltip = d3.select("body").append("div")
 
 // Mock data 
 const mockData = [
-  {quarter: "Q1", Electronics: 120, Clothing: 80, Food: 95, Furniture: 60},
-  {quarter: "Q2", Electronics: 150, Clothing: 90, Food: 110, Furniture: 75},
-  {quarter: "Q3", Electronics: 180, Clothing: 105, Food: 125, Furniture: 85},
-  {quarter: "Q4", Electronics: 200, Clothing: 120, Food: 140, Furniture: 95}
+  {quarter: "Q1", Violent: 120, Pacific: 80},
+  {quarter: "Q2", Violent: 150, Pacific: 90},
+  {quarter: "Q3", Violent: 180, Pacific: 105},
+  {quarter: "Q4", Violent: 200, Pacific: 120}
 ];
 
 // Categories and colors
-const categories = ["Electronics", "Clothing", "Food", "Furniture"];
+const categories = ["Violent", "Pacific"];
 const colors = d3.scaleOrdinal()
   .domain(categories)
-  .range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"]);
+  .range(["#f87060", "#69b3a2"]);
 
 // Load mock data
 function loadData() {
@@ -64,13 +64,24 @@ loadData()
       .attr("transform", `translate(0,${height})`)
       .call(d3.axisBottom(x))
       .selectAll("text")
-        .style("font-size", "12px");
+        .style("font-size", "12px")
+        .style("font-family", "Fira Sans");
+    
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", height + margin.bottom - 20)
+      .style("text-anchor", "middle")
+      .style("font-size", "12px")
+      .style("font-weight", "bold")
+      .style("font-family", "Roboto Slab")
+      .text("Region");
     
     // Y axis
     svg.append("g")
       .call(d3.axisLeft(y))
       .selectAll("text")
-        .style("font-size", "12px");
+        .style("font-size", "12px")
+        .style("font-family", "Fira Sans");
     
     // Y axis label
     svg.append("text")
@@ -80,7 +91,9 @@ loadData()
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .style("font-size", "12px")
-      .text("Sales (in thousands)");
+      .style("font-weight", "bold")
+      .style("font-family", "Roboto Slab")
+      .text("Protests");
     
     // Create groups for each stack layer
     const layers = svg.selectAll(".layer")
@@ -140,6 +153,7 @@ loadData()
       .attr("y", 9)
       .attr("dy", "0.35em")
       .style("font-size", "12px")
+      .style("font-family", "Fira Sans")
       .text(d => d);
     
     // Add title
@@ -147,9 +161,10 @@ loadData()
       .attr("x", width / 2)
       .attr("y", -10)
       .attr("text-anchor", "middle")
-      .style("font-size", "14px")
+      .style("font-size", "18px")
       .style("font-weight", "bold")
-      .text("Quarterly Sales by Category");
+      .style("font-family", "Roboto Slab")
+      .text("Title");
   })
   .catch(function(error) {
     console.error("Error loading stacked bar chart data:", error);

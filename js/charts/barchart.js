@@ -13,7 +13,7 @@ var svg = d3.select("#barchart")
 
 d3.csv("./resources/africa_cleaned.csv")
   .then(function(data) {
-    // X axis
+    //X axis
     var x = d3.scaleBand()
       .range([0, width])
       .domain(data.map(function(d) { return d.REGION; }))
@@ -23,16 +23,39 @@ d3.csv("./resources/africa_cleaned.csv")
       .call(d3.axisBottom(x))
       .selectAll("text")
         .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("font-family", "Fira Sans")
         .style("text-anchor", "end");
+    
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", height + margin.bottom - 4)
+      .style("text-anchor", "middle")
+      .style("font-size", "12px")
+      .style("font-weight", "bold")
+      .style("font-family", "Roboto Slab")
+      .text("Regions");
 
-    // Y axis
+    //Y axis
     var y = d3.scaleLinear()
       .domain([0, 100])
       .range([height, 0]);
     svg.append("g")
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y))
+      .selectAll("text")
+        .style("font-family", "Fira Sans");
+    
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", "12px")
+      .style("font-weight", "bold")
+      .style("font-family", "Roboto Slab")
+      .text("Occurrences");
 
-    // Bars
+    //Bars
     svg.selectAll("mybar")
       .data(data)
       .enter()
@@ -42,6 +65,16 @@ d3.csv("./resources/africa_cleaned.csv")
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height - y(d.EVENTS); })
         .attr("fill", "#69b3a2");
+      
+    //Title
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", -margin.top + 20)
+      .attr("text-anchor", "middle")
+      .style("font-size", "18px")
+      .style("font-weight", "bold")
+      .style("font-family", "Roboto Slab")
+      .text("Title");
   })
 
   .catch(function(error) {
