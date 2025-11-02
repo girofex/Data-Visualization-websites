@@ -11,6 +11,9 @@ var svg = d3.select("#barchart")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+const tooltip = d3.select("body").append("div")
+  .attr("class", "tooltip");
+
 d3.csv("./resources/africa_cleaned.csv")
   .then(function(data) {
     //X axis
@@ -18,6 +21,7 @@ d3.csv("./resources/africa_cleaned.csv")
       .range([0, width])
       .domain(data.map(function(d) { return d.REGION; }))
       .padding(0.2);
+      
     svg.append("g")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x))
@@ -33,7 +37,7 @@ d3.csv("./resources/africa_cleaned.csv")
       .style("font-size", "12px")
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
-      .text("Regions");
+      .text("Regions of the world");
 
     //Y axis
     var y = d3.scaleLinear()
@@ -53,7 +57,7 @@ d3.csv("./resources/africa_cleaned.csv")
       .style("font-size", "12px")
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
-      .text("Occurrences");
+      .text("Total occurrences");
 
     //Bars
     svg.selectAll("mybar")
@@ -64,7 +68,23 @@ d3.csv("./resources/africa_cleaned.csv")
         .attr("y", function(d) { return y(d.EVENTS); })
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height - y(d.EVENTS); })
-        .attr("fill", "#69b3a2");
+        .attr("fill", "#69b3a2")
+        .on("mouseover", function(event, d) {
+          d3.select(this)
+            .attr("opacity", 0.7);
+          
+          tooltip
+            .style("opacity", 1)
+            .html(`<strong>${d.REGION} - ${d.key.replace('_', ' ')}</strong><br/>Value: ${d.EVENTS}`)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 10) + "px");
+        })
+        .on("mouseout", function() {
+          d3.select(this)
+            .attr("opacity", 1);
+          
+          tooltip.style("opacity", 0);
+        });
       
     //Title
     svg.append("text")
