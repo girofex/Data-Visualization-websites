@@ -156,7 +156,7 @@ loadData()
       .style("font-family", "Fira Sans")
       .text(d => d);
     
-    // Add title
+    /*Title
     svg.append("text")
       .attr("x", width / 2)
       .attr("y", -10)
@@ -165,6 +165,7 @@ loadData()
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
       .text("Title");
+    */
   })
   .catch(function(error) {
     console.error("Error loading stacked bar chart data:", error);

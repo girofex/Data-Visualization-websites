@@ -178,7 +178,7 @@ loadData()
         .style("font-size", "10px")
         .style("font-family", "Fira Sans");
     
-    //Title
+    /*Title
     svg.append("text")
       .attr("x", width / 2)
       .attr("y", -margin.top + 20)
@@ -187,6 +187,7 @@ loadData()
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
       .text("Title");
+    */
   })
 
 .catch(function(error) {

@@ -11,15 +11,16 @@ var svg = d3.select("#barchart")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-const tooltip = d3.select("body").append("div")
-  .attr("class", "tooltip");
+const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip");
 
-d3.csv("./resources/africa_cleaned.csv")
+d3.csv("./resources/plots/bar_data.csv")
   .then(function(data) {
     //X axis
     var x = d3.scaleBand()
       .range([0, width])
-      .domain(data.map(function(d) { return d.REGION; }))
+      .domain(data.map(function(d) { return d.Region; }))
       .padding(0.2);
       
     svg.append("g")
@@ -41,8 +42,9 @@ d3.csv("./resources/africa_cleaned.csv")
 
     //Y axis
     var y = d3.scaleLinear()
-      .domain([0, 100])
+      .domain([0, 500000])
       .range([height, 0]);
+
     svg.append("g")
       .call(d3.axisLeft(y))
       .selectAll("text")
@@ -64,21 +66,26 @@ d3.csv("./resources/africa_cleaned.csv")
       .data(data)
       .enter()
       .append("rect")
-        .attr("x", function(d) { return x(d.REGION); })
-        .attr("y", function(d) { return y(d.EVENTS); })
+        .attr("x", function(d) { return x(d.Region); })
+        .attr("y", function(d) { return y(d.TotalEvents); })
         .attr("width", x.bandwidth())
-        .attr("height", function(d) { return height - y(d.EVENTS); })
+        .attr("height", function(d) { return height - y(d.TotalEvents); })
         .attr("fill", "#69b3a2")
         .on("mouseover", function(event, d) {
-          d3.select(this)
-            .attr("opacity", 0.7);
-          
+        d3.select(this)
+          .attr("opacity", 0.7);
+        
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.REGION} - ${d.key.replace('_', ' ')}</strong><br/>Value: ${d.EVENTS}`)
+            .html(`Total Events: ${d.TotalEvents}`);
+        })
+
+        .on("mousemove", function(event, d) {
+          tooltip
             .style("left", (event.pageX + 10) + "px")
             .style("top", (event.pageY - 10) + "px");
         })
+        
         .on("mouseout", function() {
           d3.select(this)
             .attr("opacity", 1);
@@ -86,7 +93,7 @@ d3.csv("./resources/africa_cleaned.csv")
           tooltip.style("opacity", 0);
         });
       
-    //Title
+    /*Title
     svg.append("text")
       .attr("x", width / 2)
       .attr("y", -margin.top + 20)
@@ -95,6 +102,7 @@ d3.csv("./resources/africa_cleaned.csv")
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
       .text("Title");
+    */
   })
 
   .catch(function(error) {

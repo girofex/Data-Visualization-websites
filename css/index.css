@@ -6,30 +6,33 @@
 h1,
 h2{
   padding: 1rem 0rem 0rem 1rem;
+  font-family: "Roboto Slab", serif;
 }
 
 h1{
-  font-family: "Roboto Slab", serif;
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
 }
 
 h2 {
-  font-family: "Roboto Slab", serif;
   font-weight: 500;
   font-style: normal;
 }
 
-h3 {
+h3,
+p,
+.tooltip{
   font-family: "Fira Sans", sans-serif;
+}
+
+h3 {
   font-weight: 400;
   font-style: normal;
   padding: 0rem 0rem 0rem 1rem;
 }
 
 p {
-  font-family: "Fira Sans", sans-serif;
   font-weight: 300;
   font-style: normal;
   padding: 1rem 0rem 0rem 1rem;
@@ -49,6 +52,16 @@ hr{
 
 .column{
   width: 45%;
+}
+
+.tooltip {
+  position: absolute;
+  color: #102542;
+  background-color: #ebe7e6;
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+  pointer-events: none;
+  box-shadow: 0 0 0.5rem #102542;
 }
 
 #top{

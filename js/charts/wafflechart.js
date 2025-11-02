@@ -99,7 +99,7 @@ loadData()
         .text(`${d.category} (${d.value}%)`);
     });
     
-    //Title
+    /*Title
     svg.append("text")
       .attr("x", width / 2)
       .attr("y", -margin.top + 20)
@@ -108,6 +108,7 @@ loadData()
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
       .text("Title");
+    */
   })
   .catch(function(error) {
     console.error("Error loading waffle chart data:", error);
