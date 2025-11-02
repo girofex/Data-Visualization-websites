@@ -113,18 +113,20 @@ loadData()
         .attr("height", d => y(d[0]) - y(d[1]))
         .attr("width", x.bandwidth())
         .on("mouseover", function(event, d) {
-          const category = d3.select(this.parentNode).datum().key;
-          const value = d[1] - d[0];
-          
           d3.select(this)
             .attr("opacity", 0.7);
-          
+        
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.data.quarter} - ${category}</strong><br/>Value: ${value}k`)
+            .html(`<strong>${d.data.quarter} - ${category}</strong><br/>Value: ${value}k`);
+        })
+
+        .on("mousemove", function(event, d) {
+          tooltip
             .style("left", (event.pageX + 10) + "px")
             .style("top", (event.pageY - 10) + "px");
         })
+        
         .on("mouseout", function() {
           d3.select(this)
             .attr("opacity", 1);

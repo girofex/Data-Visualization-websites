@@ -61,13 +61,18 @@ loadData()
         .on("mouseover", function(event, d) {
           d3.select(this)
             .attr("opacity", 0.7);
-          
+        
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.category}</strong><br/>Value: ${d.value}%`)
+            .html(`<strong>${d.category}</strong><br/>Value: ${d.value}%`);
+        })
+
+        .on("mousemove", function(event, d) {
+          tooltip
             .style("left", (event.pageX + 10) + "px")
             .style("top", (event.pageY - 10) + "px");
         })
+        
         .on("mouseout", function() {
           d3.select(this)
             .attr("opacity", 1);
