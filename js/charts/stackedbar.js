@@ -27,20 +27,13 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
     
     const stackedData = stack(data);
     
-    // X scale
+    //X scale
     const x = d3.scaleBand()
       .domain(data.map(d => d.Region))
       .range([0, width])
       .padding(0.3);
     
-    // Y scale
-    const maxY = d3.max(stackedData, layer => d3.max(layer, d => d[1]));
-    const y = d3.scaleLinear()
-      .domain([0, maxY])
-      .nice()
-      .range([height, 0]);
-    
-    // X axis
+    //X axis
     svg.append("g")
       .attr("transform", `translate(0,${height})`)
       .call(d3.axisBottom(x))
@@ -60,6 +53,13 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
           });
         });
     
+    //Y scale
+    const maxY = d3.max(stackedData, layer => d3.max(layer, d => d[1]));
+    const y = d3.scaleLinear()
+      .domain([0, maxY])
+      .nice()
+      .range([height, 0]);
+    
     // Y axis
     svg.append("g")
       .call(d3.axisLeft(y))
@@ -67,7 +67,7 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
         .style("font-size", "12px")
         .style("font-family", "Fira Sans");
     
-    // Create groups for each stack layer
+    //Groups
     const layers = svg.selectAll(".layer")
       .data(stackedData)
       .enter()
@@ -75,7 +75,6 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
         .attr("class", "layer")
         .attr("fill", d => colors(d.key));
     
-    // Draw rectangles
     layers.selectAll("rect")
       .data(d => d)
       .enter()
@@ -110,7 +109,7 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
           tooltip.style("opacity", 0);
         });
     
-    // Add legend
+    //Legend
     const legend = svg.append("g")
       .attr("transform", `translate(${width + 20}, 0)`);
     
@@ -137,6 +136,7 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
         return spaced.trim();
       });
   })
+  
   .catch(function(error) {
     console.error("Error loading stacked bar chart data:", error);
   });

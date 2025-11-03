@@ -36,16 +36,6 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .domain(regions)
       .range([0, width]);
     
-    //Y scale
-    const y = d3.scaleBand()
-      .domain(eventTypes)
-      .range([0, height]);
-    
-    //Color scale
-    const colorScale = d3.scaleSequential()
-      .interpolator(d3.interpolateYlOrRd)
-      .domain([0, d3.max(data, d => d.value)]);
-    
     //X axis
     svg.append("g")
     .attr("transform", `translate(0,${height})`)
@@ -69,14 +59,23 @@ d3.csv("./resources/plots/heatmap_data.csv")
               .text(i < parts.length - 1 ? part + "," : part);
           });
       });
-
-
+    
+    //Y scale
+    const y = d3.scaleBand()
+      .domain(eventTypes)
+      .range([0, height]);
+    
     //Y axis
     svg.append("g")
       .call(d3.axisLeft(y))
       .selectAll("text")
         .style("font-size", "12px")
         .style("font-family", "Fira Sans");
+    
+    //Color scale
+    const colorScale = d3.scaleSequential()
+      .interpolator(d3.interpolateYlOrRd)
+      .domain([0, d3.max(data, d => d.value)]);
     
     //Cells
     svg.selectAll("rect")

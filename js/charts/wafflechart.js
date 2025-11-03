@@ -17,7 +17,7 @@ const svg = d3.select("#wafflechart")
 const tooltip = d3.select("body").append("div")
   .attr("class", "tooltip");
 
-// Create dropdown menu container
+//Dropdown
 const menuContainer = d3.select("#wafflechart")
   .insert("div", "svg")
   .style("margin-top", "1rem")
@@ -35,7 +35,6 @@ const dropdown = menuContainer.append("select")
   .style("font-family", "Fira Sans")
   .style("font-size", "14px");
 
-// Define colors for each category
 const categoryColors = {
   "Battles (%)": "#1f77b4",
   "Explosions/Remote violence (%)": "#f87060",
@@ -67,6 +66,7 @@ d3.csv("./resources/plots/waffle_data.csv")
         color: categoryColors[category]
       }));
       
+      //Cells
       let cells = [];
       let cellIndex = 0;
       regionData.forEach(d => {
@@ -100,7 +100,7 @@ d3.csv("./resources/plots/waffle_data.csv")
             
             tooltip
               .style("opacity", 1)
-              .html(`<strong>${d.category}</strong><br/>Value: ${d.value}%`);
+              .html(`<strong>${d.category}</strong><br/>${d.value}%`);
           })
           .on("mousemove", function(event, d) {
             tooltip

@@ -145,7 +145,8 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
 
     const makeAnnotations = annotation()
       .annotations(note)
-      .type(annotationLabel);
+      .type(annotationLabel)
+      .textWrap(150);
 
     const annotationGroup = svg.append("g")
       .attr("class", "annotation-group")
@@ -155,15 +156,18 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
       const title = d3.select(this);
       const bbox = this.getBBox();
 
-      // Add line just below the text
+      const x = bbox.x;
+      const y = bbox.y + bbox.height + 8;
+      const underlineLength = bbox.width + 45;
+
       d3.select(this.parentNode)
         .append("line")
-        .attr("x1", bbox.x)
-        .attr("x2", bbox.x + bbox.width)
-        .attr("y1", bbox.y + bbox.height + 2) // 2px below text
-        .attr("y2", bbox.y + bbox.height + 2)
+        .attr("x1", x)
+        .attr("x2", x + underlineLength)
+        .attr("y1", y)
+        .attr("y2", y)
         .attr("stroke", "#102542")
-        .attr("stroke-width", 1.5);
+        .attr("stroke-width", 1);
     });
 
     annotationGroup.selectAll(".annotation-note-title")
