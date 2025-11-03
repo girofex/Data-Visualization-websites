@@ -132,6 +132,7 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
       .attr("fill", d => colors(d));
     
     legendItems.append("text")
+      .attr("class", "legendText")
       .attr("x", 24)
       .attr("y", 9)
       .attr("dy", "0.35em")
@@ -141,8 +142,28 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
         let spaced = d.replace(/([a-z])([A-Z])/g, '$1 $2');
         return spaced.trim();
       });
+    
+    const initialTheme = document.body.classList.contains("body-mode");
+    window.updateStackedBarChartTheme(initialTheme);
   })
   
   .catch(function(error) {
     console.error("Error loading stacked bar chart data:", error);
   });
+
+/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+DARK MODE
+/*//*/*//*//*//*//*//*//*//*//*//*//*/
+
+window.updateStackedBarChartTheme = function(isDarkMode) {
+  if (!tooltip.empty()) {
+    tooltip
+      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
+      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+  }
+  
+  const legendText = d3.selectAll("#stackedbarchart .legendText");
+  if (!legendText.empty())
+    legendText.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+};

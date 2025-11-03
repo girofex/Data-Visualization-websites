@@ -57,6 +57,7 @@ d3.csv("./resources/plots/bar_data.csv")
         .style("font-family", "Fira Sans");
     
     svg.append("text")
+      .attr("class", "yAxisTitle")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left)
       .attr("x", 0 - height / 2)
@@ -101,8 +102,28 @@ d3.csv("./resources/plots/bar_data.csv")
           
           tooltip.style("opacity", 0);
         });
+    
+      const initialTheme = document.body.classList.contains("body-mode");
+      window.updateBarChartTheme(initialTheme);
   })
 
   .catch(function(error) {
     console.error("Error loading the data:", error);
 });
+
+/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+DARK MODE
+/*//*/*//*//*//*//*//*//*//*//*//*//*/
+
+window.updateBarChartTheme = function(isDarkMode) {
+  const axisTitle = d3.selectAll("#barchart .yAxisTitle");
+  if (!axisTitle.empty())
+    axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+
+  if (!tooltip.empty()) {
+    tooltip
+      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
+      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+  }
+};

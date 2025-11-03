@@ -37,7 +37,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         document.documentElement.style.setProperty("--scrollbar-thumb-border-color", scrollbarThumbBorderColor);
 
-        if (typeof window.updateChartTheme === "function")
-            window.updateChartTheme(isDark);
+        [
+            window.updateBarChartTheme,
+            window.updateWaffleChartTheme,
+            window.updateHeatMapTheme,
+            window.updateGroupedBarChartTheme,
+            window.updateStackedBarChartTheme
+        ].forEach(fn => {
+            if (typeof fn === "function") fn(isDark);
+        });
     }
 });

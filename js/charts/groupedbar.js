@@ -72,6 +72,7 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
         .style("font-size", "12px");
     
     svg.append("text")
+      .attr("class", "yAxisTitle")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left - 2)
       .attr("x", 0 - (height / 2))
@@ -201,6 +202,7 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
       .attr("fill", d => colors(d));
     
     legendItems.append("text")
+      .attr("class", "legendText")
       .attr("x", 24)
       .attr("y", 9)
       .attr("dy", "0.35em")
@@ -210,8 +212,48 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
         let spaced = d.replace(/([a-z])([A-Z])/g, '$1 $2');
         return spaced.trim();
       });
+    
+    const initialTheme = document.body.classList.contains("body-mode");
+    window.updateGroupedBarChartTheme(initialTheme);
   })
 
   .catch(function(error) {
     console.error("Error loading grouped bar chart data:", error);
   });
+
+/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+DARK MODE
+/*//*/*//*//*//*//*//*//*//*//*//*//*/
+
+window.updateGroupedBarChartTheme = function(isDarkMode) {
+  const axisTitle = d3.selectAll("#groupedbarchart .yAxisTitle");
+  if (!axisTitle.empty())
+    axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+  
+  if (!tooltip.empty()) {
+    tooltip
+      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
+      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+  }
+
+  const annotationTitles = d3.selectAll("#groupedbarchart .annotation-note-title");
+  if (!annotationTitles.empty())
+    annotationTitles.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+
+  const annotationLabels = d3.selectAll("#groupedbarchart .annotation-note-label");
+  if (!annotationLabels.empty())
+    annotationLabels.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+
+  const annotationLines = d3.selectAll("#groupedbarchart .annotation-group line");
+  if (!annotationLines.empty())
+    annotationLines.style("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+
+  const connector = d3.selectAll("#groupedbarchart .annotation-connector path");
+  if (!connector.empty())
+    connector.style("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+  
+  const legendText = d3.selectAll("#groupedbarchart .legendText");
+  if (!legendText.empty())
+    legendText.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+};

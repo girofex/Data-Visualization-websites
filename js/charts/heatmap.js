@@ -133,6 +133,9 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .style("font-family", "Roboto Slab")
       .text("Mean Population Exposure");
     
+    const initialTheme = document.body.classList.contains("body-mode");
+    window.updateHeatMapTheme(initialTheme);
+    
     const defs = svg.append("defs");
     const linearGradient = defs.append("linearGradient")
       .attr("id", "legend-gradient")
@@ -171,10 +174,6 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .selectAll("text")
         .style("font-size", "10px")
         .style("font-family", "Fira Sans");
-    
-    const initialTheme = document.body.classList.contains("body-mode");
-    if (typeof window.updateChartTheme === "function")
-      window.updateChartTheme(initialTheme);
   })
 
   .catch(function(error) {
@@ -185,8 +184,15 @@ d3.csv("./resources/plots/heatmap_data.csv")
 DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
 
-window.updateChartTheme = function(isDarkMode) {
-    const legendTitle = d3.select("#heatmap .legend-title");
-    if (!legendTitle.empty())
-        legendTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");s
+window.updateHeatMapTheme = function(isDarkMode) {
+  if (!tooltip.empty()) {
+    tooltip
+      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
+      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+  }
+  
+  const legendTitle = d3.select("#heatmap .legend-title");
+  if (!legendTitle.empty())
+      legendTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
 };

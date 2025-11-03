@@ -137,7 +137,7 @@ d3.csv("./resources/plots/waffle_data.csv")
     updateWaffle(regions[0]);
 
     const initialTheme = document.body.classList.contains("body-mode");
-    window.updateChartTheme(initialTheme);
+    window.updateWaffleChartTheme(initialTheme);
     
     dropdown.on("change", function() {
       updateWaffle(this.value);
@@ -151,7 +151,23 @@ d3.csv("./resources/plots/waffle_data.csv")
 DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
 
-window.updateChartTheme = function(isDarkMode) {
-    d3.selectAll("#wafflechart .legend text")
-      .style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+window.updateWaffleChartTheme = function(isDarkMode) {
+  const dropdown = d3.select("#region-select");
+  if (!dropdown.empty()) {
+    dropdown
+      .style("background-color", isDarkMode ? "#102542" : "transparent")
+      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+  }
+
+  if (!tooltip.empty()) {
+    tooltip
+      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
+      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+  }
+
+  const legendText = d3.selectAll("#wafflechart .legend text");
+  if (!legendText.empty())
+    legendText.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
 };
