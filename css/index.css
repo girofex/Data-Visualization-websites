@@ -4,7 +4,9 @@
 }
 
 h1,
-h2{
+h2,
+h3,
+h4{
   padding: 1rem 0rem 0rem 1rem;
   font-family: "Roboto Slab", serif;
 }
@@ -20,7 +22,13 @@ h2 {
   font-style: normal;
 }
 
+h4 {
+  font-weight: 300;
+  font-style: normal;
+}
+
 h3,
+h4,
 p,
 .tooltip{
   font-family: "Fira Sans", sans-serif;
