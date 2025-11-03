@@ -23,12 +23,6 @@ const menuContainer = d3.select("#wafflechart")
   .style("margin-top", "1rem")
   .style("margin-left", "6rem");
 
-menuContainer.append("label")
-  .text("Select Region: ")
-  .style("font-family", "Roboto Slab")
-  .style("font-weight", "bold")
-  .style("margin-right", "1rem");
-
 const dropdown = menuContainer.append("select")
   .attr("id", "region-select")
   .style("padding", "0.5rem")
@@ -36,11 +30,11 @@ const dropdown = menuContainer.append("select")
   .style("font-size", "14px");
 
 const categoryColors = {
-  "Battles (%)": "#1f77b4",
-  "Explosions/Remote violence (%)": "#f87060",
-  "Violence against civilians (%)": "#69b3a2",
-  "Protests (%)": "#d62728",
-  "Riots (%)": "#9467bd"
+  "Battles": "#1f77b4",
+  "Explosions/Remote violence": "#f87060",
+  "Violence against civilians": "#69b3a2",
+  "Protests": "#d62728",
+  "Riots": "#9467bd"
 };
 
 d3.csv("./resources/plots/waffle_data.csv")

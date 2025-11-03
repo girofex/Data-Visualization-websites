@@ -46,9 +46,13 @@ d3.csv("./resources/plots/bar_data.csv")
     var y = d3.scaleLinear()
       .domain([0, 500000])
       .range([height, 0]);
+    
+    const yAxis = d3.axisLeft(y)
+      .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
 
     svg.append("g")
       .call(d3.axisLeft(y))
+      .call(yAxis)
       .selectAll("text")
         .style("font-family", "Fira Sans");
     
@@ -76,10 +80,13 @@ d3.csv("./resources/plots/bar_data.csv")
         .on("mouseover", function(event, d) {
           d3.select(this)
             .attr("opacity", 0.7);
+          
+          const formatNumber = d3.format(",");
+          const formatted = formatNumber(d.TotalEvents).replace(/,/g, ".");
         
           tooltip
             .style("opacity", 1)
-            .html(`<strong>Total Occurrences</strong>: ${d.TotalEvents}`);
+            .html(`<strong>Total Occurrences</strong>: ${formatted}`);
         })
 
         .on("mousemove", function(event, d) {

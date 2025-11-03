@@ -94,11 +94,13 @@ d3.csv("./resources/plots/heatmap_data.csv")
           
           const spaced = d.region.replace(/([a-z])([A-Z])/g, "$1 $2");
           const parts = spaced.split("/").map(part => part.trim());
-          const formattedRegion = parts.join(", "); 
+          const formattedRegion = parts.join(", ");
+
+          const formattedNumber = d3.format(",.0f")(d.value).replace(/,/g, ".");
         
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.eventType}</strong><br/>${formattedRegion}<br/>Mean: ${d.value}`);
+            .html(`<strong>${d.eventType}</strong><br/>${formattedRegion}<br/>Mean: ${formattedNumber}`);
         })
 
         .on("mousemove", function(event, d) {
@@ -160,7 +162,8 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .range([legendHeight, 0]);
     
     const legendAxis = d3.axisRight(legendScale)
-      .ticks(5);
+      .ticks(5)
+      .tickFormat(d => d3.format(",.0f")(d).replace(/,/g, "."));
     
     legend.append("g")
       .attr("transform", `translate(${legendWidth}, 0)`)

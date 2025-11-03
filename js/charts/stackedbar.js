@@ -15,7 +15,7 @@ const tooltip = d3.select("body").append("div")
   .attr("class", "tooltip");
 
 //Categories
-const categories = ["ViolentDemonstrations (%)", "PeacefulProtests (%)"];
+const categories = ["ViolentDemonstrations", "PeacefulProtests"];
 const colors = d3.scaleOrdinal()
   .domain(categories)
   .range(["#f87060", "#69b3a2"]);
@@ -61,8 +61,13 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
       .range([height, 0]);
     
     // Y axis
+    const yAxis = d3.axisLeft(y)
+      .tickValues([0, 20, 40, 60, 80, 100]) // exclude 110
+      .tickFormat(d => d + "%");
+
     svg.append("g")
       .call(d3.axisLeft(y))
+      .call(yAxis)
       .selectAll("text")
         .style("font-size", "12px")
         .style("font-family", "Fira Sans");
@@ -90,10 +95,11 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
           var subgroupName = d3.select(this.parentNode).datum().key;
           var subgroupValue = d.data[subgroupName];
           const spaced = subgroupName.replace(/([a-z])([A-Z])/g, "$1 $2");
+          const formattedValue = d3.format(",.0f")(subgroupValue).replace(/,/g, ".");
         
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.data.Region} - ${spaced}</strong><br/>Value: ${subgroupValue}`);
+            .html(`<strong>${d.data.Region} - ${spaced}</strong><br/>Value: ${formattedValue}%`);
         })
 
         .on("mousemove", function(event, d) {

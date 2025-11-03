@@ -61,11 +61,13 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
       .nice(5000)
       .range([height, 0]);
     
-    const yAxis = d3.axisLeft(y).tickFormat(d3.format(","));
+    const yAxis = d3.axisLeft(y)
+      .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
     
     //Y axis
     svg.append("g")
       .call(d3.axisLeft(y))
+      .call(yAxis)
       .selectAll("text")
         .style("font-size", "12px");
     
@@ -103,10 +105,11 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
             .attr("opacity", 0.7);
           
           const spaced = d.key.replace(/([a-z])([A-Z])/g, "$1 $2");
+          const formatted = d3.format(",")(d.value).replace(/,/g, ".");
         
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${spaced}</strong><br/>Mean: ${d.value}`);
+            .html(`<strong>${spaced}</strong><br/>Mean: ${formatted}`);
         })
 
         .on("mousemove", function(event, d) {
