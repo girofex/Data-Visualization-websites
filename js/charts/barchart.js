@@ -1,7 +1,7 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 var margin = {top: 30, right: 30, bottom: 80, left: 100},
-    width = 700 - margin.left - margin.right,
+    width = 800 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
 
 var svg = d3.select("#barchart")
@@ -27,6 +27,7 @@ d3.csv("./resources/plots/bar_data.csv")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x))
     .selectAll("text")
+      .style("font-size", "12px")
       .style("font-family", "Fira Sans")
       .style("text-anchor", "middle")
       .each(function(d) {
@@ -54,6 +55,7 @@ d3.csv("./resources/plots/bar_data.csv")
       .call(d3.axisLeft(y))
       .call(yAxis)
       .selectAll("text")
+        .style("font-size", "12px")
         .style("font-family", "Fira Sans");
     
     svg.append("text")

@@ -172,7 +172,7 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .attr("transform", `translate(${legendWidth}, 0)`)
       .call(legendAxis)
       .selectAll("text")
-        .style("font-size", "10px")
+        .style("font-size", "12px")
         .style("font-family", "Fira Sans");
   })
 
