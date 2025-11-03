@@ -31,25 +31,16 @@ d3.csv("./resources/plots/bar_data.csv")
       .style("text-anchor", "middle")
       .each(function(d) {
         var text = d3.select(this);
-        var words = d.split(" ");
+        var parts = d.split("/");
         text.text("");
         
-        words.forEach(function(word, i) {
+        parts.forEach(function(part, i) {
           text.append("tspan")
             .attr("x", 0)
             .attr("dy", i === 0 ? "0.8em" : "1.1em")
-            .text(word);
+            .text(i < parts.length - 1 ? part + "," : part);
         });
       });
-    
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", height + margin.bottom - 5)
-      .style("text-anchor", "middle")
-      .style("font-size", "12px")
-      .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Regions of the world");
 
     //Y axis
     var y = d3.scaleLinear()
@@ -88,7 +79,7 @@ d3.csv("./resources/plots/bar_data.csv")
         
           tooltip
             .style("opacity", 1)
-            .html(`Total Events: ${d.TotalEvents}`);
+            .html(`<strong>Total Occurrences</strong>: ${d.TotalEvents}`);
         })
 
         .on("mousemove", function(event, d) {
@@ -103,17 +94,6 @@ d3.csv("./resources/plots/bar_data.csv")
           
           tooltip.style("opacity", 0);
         });
-      
-    /*Title
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", -margin.top + 20)
-      .attr("text-anchor", "middle")
-      .style("font-size", "18px")
-      .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Title");
-    */
   })
 
   .catch(function(error) {
