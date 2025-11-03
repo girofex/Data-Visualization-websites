@@ -73,8 +73,7 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .style("text-anchor", "middle")
       .style("font-size", "12px")
       .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Regions of the world");
+      .style("font-family", "Roboto Slab");
 
     //Y axis
     svg.append("g")
@@ -91,8 +90,7 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .style("text-anchor", "middle")
       .style("font-size", "12px")
       .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Event type");
+      .style("font-family", "Roboto Slab");
     
     //Cells
     svg.selectAll("rect")
@@ -135,13 +133,13 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .attr("transform", `translate(${width + 20}, ${(height - legendHeight) / 2})`);
     
     legend.append("text")
-      .attr("x", legendWidth / 2 + 40)
+      .attr("x", legendWidth / 2 + 50)
       .attr("y", -10)
       .style("text-anchor", "middle")
       .style("font-size", "12px")
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
-      .text("Total occurrences");
+      .text("Population Exposure");
     
     const defs = svg.append("defs");
     const linearGradient = defs.append("linearGradient")

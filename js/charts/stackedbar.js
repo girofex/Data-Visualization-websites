@@ -1,13 +1,9 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-// EXAMPLE
-
-// Dimensions and margins
-const margin = {top: 30, right: 150, bottom: 70, left: 60};
-const width = 700 - margin.left - margin.right;
+const margin = {top: 30, right: 190, bottom: 70, left: 60};
+const width = 800 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 
-// Create SVG
 const svg = d3.select("#stackedbarchart")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -15,32 +11,17 @@ const svg = d3.select("#stackedbarchart")
   .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-// Create tooltip
 const tooltip = d3.select("body").append("div")
   .attr("class", "tooltip");
 
-// Mock data 
-const mockData = [
-  {quarter: "Q1", Violent: 120, Pacific: 80},
-  {quarter: "Q2", Violent: 150, Pacific: 90},
-  {quarter: "Q3", Violent: 180, Pacific: 105},
-  {quarter: "Q4", Violent: 200, Pacific: 120}
-];
-
-// Categories and colors
-const categories = ["Violent", "Pacific"];
+//Categories
+const categories = ["ViolentDemonstrations (%)", "PeacefulProtests (%)"];
 const colors = d3.scaleOrdinal()
   .domain(categories)
   .range(["#f87060", "#69b3a2"]);
 
-// Load mock data
-function loadData() {
-  return Promise.resolve(mockData);
-}
-
-loadData()
+d3.csv("./resources/plots/stacked_bar_data.csv")
   .then(function(data) {
-    // Stack the data
     const stack = d3.stack()
       .keys(categories);
     
@@ -48,7 +29,7 @@ loadData()
     
     // X scale
     const x = d3.scaleBand()
-      .domain(data.map(d => d.quarter))
+      .domain(data.map(d => d.Region))
       .range([0, width])
       .padding(0.3);
     
@@ -65,7 +46,19 @@ loadData()
       .call(d3.axisBottom(x))
       .selectAll("text")
         .style("font-size", "12px")
-        .style("font-family", "Fira Sans");
+        .style("font-family", "Fira Sans")
+        .each(function(d) {
+          var text = d3.select(this);
+          var parts = d.split("/");
+          text.text("");
+          
+          parts.forEach(function(part, i) {
+            text.append("tspan")
+              .attr("x", 0)
+              .attr("dy", i === 0 ? "0.8em" : "1.1em")
+              .text(i < parts.length - 1 ? part + "," : part);
+          });
+        });
     
     svg.append("text")
       .attr("x", width / 2)
@@ -108,7 +101,7 @@ loadData()
       .data(d => d)
       .enter()
       .append("rect")
-        .attr("x", d => x(d.data.quarter))
+        .attr("x", d => x(d.data.Region))
         .attr("y", d => y(d[1]))
         .attr("height", d => y(d[0]) - y(d[1]))
         .attr("width", x.bandwidth())
@@ -116,9 +109,11 @@ loadData()
           d3.select(this)
             .attr("opacity", 0.7);
         
+          var subgroupName = d3.select(this.parentNode).datum().key;
+          var subgroupValue = d.data[subgroupName];
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.data.quarter} - ${category}</strong><br/>Value: ${value}k`);
+            .html(`<strong>${d.data.Region} - ${subgroupName}</strong><br/>Value: ${subgroupValue}`);
         })
 
         .on("mousemove", function(event, d) {
