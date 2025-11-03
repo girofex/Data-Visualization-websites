@@ -1,4 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+import { annotation, annotationLabel } from "https://cdn.jsdelivr.net/npm/d3-svg-annotation@2.5.1/+esm";
 
 const margin = {top: 50, right: 190, bottom: 70, left: 100};
 const width = 1000 - margin.left - margin.right;
@@ -122,25 +123,60 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
         });
     
     //Annotation
-    const annotations = [
+    const usCanadaData = data.find(d => d.Region === "US/Canada");
+    const categoryToAnnotate = "Battles";
+
+    const barX = x0("US/Canada") + x1(categoryToAnnotate) + x1.bandwidth() / 2;
+    const barY = y(usCanadaData[categoryToAnnotate]);
+
+    const note = [
       {
         note: {
-          label: "Here is the annotation label",
-          title: "US, Canada"
+          label: "Mean: 32",
+          title: "US/Canada Battles"
         },
-        x: 100,
-        y: 100,
-        dy: 100,
-        dx: 100
+        x: barX,
+        y: barY,
+        dx: 50,
+        dy: -50,
+        color: "#102542"
       }
-    ]
+    ];
 
-    const makeAnnotations = d3.annotation()
-      .annotations(annotations)
+    const makeAnnotations = annotation()
+      .annotations(note)
+      .type(annotationLabel);
 
-    svg.append("g")
-      .call(makeAnnotations)
-    
+    const annotationGroup = svg.append("g")
+      .attr("class", "annotation-group")
+      .call(makeAnnotations);
+
+    annotationGroup.selectAll(".annotation-note-label").each(function() {
+      const title = d3.select(this);
+      const bbox = this.getBBox();
+
+      // Add line just below the text
+      d3.select(this.parentNode)
+        .append("line")
+        .attr("x1", bbox.x)
+        .attr("x2", bbox.x + bbox.width)
+        .attr("y1", bbox.y + bbox.height + 2) // 2px below text
+        .attr("y2", bbox.y + bbox.height + 2)
+        .attr("stroke", "#102542")
+        .attr("stroke-width", 1.5);
+    });
+
+    annotationGroup.selectAll(".annotation-note-title")
+      .style("font-family", "Roboto Slab")
+      .style("font-size", "12px")
+      .style("font-weight", "bold")
+      .style("fill", "#102542");
+
+    annotationGroup.selectAll(".annotation-note-label")
+      .style("font-family", "Fira Sans")
+      .style("font-size", "12px")
+      .style("fill", "#102542");
+
     //Legend
     const legend = svg.append("g")
       .attr("transform", `translate(${width + 20}, 0)`);
