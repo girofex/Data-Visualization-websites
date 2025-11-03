@@ -1,4 +1,4 @@
-<h1>War, war never changes... Or does it?</h1>
+<h1>Conflict and Human Suffering through Data</h1>
 <h2>Group: Plot twist</h2>
 <h3>
     <ul>
