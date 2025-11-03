@@ -92,7 +92,6 @@ d3.csv("./resources/plots/waffle_data.csv")
           .attr("x", d => (d.index % cols) * cellSize)
           .attr("y", d => Math.floor(d.index / cols) * cellSize)
           .attr("fill", d => d.color)
-          .attr("stroke", "#ebe7e6")
           .attr("stroke-width", 1)
           .attr("rx", 2)
           .on("mouseover", function(event, d) {
@@ -142,6 +141,9 @@ d3.csv("./resources/plots/waffle_data.csv")
     }
     
     updateWaffle(regions[0]);
+
+    const initialTheme = document.body.classList.contains("body-mode");
+    window.updateChartTheme(initialTheme);
     
     dropdown.on("change", function() {
       updateWaffle(this.value);
@@ -150,3 +152,12 @@ d3.csv("./resources/plots/waffle_data.csv")
   .catch(function(error) {
     console.error("Error loading waffle chart data:", error);
   });
+
+/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+DARK MODE
+/*//*/*//*//*//*//*//*//*//*//*//*//*/
+
+window.updateChartTheme = function(isDarkMode) {
+    d3.selectAll("#wafflechart .legend text")
+      .style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+};

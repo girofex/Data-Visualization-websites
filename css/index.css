@@ -18,26 +18,23 @@ h1{
 }
 
 h2 {
-  font-weight: 500;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h3 {
+  font-weight: 600;
   font-style: normal;
 }
 
 h4 {
-  font-weight: 300;
+  font-weight: 500;
   font-style: normal;
 }
 
-h3,
-h4,
 p,
 .tooltip{
   font-family: "Fira Sans", sans-serif;
-}
-
-h3 {
-  font-weight: 400;
-  font-style: normal;
-  padding: 0rem 0rem 0rem 1rem;
 }
 
 p {

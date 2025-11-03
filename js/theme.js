@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     var mode = document.getElementById("mode");
     var navbar = document.querySelector(".navbar");
+    var link = document.querySelector(".link");
     var body = document.body;
 
     var scrollbarThumbBorderColor = "#102542";
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         body.classList.toggle("body-mode", isDark);
         navbar.classList.toggle("navbar-mode", isDark);
+        link.classList.toggle("link-mode", isDark);
 
         if (isDark) {
             mode.style.color = "#ebe7e6";
@@ -34,5 +36,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         document.documentElement.style.setProperty("--scrollbar-thumb-border-color", scrollbarThumbBorderColor);
+
+        if (typeof window.updateChartTheme === "function")
+            window.updateChartTheme(isDark);
     }
 });

@@ -100,10 +100,12 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
         .on("mouseover", function(event, d) {
           d3.select(this)
             .attr("opacity", 0.7);
+          
+          const spaced = d.key.replace(/([a-z])([A-Z])/g, "$1 $2");
         
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.key.replace('_', ' ')}</strong><br/>Number: ${d.value}`);
+            .html(`<strong>${spaced}</strong><br/>Mean: ${d.value}`);
         })
 
         .on("mousemove", function(event, d) {
@@ -118,6 +120,26 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
           
           tooltip.style("opacity", 0);
         });
+    
+    //Annotation
+    const annotations = [
+      {
+        note: {
+          label: "Here is the annotation label",
+          title: "US, Canada"
+        },
+        x: 100,
+        y: 100,
+        dy: 100,
+        dx: 100
+      }
+    ]
+
+    const makeAnnotations = d3.annotation()
+      .annotations(annotations)
+
+    svg.append("g")
+      .call(makeAnnotations)
     
     //Legend
     const legend = svg.append("g")

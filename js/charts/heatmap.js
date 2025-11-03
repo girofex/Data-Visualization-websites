@@ -92,10 +92,14 @@ d3.csv("./resources/plots/heatmap_data.csv")
         .on("mouseover", function(event, d) {
           d3.select(this)
             .attr("opacity", 0.7);
+          
+          const spaced = d.region.replace(/([a-z])([A-Z])/g, "$1 $2");
+          const parts = spaced.split("/").map(part => part.trim());
+          const formattedRegion = parts.join(", "); 
         
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.eventType}</strong><br/>${d.region}<br/>Mean: ${d.value}`);
+            .html(`<strong>${d.eventType}</strong><br/>${formattedRegion}<br/>Mean: ${d.value}`);
         })
 
         .on("mousemove", function(event, d) {
@@ -119,13 +123,14 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .attr("transform", `translate(${width + 20}, ${(height - legendHeight) / 2})`);
     
     legend.append("text")
+      .attr("class", "legend-title")
       .attr("x", legendWidth / 2 + 65)
       .attr("y", -10)
       .style("text-anchor", "middle")
       .style("font-size", "12px")
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
-      .text("Mean population Exposure");
+      .text("Mean Population Exposure");
     
     const defs = svg.append("defs");
     const linearGradient = defs.append("linearGradient")
@@ -164,8 +169,22 @@ d3.csv("./resources/plots/heatmap_data.csv")
       .selectAll("text")
         .style("font-size", "10px")
         .style("font-family", "Fira Sans");
+    
+    const initialTheme = document.body.classList.contains("body-mode");
+    if (typeof window.updateChartTheme === "function")
+      window.updateChartTheme(initialTheme);
   })
 
   .catch(function(error) {
     console.error("Error loading the data:", error);
 });
+
+/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+DARK MODE
+/*//*/*//*//*//*//*//*//*//*//*//*//*/
+
+window.updateChartTheme = function(isDarkMode) {
+    const legendTitle = d3.select("#heatmap .legend-title");
+    if (!legendTitle.empty())
+        legendTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");s
+};

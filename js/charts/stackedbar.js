@@ -90,9 +90,11 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
         
           var subgroupName = d3.select(this.parentNode).datum().key;
           var subgroupValue = d.data[subgroupName];
+          const spaced = subgroupName.replace(/([a-z])([A-Z])/g, "$1 $2");
+        
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.data.Region} - ${subgroupName}</strong><br/>Value: ${subgroupValue}`);
+            .html(`<strong>${d.data.Region} - ${spaced}</strong><br/>Value: ${subgroupValue}`);
         })
 
         .on("mousemove", function(event, d) {
