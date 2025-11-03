@@ -1,9 +1,9 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-const margin = {top: 80, right: 250, bottom: 70, left: 100};
+const margin = {top: 50, right: 250, bottom: 70, left: 100};
 const width = 700 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
-const cellSize = 30;
+const cellSize = 35;
 const cellPadding = 3;
 const cols = 10;
 
@@ -20,17 +20,18 @@ const tooltip = d3.select("body").append("div")
 // Create dropdown menu container
 const menuContainer = d3.select("#wafflechart")
   .insert("div", "svg")
-  .style("margin-bottom", "20px");
+  .style("margin-top", "1rem")
+  .style("margin-left", "6rem");
 
 menuContainer.append("label")
   .text("Select Region: ")
   .style("font-family", "Roboto Slab")
   .style("font-weight", "bold")
-  .style("margin-right", "10px");
+  .style("margin-right", "1rem");
 
 const dropdown = menuContainer.append("select")
   .attr("id", "region-select")
-  .style("padding", "5px")
+  .style("padding", "0.5rem")
   .style("font-family", "Fira Sans")
   .style("font-size", "14px");
 
@@ -45,10 +46,8 @@ const categoryColors = {
 
 d3.csv("./resources/plots/waffle_data.csv")
   .then(function(rawData) {
-    // Get unique regions
-    const regions = rawData.map(d => d.Region);
+    const regions = rawData.map(d => d.REGION);
     
-    // Populate dropdown
     dropdown.selectAll("option")
       .data(regions)
       .enter()
@@ -56,14 +55,11 @@ d3.csv("./resources/plots/waffle_data.csv")
       .text(d => d)
       .attr("value", d => d);
     
-    // Function to update waffle chart
     function updateWaffle(selectedRegion) {
-      // Find the row for selected region
-      const regionRow = rawData.find(d => d.Region === selectedRegion);
+      const regionRow = rawData.find(d => d.REGION === selectedRegion);
       
       if (!regionRow) return;
       
-      // Transform row data into array format
       const categories = Object.keys(categoryColors);
       const regionData = categories.map(category => ({
         category: category,
@@ -71,7 +67,6 @@ d3.csv("./resources/plots/waffle_data.csv")
         color: categoryColors[category]
       }));
       
-      // Create cells array
       let cells = [];
       let cellIndex = 0;
       regionData.forEach(d => {
@@ -85,11 +80,9 @@ d3.csv("./resources/plots/waffle_data.csv")
         }
       });
       
-      // Clear existing rectangles and legend
       svg.selectAll("rect").remove();
       svg.selectAll(".legend").remove();
       
-      // Draw waffle cells
       svg.selectAll("rect")
         .data(cells)
         .enter()
@@ -122,7 +115,7 @@ d3.csv("./resources/plots/waffle_data.csv")
             tooltip.style("opacity", 0);
           });
       
-      // Draw legend
+      //Legend
       const legendHeight = regionData.length * 25;
       const legend = svg.append("g")
         .attr("class", "legend")
@@ -144,14 +137,12 @@ d3.csv("./resources/plots/waffle_data.csv")
           .attr("y", 12)
           .style("font-size", "14px")
           .style("font-family", "Fira Sans")
-          .text(`${d.category} (${d.value}%)`);
+          .text(`${d.category}`);
       });
     }
     
-    // Initial render with first region
     updateWaffle(regions[0]);
     
-    // Update on dropdown change
     dropdown.on("change", function() {
       updateWaffle(this.value);
     });

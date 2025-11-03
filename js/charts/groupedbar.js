@@ -19,30 +19,19 @@ const colors = d3.scaleOrdinal()
   .domain(category)
   .range(["#f87060", "#69b3a2"]);
 
-function loadData() {
-  return Promise.resolve(data);
-}
-
 d3.csv("./resources/plots/grouped_bar_data.csv")
   .then(function(data) {
-    //X0 scale (for groups)
+    //X0 scale
     const x0 = d3.scaleBand()
       .domain(data.map(d => d.Region))
       .range([0, width])
       .padding(0.2);
     
-    //X1 scale (for bars within groups)
+    //X1 scale
     const x1 = d3.scaleBand()
       .domain(category)
       .range([0, x0.bandwidth()])
       .padding(0.05);
-    
-    //Y scale
-    const maxY = d3.max(data, d => d3.max(category, key => d[key]));
-    const y = d3.scaleLinear()
-      .domain([0, maxY])
-      .nice()
-      .range([height, 0]);
     
     //X axis
     svg.append("g")
@@ -64,14 +53,14 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
           });
         });
 
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", height + margin.bottom - 15)
-      .style("text-anchor", "middle")
-      .style("font-size", "12px")
-      .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Regions of the world");
+    //Y scale
+    const maxY = d3.max(data, d => d3.max(category, key => d[key]));
+    const y = d3.scaleLinear()
+      .domain([0, maxY])
+      .nice(5000)
+      .range([height, 0]);
+    
+    const yAxis = d3.axisLeft(y).tickFormat(d3.format(","));
     
     //Y axis
     svg.append("g")
@@ -88,7 +77,7 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
       .style("font-size", "12px")
       .style("font-weight", "bold")
       .style("font-family", "Roboto Slab")
-      .text("Total of occurrences");
+      .text("Total occurrences");
     
     //Groups
     const regionGroups = svg.selectAll(".region-group")
@@ -153,17 +142,6 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
       .style("font-size", "12px")
       .style("font-family", "Fira Sans")
       .text(d => d.replace('_', ' '));
-    
-    /*Title
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", -10)
-      .attr("text-anchor", "middle")
-      .style("font-size", "18px")
-      .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Title");
-    */
   })
 
   .catch(function(error) {

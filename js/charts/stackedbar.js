@@ -60,33 +60,12 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
           });
         });
     
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", height + margin.bottom - 20)
-      .style("text-anchor", "middle")
-      .style("font-size", "12px")
-      .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Region");
-    
     // Y axis
     svg.append("g")
       .call(d3.axisLeft(y))
       .selectAll("text")
         .style("font-size", "12px")
         .style("font-family", "Fira Sans");
-    
-    // Y axis label
-    svg.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left)
-      .attr("x", 0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .style("font-size", "12px")
-      .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Protests");
     
     // Create groups for each stack layer
     const layers = svg.selectAll(".layer")
