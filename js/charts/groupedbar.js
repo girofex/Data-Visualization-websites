@@ -1,6 +1,6 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-const margin = {top: 50, right: 180, bottom: 70, left: 100};
+const margin = {top: 50, right: 190, bottom: 70, left: 100};
 const width = 1000 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 
@@ -141,7 +141,10 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
       .attr("dy", "0.35em")
       .style("font-size", "12px")
       .style("font-family", "Fira Sans")
-      .text(d => d.replace('_', ' '));
+      .text(d => {
+        let spaced = d.replace(/([a-z])([A-Z])/g, '$1 $2');
+        return spaced.trim();
+      });
   })
 
   .catch(function(error) {

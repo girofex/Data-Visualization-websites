@@ -48,24 +48,28 @@ d3.csv("./resources/plots/heatmap_data.csv")
     
     //X axis
     svg.append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(x))
-      .selectAll("text")
-        .style("font-size", "12px")
-        .style("font-family", "Fira Sans")
-        .style("text-anchor", "middle")
-        .each(function(d) {
-          var text = d3.select(this);
-          var parts = d.split("/");
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+      .style("font-size", "12px")
+      .style("font-family", "Fira Sans")
+      .style("text-anchor", "middle")
+      .each(function(d) {
+          const text = d3.select(this);
           text.text("");
-          
-          parts.forEach(function(part, i) {
+
+          const spaced = d.replace(/([a-z])([A-Z])/g, '$1 $2');
+          const parts = spaced.split("/");
+
+          parts.forEach((part, i) => {
             text.append("tspan")
               .attr("x", 0)
-              .attr("dy", i === 0 ? "0.8em" : "1.1em")
+              .attr("dy", i === 0 ? "0.8em" : "1.2em")
+              .text(part.trim())
               .text(i < parts.length - 1 ? part + "," : part);
           });
-        });
+      });
+
 
     //Y axis
     svg.append("g")
@@ -91,7 +95,7 @@ d3.csv("./resources/plots/heatmap_data.csv")
         
           tooltip
             .style("opacity", 1)
-            .html(`<strong>${d.eventType}</strong><br/>${d.region}<br/>Events: ${d.value}`);
+            .html(`<strong>${d.eventType}</strong><br/>${d.region}<br/>Mean: ${d.value}`);
         })
 
         .on("mousemove", function(event, d) {

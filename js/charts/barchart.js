@@ -79,7 +79,7 @@ d3.csv("./resources/plots/bar_data.csv")
         
           tooltip
             .style("opacity", 1)
-            .html(`<strong>Total Events</strong>: ${d.TotalEvents}`);
+            .html(`<strong>Total Occurrences</strong>: ${d.TotalEvents}`);
         })
 
         .on("mousemove", function(event, d) {

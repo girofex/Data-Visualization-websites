@@ -1,6 +1,6 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-const margin = {top: 30, right: 190, bottom: 70, left: 60};
+const margin = {top: 30, right: 195, bottom: 70, left: 60};
 const width = 800 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 
@@ -130,18 +130,10 @@ d3.csv("./resources/plots/stacked_bar_data.csv")
       .attr("dy", "0.35em")
       .style("font-size", "12px")
       .style("font-family", "Fira Sans")
-      .text(d => d);
-    
-    /*Title
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", -10)
-      .attr("text-anchor", "middle")
-      .style("font-size", "18px")
-      .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Title");
-    */
+      .text(d => {
+        let spaced = d.replace(/([a-z])([A-Z])/g, '$1 $2');
+        return spaced.trim();
+      });
   })
   .catch(function(error) {
     console.error("Error loading stacked bar chart data:", error);
