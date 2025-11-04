@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     var mode = document.getElementById("mode");
     var navbar = document.querySelector(".navbar");
+    var sidebar = document.querySelectorAll(".sidebar-link");
     var link = document.querySelector(".link");
     var body = document.body;
 
@@ -22,6 +23,10 @@ document.addEventListener("DOMContentLoaded", function() {
         body.classList.toggle("body-mode", isDark);
         navbar.classList.toggle("navbar-mode", isDark);
         link.classList.toggle("link-mode", isDark);
+
+        sidebar.forEach(link => {
+            link.classList.toggle("sidebar-link-mode", isDark);
+        });
 
         if (isDark) {
             mode.style.color = "#ebe7e6";

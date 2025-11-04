@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/footer.css">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/sidebar.js"></script>
     <script src="js/scrolling.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/charts/barchart.js" defer type="module"></script>
@@ -53,17 +54,21 @@
         </div>
     </nav>
 
+    <div class="sidebar-wrapper">
+        <div class="sidebar-linklist-wrapper" id="sidebarLinks"></div>
+    </div>
+
     <div class="container">
         <div class="column">
-            <h1>Conflict and Human Suffering through Data</h1>
+            <h1 id="title">Conflict and Human Suffering through Data</h1>
 
             <hr>
 
-            <h2>Project description</h2>
+            <h2 id="description">Project description</h2>
             <p>
                 As war seems to be a constant in daily news and discussions, the public often loses
                 sight of the real distribution of conflicts around the globe.
-                <a href="https://acleddata.com/about-acled" class="link">ACLED (Armed Conflict Location & Event Data)</a> is an independent, impartial global monitor that collects, analyses, and maps data on conflict and protest. 
+                <a href="https://acleddata.com/about-acled" class="link" target="_blank">ACLED (Armed Conflict Location & Event Data)</a> is an independent, impartial global monitor that collects, analyses, and maps data on conflict and protest. 
                 <br><br>
                 Through data visualization and interactive elements, we seek to provide a website which makes use of this data and renders it in an
                 accessible and understandable way to a wider audience.
@@ -75,16 +80,16 @@
 
     <section class="container">
         <div class="column">
-            <h2>Protests and Battles: Where They Happen, and Why You Should Care</h2>
+            <h2 id="where">Protests and Battles: Where They Happen, and Why You Should Care</h2>
             
-            <h3>Mapping Misery across the Globe</h3>
+            <h3 id="where1">Mapping Misery across the Globe</h3>
             <p>While conflicts and events happen all over the world, the way in which they play out varies between countries.
                 Through the next plots, we intend to highlight these differences.
             </p>
         </div>
 
         <div class="column">
-            <h4>The Steppes are not as Quiet as They May Look</h4>
+            <h4 id="where2">The Steppes are not as Quiet as They May Look</h4>
             
             <p>The following plot shows the number of events recorded for each of the world regions.
                 The first thing that is noticed is the higher number of events in Europe and Central Asia, even compared to
@@ -95,8 +100,7 @@
         <div id="barchart"></div>
 
         <div class="column">
-
-            <h4>Different Country, Different Conflict</h4>
+            <h4 id="where3">Different Country, Different Conflict</h4>
             
             <p>Numbers alone mean nothing: the following chart helps us discern how different regions of the world are plagued by different types of clashes.
                 North America is characterized exclusively by protests and riots. A similar prominence is present in the asian regions.
@@ -107,8 +111,8 @@
 
         <div id="wafflechart"></div>
         <div class="column">
+            <h4 id="where4">It Takes a Village to Wage a War</h4>
 
-            <h4>It Takes a Village to Wage a War</h4>
             <p>Another important metric to consider is how much of the population is affected by such events. Even though regions may register lots of events, 
                 that does not mean much if few people are involved. In fact, looking at the following plot, we can see how it is dominated by
                 Latin America, where battles seem to affect great part of the population, together with violence on civilians. Other points of interest
@@ -120,12 +124,14 @@
 
         <div class="column">
             <hr>
-            <h3>Why you should care</h3>
+            <h3 id="why">Why you should care</h3>
+
             <p>After taking a look at our visualizations, it is possible that You, the reader, may wonder when you come into the picture.
                 You may think that such events affects only soldiers and terrorists, people who go out of their way to get into trouble. But this couldn't be farther from the truth.
             </p>
 
-            <h4>Is War a Civilian's Job?</h4>
+            <h4 id="why1">Is War a Civilian's Job?</h4>
+
             <p>The following plot compares the clashes between military factions with violent events on the civilian population. We can see how, with the exception of Europe,
                 civilians are often involved in violent events, sometimes even more than the military in the case of Latin America. Even in the smaller data pool of North America
                 we see a greater number of events involving civilians.
@@ -135,7 +141,8 @@
         <div id="groupedbarchart"></div>
 
         <div class="column">
-            <h4>When Protest Speaks and When It Shouts</h4>
+            <h4 id="why2">When Protest Speaks and When It Shouts</h4>
+
             <p>Lastly, we take a look at protests, and how often they turn into violent demonstrations. The related plot seems quite comforting in this scenario,
                 with the highest value being around 20%. Still, it means that almost one protest out of five turns into a violent clash.  
             </p>
