@@ -69,7 +69,8 @@ d3.csv("./resources/plots/grouped_bar_data.csv")
       .call(d3.axisLeft(y))
       .call(yAxis)
       .selectAll("text")
-        .style("font-size", "12px");
+        .style("font-size", "12px")
+        .style("font-family", "Fira Sans");
     
     svg.append("text")
       .attr("class", "yAxisTitle")
