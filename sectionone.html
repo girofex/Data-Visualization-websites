@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <title>Section One</title>
+    <link rel="shortcut icon" href="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="img/Plot twist no bg.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/links.css">
+    <link rel="stylesheet" href="css/scrollbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/scrolling.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/charts/barchart.js" defer type="module"></script>
+    <script src="js/charts/stackedbar.js" defer type="module"></script>
+    <script src="js/charts/groupedbar.js" defer type="module"></script>
+    <script src="js/charts/heatmap.js" defer type="module"></script>
+    <script src="js/charts/wafflechart.js" defer type="module"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-expand">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <i class="bi bi-moon-fill" id="mode" alt="Change theme" onclick="switchMode()"></i>
+            </a>
+
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item" id="home">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Section One</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sectiontwo.html">Section Two</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="sidebar-wrapper">
+        <div class="sidebar-linklist-wrapper" id="sidebarLinks"></div>
+    </div>
+
+    <section class="container">
+        <div class="column">
+            <h2 id="where">Protests and Battles: Where They Happen, and Why You Should Care</h2>
+
+            <h3 id="where1">Mapping Misery across the Globe</h3>
+            <p>While conflicts and events happen all over the world, the way in which they play out varies between
+                countries.
+                Through the next plots, we intend to highlight these differences.
+            </p>
+        </div>
+
+        <div class="column">
+            <h4 id="where2">The Steppes are not as Quiet as They May Look</h4>
+
+            <p>The following plot shows the number of events recorded for each of the world regions.
+                The first thing that is noticed is the higher number of events in Europe and Central Asia, even compared
+                to
+                regions historically troubled, like the Middle East and Africa. Comparatively, North America
+                <i>seems</i> to live a peaceful time.
+            </p>
+        </div>
+
+        <div id="barchart"></div>
+
+        <div class="column">
+            <h4 id="where3">Different Country, Different Conflict</h4>
+
+            <p>Numbers alone mean nothing: the following chart helps us discern how different regions of the world are
+                plagued by different types of clashes.
+                North America is characterized exclusively by protests and riots. A similar prominence is present in the
+                asian regions.
+                The countries more beaten by military conflicts seem to be the ones in Europe and the Middle East.
+                Lastly, we can see how violence against civilians
+                dominates the leaderboard in Africa and Latin America.
+            </p>
+        </div>
+
+        <div id="wafflechart"></div>
+        <div class="column">
+            <h4 id="where4">It Takes a Village to Wage a War</h4>
+
+            <p>Another important metric to consider is how much of the population is affected by such events. Even
+                though regions may register lots of events,
+                that does not mean much if few people are involved. In fact, looking at the following plot, we can see
+                how it is dominated by
+                Latin America, where battles seem to affect great part of the population, together with violence on
+                civilians. Other points of interest
+                include the higher quantity of remote violence events in Europe, and of protests and riots in Asia.
+            </p>
+        </div>
+
+        <div id="heatmap"></div>
+
+        <div class="column">
+            <hr>
+            <h3 id="why">Why you should care</h3>
+
+            <p>After taking a look at our visualizations, it is possible that You, the reader, may wonder when you come
+                into the picture.
+                You may think that such events affects only soldiers and terrorists, people who go out of their way to
+                get into trouble. But this couldn't be farther from the truth.
+            </p>
+
+            <h4 id="why1">Is War a Civilian's Job?</h4>
+
+            <p>The following plot compares the clashes between military factions with violent events on the civilian
+                population. We can see how, with the exception of Europe,
+                civilians are often involved in violent events, sometimes even more than the military in the case of
+                Latin America. Even in the smaller data pool of North America
+                we see a greater number of events involving civilians.
+            </p>
+        </div>
+
+        <div id="groupedbarchart"></div>
+
+        <div class="column">
+            <h4 id="why2">When Protest Speaks and When It Shouts</h4>
+
+            <p>Lastly, we take a look at protests, and how often they turn into violent demonstrations. The related plot
+                seems quite comforting in this scenario,
+                with the highest value being around 20%. Still, it means that almost one protest out of five turns into
+                a violent clash.
+            </p>
+        </div>
+        <div id="stackedbarchart"></div>
+    </section>
+
+    <div class="footer">
+        <hr>
+
+        <div class="container-fluid d-flex flex-column flex-lg-row">
+            <div class="container">
+                <div class="column">
+                    <p>A Data Visualization project by</p>
+                    <h3>Plot twist</h3>
+                    <p>
+                        Edoardo Vassallo S4965918<br>
+                        Federica Tamerisco S4942412<br>
+                        Iryna Savchuk S4847306<br>
+                        Sara Caviglia S5163676<br>
+                        <br><br>
+                        Data downloaded on October 28th 2025
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <i class="bi bi-arrow-up-circle-fill" id="top" alt="Go to the top" onclick="GoTop()"></i>
+</body>
+
+</html>
