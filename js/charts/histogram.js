@@ -27,8 +27,8 @@ d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_data
 
     const color = d3.scaleOrdinal()
       .domain(sumstat.map(d => d.key))
-      .range(['#e41a1c','#377eb8','#4daf4a','#984ea3',
-              '#ff7f00','#ffff33','#a65628','#f781bf','#999999']);
+      .range(['#69b3a2','#f87060','#1f77b4','#000000ff',
+              '#000000ff','#000000ff','#000000ff','#000000ff','#000000ff']);
 
     //Small multiple
     const svg = d3.select("#histogram")
@@ -40,6 +40,18 @@ d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_data
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
+    
+     svg.append("text")
+        .attr("class", "yAxisTitle")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left - 2)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("font-weight", "bold")
+        .style("font-family", "Roboto Slab")
+        .text("Total occurrences");
 
     //Histograms
     svg.each(function(dGroup) {
@@ -62,11 +74,17 @@ d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_data
       //X axis
       chart.append("g")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x).ticks(3));
+        .call(d3.axisBottom(x).ticks(3))
+        .selectAll("text")
+          .style("font-size", "12px")
+          .style("font-family", "Fira Sans");
 
       //Y axis
       chart.append("g")
-        .call(d3.axisLeft(yLocal).ticks(3));
+        .call(d3.axisLeft(yLocal).ticks(3))
+        .selectAll("text")
+          .style("font-size", "12px")
+          .style("font-family", "Fira Sans");
 
       //Bars
       chart.selectAll("rect")
