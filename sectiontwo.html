@@ -26,9 +26,10 @@
     <script src="js/sidebar.js"></script>
     <script src="js/scrolling.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/charts/boxplot-histogram.js" defer type="module"></script>
     <script src="js/charts/boxplot.js" defer type="module"></script>
-    <script src="js/charts/ridgeline.js" defer type="module"></script>
     <script src="js/charts/histogram.js" defer type="module"></script>
+    <script src="js/charts/ridgeline.js" defer type="module"></script>
 </head>
 
 <body>
@@ -65,8 +66,15 @@
             </p>
         </div>
 
-        <div id="boxplot"></div>
-        <div id="histogram"></div>
+        <div id="chart-container">
+            <div id="boxplot_container">
+                <div id="boxplot"></div>
+            </div>
+
+            <div id="histogram_container">
+                <div id="histogram"></div>
+            </div>
+        </div>
 
         <div class="column">
             <h2 id="h2">H2</h2>

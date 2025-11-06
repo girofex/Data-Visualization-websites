@@ -1,17 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-var margin = {top: 30, right: 30, bottom: 80, left: 100},
-    width = 800 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
-
-var svg = d3.select("#boxplot")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-
 const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip");
@@ -22,10 +10,25 @@ const csv = [
   { name: "Israel-Palestine", path: "./resources/plots/israel_palestine.csv" }
 ];
 
-Promise.all(csv.map(file => 
+export function renderBoxPlot(){
+  Promise.all(csv.map(file => 
   d3.csv(file.path).then(data => ({ name: file.name, data }))
 ))
 .then(function(datasets) {
+  const container = d3.select("#boxplot_container");
+  container.selectAll("*").remove();
+                      
+  var margin = {top: 30, right: 30, bottom: 80, left: 100},
+      width = 800 - margin.left - margin.right,
+      height = 600 - margin.top - margin.bottom;
+  
+  const svg = container
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+  
   var sumstat = datasets.map(dataset => {
     const values = dataset.data.map(d => +d.POPULATION_EXPOSURE).sort(d3.ascending);
     
@@ -164,38 +167,39 @@ Promise.all(csv.map(file =>
           tooltip.style("opacity", 0);
         });
 
-  //Median
-  svg
-    .selectAll("medianLines")
-    .data(sumstat)
-    .enter()
-    .append("line")
-      .attr("x1", function(d){return(x(d.key)-boxWidth/2) })
-      .attr("x2", function(d){return(x(d.key)+boxWidth/2) })
-      .attr("y1", function(d){return(y(d.value.median))})
-      .attr("y2", function(d){return(y(d.value.median))})
-      .attr("stroke", "#102542")
-      .style("width", 80)
-  });
+    //Median
+    svg
+      .selectAll("medianLines")
+      .data(sumstat)
+      .enter()
+      .append("line")
+        .attr("x1", function(d){return(x(d.key)-boxWidth/2) })
+        .attr("x2", function(d){return(x(d.key)+boxWidth/2) })
+        .attr("y1", function(d){return(y(d.value.median))})
+        .attr("y2", function(d){return(y(d.value.median))})
+        .attr("stroke", "#102542")
+        .style("width", 80)
+    });
 
-//const initialTheme = document.body.classList.contains("body-mode");
-//window.updateBoxPlotTheme(initialTheme);
+  //const initialTheme = document.body.classList.contains("body-mode");
+  //window.updateBoxPlotTheme(initialTheme);
 
-/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
-DARK MODE
-/*//*/*//*//*//*//*//*//*//*//*//*//*/
+  /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+  DARK MODE
+  /*//*/*//*//*//*//*//*//*//*//*//*//*/
 
-/*
-window.updateBoxPlotTheme = function(isDarkMode) {
-  const axisTitle = d3.selectAll("#boxplot .yAxisTitle");
-  if (!axisTitle.empty())
-    axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+  /*
+  window.updateBoxPlotTheme = function(isDarkMode) {
+    const axisTitle = d3.selectAll("#boxplot .yAxisTitle");
+    if (!axisTitle.empty())
+      axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
 
-  if (!tooltip.empty()) {
-    tooltip
-      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
-  }
-};
-*/
+    if (!tooltip.empty()) {
+      tooltip
+        .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
+        .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+        .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+    }
+  };
+  */
+}
