@@ -1,0 +1,8 @@
+#region-select,
+#plot-select {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "Fira Sans";
+}

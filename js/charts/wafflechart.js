@@ -24,10 +24,7 @@ const menuContainer = d3.select("#wafflechart")
   .style("margin-left", "6rem");
 
 const dropdown = menuContainer.append("select")
-  .attr("id", "region-select")
-  .style("padding", "0.5rem")
-  .style("font-family", "Fira Sans")
-  .style("font-size", "14px");
+  .attr("id", "region-select");
 
 const categoryColors = {
   "Battles": "#1f77b4",

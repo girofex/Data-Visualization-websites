@@ -19,7 +19,7 @@ export function renderBoxPlot(){
   container.selectAll("*").remove();
                       
   var margin = {top: 30, right: 30, bottom: 80, left: 100},
-      width = 800 - margin.left - margin.right,
+      width = 700 - margin.left - margin.right,
       height = 600 - margin.top - margin.bottom;
   
   const svg = container
