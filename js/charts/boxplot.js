@@ -1,7 +1,7 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 var margin = {top: 30, right: 30, bottom: 80, left: 100},
-    width = 600 - margin.left - margin.right,
+    width = 800 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
 var svg = d3.select("#boxplot")
@@ -45,6 +45,10 @@ Promise.all(csv.map(file =>
     };
   });
 
+  const colorScale = d3.scaleOrdinal()
+    .domain(datasets.map(d => d.name))
+    .range(['#69b3a2','#f87060','#1f77b4']);
+
   //X scale
   var x = d3.scaleBand()
     .range([ 0, width ])
@@ -61,7 +65,6 @@ Promise.all(csv.map(file =>
       .style("font-family", "Fira Sans");
 
   const allValues = datasets.flatMap(d => d.data.map(row => +row.POPULATION_EXPOSURE));
-  const yMin = d3.min(allValues);
   const yMax = d3.max(allValues);
   
   //Y scale
@@ -69,9 +72,13 @@ Promise.all(csv.map(file =>
     .domain([0, yMax])
     .range([height, 0]);
 
+  const yAxis = d3.axisLeft(y)
+    .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
+
   //Y axis
   svg.append("g")
     .call(d3.axisLeft(y))
+    .call(yAxis)
     .selectAll("text")
       .style("font-size", "12px")
       .style("font-family", "Fira Sans");
@@ -86,7 +93,7 @@ Promise.all(csv.map(file =>
     .style("font-size", "12px")
     .style("font-weight", "bold")
     .style("font-family", "Roboto Slab")
-    .text("Total occurrences");
+    .text("Population Exposure");
 
   //Vertical line
   svg
@@ -114,25 +121,34 @@ Promise.all(csv.map(file =>
         .attr("height", function(d){return(y(d.value.q1)-y(d.value.q3))})
         .attr("width", boxWidth )
         .attr("stroke", "#102542")
-        .style("fill", "#69b3a2")
+        .style("fill", function(d) { return colorScale(d.key); })
         .on("mouseover", function(event, d) {
           d3.select(this)
             .attr("opacity", 0.7);
 
-          const formattedNumbers = [d3.format(",")(d.value.min).replace(/,/g, "."),
-            d3.format(",")(d.value.q1).replace(/,/g, "."),
-            d3.format(",")(d.value.median).replace(/,/g, "."),
-            d3.format(",")(d.value.q3).replace(/,/g, "."),
-            d3.format(",")(d.value.max).replace(/,/g, ".")];
-            
-            tooltip
-              .style("opacity", 1)
-              .html(`<strong>${d.key}</strong><br/>
-                Min: ${formattedNumbers[0]}<br/>
-                25th percentile: ${formattedNumbers[1]}<br/>
-                Median: ${formattedNumbers[2]}<br/>
-                75th percentile: ${formattedNumbers[3]}<br/>
-                Max: ${formattedNumbers[4]}`);
+          const formatEuropean = (num) => {
+            return d3.format(",.2f")(num)
+              .replace(/,/g, "TEMP")
+              .replace(/\./g, ",")
+              .replace(/TEMP/g, ".");
+          };
+
+          const formattedNumbers = [
+            formatEuropean(d.value.min),
+            formatEuropean(d.value.q1),
+            formatEuropean(d.value.median),
+            formatEuropean(d.value.q3),
+            formatEuropean(d.value.max)
+          ];
+          
+          tooltip
+            .style("opacity", 1)
+            .html(`<strong>${d.key}</strong><br/>
+              Min: ${formattedNumbers[0]}<br/>
+              25th percentile: ${formattedNumbers[1]}<br/>
+              Median: ${formattedNumbers[2]}<br/>
+              75th percentile: ${formattedNumbers[3]}<br/>
+              Max: ${formattedNumbers[4]}`);
         })
 
         .on("mousemove", function(event, d) {

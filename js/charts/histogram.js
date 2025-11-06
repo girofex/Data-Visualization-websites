@@ -101,7 +101,7 @@ Promise.all(csv.map(file =>
           
             tooltip
               .style("opacity", 1)
-              .html(`<strong>Total Occurrences</strong>`);
+              .html(`<strong>Total Occurrences:</strong>`);
           })
         
           .on("mousemove", function(event, d) {
