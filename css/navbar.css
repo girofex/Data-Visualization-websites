@@ -42,53 +42,71 @@
   text-shadow: 0 0 1rem #f86f60ad;
 }
 
-.sidebar-wrapper {
+.sidebar-wrapper{
   position: fixed;
-  top: 35%;
+  top: 50%;
+  transform: translateY(-50%);
   left: 1rem;
-  width: 1.5rem;
   z-index: 100;
 }
 
-.sidebar-linklist-wrapper {
+.sidebar-link{
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.sidebar-link {
-  position: relative;
+.sidebar-link::before{
+  content: '';
   height: 0.15rem;
   background-color: #102542;
   transition: all 0.2s ease;
-  cursor: pointer;
   border-radius: 1rem;
+  flex-shrink: 0;
 }
 
-.sidebar-link:hover,
-.sidebar-link.active {
+.sidebar-link::after{
+  content: attr(data-text);
+  font-family: "Roboto Slab", serif;
+  font-size: 0.875rem;
+  color: #102542;
+  transition: all 0.2s ease;
+  white-space: normal;
+  max-width: 12rem;
+}
+
+.sidebar-link:hover::before,
+.sidebar-link.active::before{
   background-color: #f87060;
-  height: 0.2rem
+  height: 0.2rem;
 }
 
-.sidebar-link[data-level="1"] {
-  width: 1.5rem;
-  margin-left: 0;
+.sidebar-link:hover::after,
+.sidebar-link.active::after{
+  color: #f87060;
+  text-shadow: 0 0 0.5rem rgba(248, 112, 96, 0.3);
 }
 
-.sidebar-link[data-level="2"] {
-  width: 1.5rem;
-  margin-left: 0.8rem;
+.sidebar-link[data-level="1"]::before{
+  width: 2rem;
 }
 
-.sidebar-link[data-level="3"] {
+.sidebar-link[data-level="2"]::before{
   width: 1.5rem;
-  margin-left: 1.6rem;
+  margin-right: 0.5rem;
 }
 
-.sidebar-link[data-level="4"] {
-  width: 1.5rem;
-  margin-left: 2.4rem;
+.sidebar-link[data-level="3"]::before{
+  width: 1rem;
+  margin-right: 1rem;
+}
+
+.sidebar-link[data-level="4"]::before{
+  width: 0.5rem;
+  margin-right: 1.5rem;
 }
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
@@ -101,19 +119,29 @@ DARK MODE
   color: #ebe7e6 !important;
 }
 
-.sidebar-link-mode{
-  background-color: #ebe7e6;
-}
-
-.sidebar-link-mode:hover,
-.sidebar-link-mode:active{
-  background-color: #f87060;
-}
-
 .navbar-mode{
   box-shadow: 0 0 1rem #ebe7e6;
 }
 
 .navbar-mode .nav-link:hover {
   color: #f87060 !important;
+}
+
+.sidebar-link-mode::before {
+  background-color: #ebe7e6;
+}
+
+.sidebar-link-mode::after {
+  color: #ebe7e6;
+}
+
+.sidebar-link-mode:hover::before,
+.sidebar-link-mode.active::before {
+  background-color: #f87060;
+}
+
+.sidebar-link-mode:hover::after,
+.sidebar-link-mode.active::after {
+  color: #f87060;
+  text-shadow: 0 0 0.5rem rgba(248, 112, 96, 0.3);
 }

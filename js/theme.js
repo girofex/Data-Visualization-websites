@@ -11,34 +11,42 @@ document.addEventListener("DOMContentLoaded", function() {
     var themeMode = localStorage.getItem("theme") || "dark";
     applyTheme(themeMode);
 
-    if (mode) {
-        mode.onclick = function() {
+    if(mode){
+        mode.onclick = function(){
             const newTheme = body.classList.contains("body-mode") ? "light" : "dark";
             applyTheme(newTheme);
             localStorage.setItem("theme", newTheme);
         };
     }
 
-    function applyTheme(theme) {
+    function applyTheme(theme){
         const isDark = theme === "dark";
-
         body.classList.toggle("body-mode", isDark);
-        if (navbar) navbar.classList.toggle("navbar-mode", isDark);
-        if (link) link.classList.toggle("link-mode", isDark);
+
+        if(navbar)
+            navbar.classList.toggle("navbar-mode", isDark);
+        if(link)
+            link.classList.toggle("link-mode", isDark);
 
         sidebar.forEach(link => link.classList.toggle("sidebar-link-mode", isDark));
 
-        if (isDark) {
-            if (mode) mode.style.color = "#ebe7e6";
+        if(isDark){
+            if (mode)
+                mode.style.color = "#ebe7e6";
+
             scrollbarThumbBorderColor = "#ebe7e6";
-            if (mode) {
+            
+            if(mode){
                 mode.classList.remove("bi-brightness-high-fill");
                 mode.classList.add("bi-moon-fill");
             }
         } else {
-            if (mode) mode.style.color = "#102542";
+            if(mode)
+                mode.style.color = "#102542";
+
             scrollbarThumbBorderColor = "#102542";
-            if (mode) {
+            
+            if(mode){
                 mode.classList.remove("bi-moon-fill");
                 mode.classList.add("bi-brightness-high-fill");
             }
@@ -52,9 +60,12 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateHeatMapTheme,
             window.updateGroupedBarChartTheme,
             window.updateStackedBarChartTheme,
-            window.updateDropdownTheme
+            window.updateDropdownTheme,
+            window.updateBoxPlotTheme,
+            window.updateHistogramTheme
         ].forEach(fn => {
-            if (typeof fn === "function") fn(isDark);
+            if(typeof fn === "function")
+                fn(isDark);
         });
     }
 });

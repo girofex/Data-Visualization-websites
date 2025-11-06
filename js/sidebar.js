@@ -8,9 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
         link.className = 'sidebar-link';
         link.setAttribute('data-level', level);
         link.setAttribute('data-target', header.id);
+        link.setAttribute('data-text', header.textContent);
+
+        var headerOffset = 45;
+        position = document.getElementById(headers) + window.pageYOffset - headerOffset;
         
         link.addEventListener('click', function() {
-            header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            header.scrollTo({ behavior: 'smooth', top: position });
         });
         
         sidebar.appendChild(link);
@@ -29,15 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('.sidebar-link').forEach(link => {
                     link.classList.remove('active');
                 });
+
                 const activeLink = document.querySelector(`.sidebar-link[data-target="${id}"]`);
-                if (activeLink) {
+                if (activeLink)
                     activeLink.classList.add('active');
-                }
             }
         });
     }, observerOptions);
-
-    headers.forEach(header => {
-        observer.observe(header);
-    });
 });

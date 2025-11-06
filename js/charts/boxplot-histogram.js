@@ -2,9 +2,6 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import { renderBoxPlot } from "./boxplot.js";
 import { renderHistogram } from "./histogram.js";
 
-const menuContainer = d3.select("#chart-container")
-  .insert("div", ":first-child");
-
 const dropdown = d3.select("#dropdown")
   .append("select")
   .attr("id", "plot-select");
@@ -21,11 +18,11 @@ function showChart(selected) {
   const box = d3.select("#boxplot_container");
   const hist = d3.select("#histogram_container");
 
-  if (selected === "Box Plot") {
+  if(selected === "Box Plot"){
     box.style("display", "block");
     hist.style("display", "none");
     renderBoxPlot();
-  } else {
+  }else{
     box.style("display", "none");
     hist.style("display", "block");
     renderHistogram();
@@ -34,32 +31,23 @@ function showChart(selected) {
 
 showChart("Box Plot");
 
-dropdown.on("change", function() {
+dropdown.on("change", function(){
   showChart(this.value);
 });
-
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
 DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
 
 window.updateDropdownTheme = function(isDarkMode) {
-  const dropdown = d3.select("#plot-select");
-  if (!dropdown.empty()) {
-    dropdown
+  const menu = d3.select("#plot-select");
+  if(!menu.empty()){
+    menu
       .style("background-color", isDarkMode ? "#102542" : "transparent")
       .style("color", isDarkMode ? "#ebe7e6" : "#102542")
       .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
   }
-
-  if (!tooltip.empty()) {
-    tooltip
-      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
-  }
-
-  const legendText = d3.selectAll("#wafflechart .legend text");
-  if (!legendText.empty())
-    legendText.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
 };
+
+const initialTheme = document.body.classList.contains("body-mode");
+window.updateDropdownTheme(initialTheme);

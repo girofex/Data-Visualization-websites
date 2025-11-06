@@ -50,7 +50,7 @@ export function renderBoxPlot(){
 
   const colorScale = d3.scaleOrdinal()
     .domain(datasets.map(d => d.name))
-    .range(['#69b3a2','#f87060','#1f77b4']);
+    .range(['#69b3a2','#f87060','#9467bd']);
 
   //X scale
   var x = d3.scaleBand()
@@ -99,107 +99,115 @@ export function renderBoxPlot(){
     .text("Population Exposure");
 
   //Vertical line
-  svg
-    .selectAll("vertLines")
+  const vert = svg.selectAll("line.vertLine")
     .data(sumstat)
     .enter()
     .append("line")
-      .attr("x1", function(d){return(x(d.key))})
-      .attr("x2", function(d){return(x(d.key))})
-      .attr("y1", function(d){return(y(d.value.min))})
-      .attr("y2", function(d){return(y(d.value.max))})
-      .attr("stroke", "#102542")
-      .style("width", 40)
+      .attr("class", "vertLine")
+      .attr("x1", d => x(d.key) + x.bandwidth() / 2)
+      .attr("x2", d => x(d.key) + x.bandwidth() / 2)
+      .attr("y1", d => y(d.value.min))
+      .attr("y2", d => y(d.value.max))
+      .attr("stroke", "#102542");
 
   //Main box
-  var boxWidth = 100
+  var boxWidth = 80
 
-  svg
-    .selectAll("boxes")
+  const boxes = svg.selectAll("rect.box")
     .data(sumstat)
     .enter()
     .append("rect")
-        .attr("x", function(d){return(x(d.key)-boxWidth/2)})
-        .attr("y", function(d){return(y(d.value.q3))})
-        .attr("height", function(d){return(y(d.value.q1)-y(d.value.q3))})
-        .attr("width", boxWidth )
-        .attr("stroke", "#102542")
-        .style("fill", function(d) { return colorScale(d.key); })
-        .on("mouseover", function(event, d) {
-          d3.select(this)
-            .attr("opacity", 0.7);
+      .attr("class", "rectangles")
+      .attr("x", function(d){return(x(d.key)-boxWidth/2)})
+      .attr("y", function(d){return(y(d.value.q3))})
+      .attr("height", function(d){return(y(d.value.q1)-y(d.value.q3))})
+      .attr("width", boxWidth)
+      .attr("stroke", "#102542")
+      .style("fill", function(d) { return colorScale(d.key); })
+      .on("mouseover", function(event, d) {
+        d3.select(this)
+          .attr("opacity", 0.7);
 
-          const formatEuropean = (num) => {
-            return d3.format(",.2f")(num)
-              .replace(/,/g, "TEMP")
-              .replace(/\./g, ",")
-              .replace(/TEMP/g, ".");
-          };
+        const formatEuropean = (num) => {
+          return d3.format(",.2f")(num)
+            .replace(/,/g, "TEMP")
+            .replace(/\./g, ",")
+            .replace(/TEMP/g, ".");
+        };
 
-          const formattedNumbers = [
-            formatEuropean(d.value.min),
-            formatEuropean(d.value.q1),
-            formatEuropean(d.value.median),
-            formatEuropean(d.value.q3),
-            formatEuropean(d.value.max)
-          ];
-          
-          tooltip
-            .style("opacity", 1)
-            .html(`<strong>${d.key}</strong><br/>
-              Min: ${formattedNumbers[0]}<br/>
-              25th percentile: ${formattedNumbers[1]}<br/>
-              Median: ${formattedNumbers[2]}<br/>
-              75th percentile: ${formattedNumbers[3]}<br/>
-              Max: ${formattedNumbers[4]}`);
-        })
-
-        .on("mousemove", function(event, d) {
-          tooltip
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 10) + "px");
-        })
+        const formattedNumbers = [
+          formatEuropean(d.value.min),
+          formatEuropean(d.value.q1),
+          formatEuropean(d.value.median),
+          formatEuropean(d.value.q3),
+          formatEuropean(d.value.max)
+        ];
         
-        .on("mouseout", function() {
-          d3.select(this)
-            .attr("opacity", 1);
-          
-          tooltip.style("opacity", 0);
-        });
+        tooltip
+          .style("opacity", 1)
+          .html(`<strong>${d.key}</strong><br/>
+            Min: ${formattedNumbers[0]}<br/>
+            25th percentile: ${formattedNumbers[1]}<br/>
+            Median: ${formattedNumbers[2]}<br/>
+            75th percentile: ${formattedNumbers[3]}<br/>
+            Max: ${formattedNumbers[4]}`);
+      })
+
+      .on("mousemove", function(event, d) {
+        tooltip
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 10) + "px");
+      })
+      
+      .on("mouseout", function() {
+        d3.select(this)
+          .attr("opacity", 1);
+        
+        tooltip.style("opacity", 0);
+      });
 
     //Median
-    svg
-      .selectAll("medianLines")
+    const med = svg.selectAll("line.median")
       .data(sumstat)
       .enter()
       .append("line")
+        .attr("class", "median")
         .attr("x1", function(d){return(x(d.key)-boxWidth/2) })
         .attr("x2", function(d){return(x(d.key)+boxWidth/2) })
         .attr("y1", function(d){return(y(d.value.median))})
         .attr("y2", function(d){return(y(d.value.median))})
-        .attr("stroke", "#102542")
-        .style("width", 80)
+        .attr("stroke", "#102542");
+
+      const initialTheme = document.body.classList.contains("body-mode");
+      window.updateBoxPlotTheme(initialTheme);
     });
 
-  //const initialTheme = document.body.classList.contains("body-mode");
-  //window.updateBoxPlotTheme(initialTheme);
+    /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+    DARK MODE
+    /*//*/*//*//*//*//*//*//*//*//*//*//*/
+    
+    window.updateBoxPlotTheme = function(isDarkMode) {
+      const axisTitle = d3.selectAll("#boxplot_container .yAxisTitle");
+      if (!axisTitle.empty())
+        axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
 
-  /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
-  DARK MODE
-  /*//*/*//*//*//*//*//*//*//*//*//*//*/
+      const line = d3.selectAll("#boxplot_container .vertLine");
+      if (!line.empty())
+        line.attr("stroke", isDarkMode ? "#ebe7e6" : "#102542");
 
-  /*
-  window.updateBoxPlotTheme = function(isDarkMode) {
-    const axisTitle = d3.selectAll("#boxplot .yAxisTitle");
-    if (!axisTitle.empty())
-      axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+      const rect = d3.selectAll("#boxplot_container .rectangles");
+      if (!rect.empty())
+        rect.attr("stroke", isDarkMode ? "#ebe7e6" : "#102542");
 
-    if (!tooltip.empty()) {
-      tooltip
-        .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-        .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-        .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
-    }
-  };
-  */
+      const med = d3.selectAll("#boxplot_container .median");
+      if (!med.empty())
+        med.attr("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+    
+      if (!tooltip.empty()) {
+        tooltip
+          .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
+          .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+          .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      }
+    };
 }
