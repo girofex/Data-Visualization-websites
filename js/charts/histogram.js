@@ -1,39 +1,43 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 const margin = { top: 30, right: 20, bottom: 30, left: 40 },
-      width = 210 - margin.left - margin.right,
-      height = 210 - margin.top - margin.bottom;
+      width = 300 - margin.left - margin.right,
+      height = 300 - margin.top - margin.bottom;
 
-d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/5_OneCatSevNumOrdered.csv")
-  .then(function(data) {
+const tooltip = d3.select("body")
+  .append("div")
+  .attr("class", "tooltip");
 
-    data.forEach(d => {
-      d.year = +d.year;
-      d.n = +d.n;
-    });
+const csv = [
+  { name: "Mexico", path: "./resources/plots/mexico.csv" },
+  { name: "Ukraine-Russia", path: "./resources/plots/ukraine_russia.csv" },
+  { name: "Israel-Palestine", path: "./resources/plots/israel_palestine.csv" }
+];
 
-    const sumstat = d3.groups(data, d => d.name)
-      .map(([key, values]) => ({ key, values }));
+Promise.all(csv.map(file => 
+  d3.csv(file.path).then(data => ({ name: file.name, data }))
+))
+.then(function(datasets) {
+    const allData = datasets.flatMap(d => d.data);
 
     //X scale
     const x = d3.scaleLinear()
-      .domain(d3.extent(data, d => d.year))
+      .domain(d3.extent(allData, d => +d.POPULATION_EXPOSURE))
       .range([0, width]);
 
-    //Y scale
-    const y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.n)])
-      .range([height, 0]);
-
     const color = d3.scaleOrdinal()
-      .domain(sumstat.map(d => d.key))
-      .range(['#69b3a2','#f87060','#1f77b4','#000000ff',
-              '#000000ff','#000000ff','#000000ff','#000000ff','#000000ff']);
+      .domain(datasets.map(d => d.name))
+      .range(['#69b3a2','#f87060','#1f77b4']);
+    
+    const histogram = d3.histogram()
+      .value(d => +d.POPULATION_EXPOSURE)
+      .domain(x.domain())
+      .thresholds(x.ticks(10));
 
     //Small multiple
     const svg = d3.select("#histogram")
       .selectAll("uniqueChart")
-      .data(sumstat)
+      .data(datasets)
       .enter()
       .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -51,17 +55,11 @@ d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_data
         .style("font-size", "12px")
         .style("font-weight", "bold")
         .style("font-family", "Roboto Slab")
-        .text("Total occurrences");
+        .text("Total Occurrences");
 
     //Histograms
-    svg.each(function(dGroup) {
-      const groupData = dGroup.values;
-
-      const histogram = d3.histogram()
-        .value(d => d.year)
-        .domain(x.domain())
-        .thresholds(x.ticks(10));
-
+    svg.each(function(dataset) {
+      const groupData = dataset.data;
       const bins = histogram(groupData);
 
       //Y domain
@@ -95,15 +93,36 @@ d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_data
           .attr("y", d => yLocal(d.length))
           .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
           .attr("height", d => height - yLocal(d.length))
-          .style("fill", color(dGroup.key))
-          .style("opacity", 0.8);
+          .style("fill", color(dataset.name))
+          .style("opacity", 0.8)
+          .on("mouseover", function(event, d) {
+            d3.select(this)
+              .attr("opacity", 0.7);
+          
+            tooltip
+              .style("opacity", 1)
+              .html(`<strong>Total Occurrences</strong>`);
+          })
+        
+          .on("mousemove", function(event, d) {
+            tooltip
+              .style("left", (event.pageX + 10) + "px")
+              .style("top", (event.pageY - 10) + "px");
+          })
+          
+          .on("mouseout", function() {
+            d3.select(this)
+              .attr("opacity", 1);
+            
+            tooltip.style("opacity", 0);
+          });
 
       chart.append("text")
         .attr("x", 0)
         .attr("y", -10)
-        .text(dGroup.key)
+        .text(dataset.name)
         .style("font-size", "11px")
-        .style("fill", color(dGroup.key));
+        .style("fill", color(dataset.name));
     });
   });
 
