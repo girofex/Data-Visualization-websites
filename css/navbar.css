@@ -71,7 +71,7 @@
 .sidebar-link::after{
   content: attr(data-text);
   font-family: "Roboto Slab", serif;
-  font-size: 0.875rem;
+  font-size: 0.7rem;
   color: #102542;
   transition: all 0.2s ease;
   white-space: normal;
