@@ -14,7 +14,7 @@ const svg = d3.select("#heatmap")
 const tooltip = d3.select("body").append("div")
   .attr("class", "tooltip");
 
-d3.csv("./resources/plots/heatmap_data.csv")
+d3.csv("../resources/plots/sectionone/heatmap_data.csv")
   .then(function(rawData) {
     const data = [];
     const regions = ["Africa", "Asia/Pacific", "Europe/CentralAsia", "LatinAmerica/Caribbean", "MiddleEast", "US/Canada"];

@@ -5,9 +5,9 @@ const tooltip = d3.select("body")
     .attr("class", "tooltip");
 
 const csv = [
-  { name: "Mexico", path: "./resources/plots/mexico.csv" },
-  { name: "Ukraine-Russia", path: "./resources/plots/ukraine_russia.csv" },
-  { name: "Israel-Palestine", path: "./resources/plots/israel_palestine.csv" }
+  { name: "Mexico", path: "../resources/plots/sectiontwo/mexico.csv" },
+  { name: "Ukraine-Russia", path: "../resources/plots/sectiontwo/ukraine_russia.csv" },
+  { name: "Israel-Palestine", path: "../resources/plots/sectiontwo/israel_palestine.csv" }
 ];
 
 export function renderBoxPlot(){
