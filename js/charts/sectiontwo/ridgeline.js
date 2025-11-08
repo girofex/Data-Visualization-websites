@@ -52,6 +52,7 @@ Promise.all(csv.map(file =>
   svg.append("text")
     .attr("x", width / 2)
     .attr("y", height + 45)
+    .attr("class", "xAxisTitle")
     .style("text-anchor", "middle")
     .style("font-size", "12px")
     .style("font-weight", "bold")
@@ -68,6 +69,7 @@ Promise.all(csv.map(file =>
     svg.append("text")
       .attr("x", -10)
       .attr("y", y(dataset.name))
+      .attr("class", "yAxisTitle")
       .attr("text-anchor", "end")
       .attr("alignment-baseline", "middle")
       .style("font-size", "12px")
@@ -150,15 +152,43 @@ Promise.all(csv.map(file =>
     
     //Baseline
     svg.append("line")
+      .attr("class", "lines")
       .attr("x1", 0)
       .attr("x2", width)
       .attr("y1", y(dataset.name))
       .attr("y2", y(dataset.name))
-      .attr("stroke", "#102542")
       .attr("stroke-width", 0.5)
       .attr("opacity", 0.3);
+
+    const initialTheme = document.body.classList.contains("body-mode");
+    window.updateRidgeLinePlotTheme(initialTheme);
   });
 })
 .catch(function(error) {
   console.error("Error loading the data:", error);
 });
+
+/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+DARK MODE
+/*//*/*//*//*//*//*//*//*//*//*//*//*/
+
+window.updateRidgeLinePlotTheme = function(isDarkMode) {
+  const xAxisTitle = d3.selectAll("#ridgeline .xAxisTitle");
+  if (!xAxisTitle.empty())
+    xAxisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+
+  const yAxisTitle = d3.selectAll("#ridgeline .yAxisTitle");
+  if (!yAxisTitle.empty())
+    yAxisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+
+  const xLines = d3.selectAll("#ridgeline .lines");
+  if (!xLines.empty())
+    xLines.attr("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+
+  if (!tooltip.empty()) {
+    tooltip
+      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
+      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
+      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+  }
+};

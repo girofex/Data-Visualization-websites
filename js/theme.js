@@ -62,7 +62,8 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateStackedBarChartTheme,
             window.updateDropdownTheme,
             window.updateBoxPlotTheme,
-            window.updateHistogramTheme
+            window.updateHistogramTheme,
+            window.updateRidgeLinePlotTheme
         ].forEach(fn => {
             if(typeof fn === "function")
                 fn(isDark);
