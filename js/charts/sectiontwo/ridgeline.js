@@ -16,9 +16,9 @@ const tooltip = d3.select("body")
   .attr("class", "tooltip");
 
 const csv = [
-  { name: "Mexico", path: "../resources/plots/sectiontwo/ridgelineplot_mexico.csv" },
-  { name: "Ukraine-Russia", path: "../resources/plots/sectiontwo/ridgelineplot_ukraine_russia.csv" },
-  { name: "Israel-Palestine", path: "../resources/plots/sectiontwo/ridgelineplot_israel_palestine.csv" }
+  { name: "Mexico", path: "resources/plots/sectiontwo/ridgelineplot_mexico.csv" },
+  { name: "Ukraine-Russia", path: "resources/plots/sectiontwo/ridgelineplot_ukraine_russia.csv" },
+  { name: "Israel-Palestine", path: "resources/plots/sectiontwo/ridgelineplot_israel_palestine.csv" }
 ];
 
 Promise.all(csv.map(file => 

@@ -20,7 +20,7 @@ const colors = d3.scaleOrdinal()
   .domain(categories)
   .range(["#f87060", "#69b3a2"]);
 
-d3.csv("../resources/plots/sectionone/stacked_bar_data.csv")
+d3.csv("resources/plots/sectionone/stacked_bar_data.csv")
   .then(function(data) {
     const stack = d3.stack()
       .keys(categories);

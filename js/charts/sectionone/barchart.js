@@ -15,7 +15,7 @@ const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip");
 
-d3.csv("../resources/plots/sectionone/bar_data.csv")
+d3.csv("resources/plots/sectionone/bar_data.csv")
   .then(function(data) {
     //X axis
     var x = d3.scaleBand()

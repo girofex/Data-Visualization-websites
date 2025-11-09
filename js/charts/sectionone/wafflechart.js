@@ -34,7 +34,7 @@ const categoryColors = {
   "Riots": "#9467bd"
 };
 
-d3.csv("../resources/plots/sectionone/waffle_data.csv")
+d3.csv("resources/plots/sectionone/waffle_data.csv")
   .then(function(rawData) {
     const regions = rawData.map(d => d.REGION);
     

@@ -1,17 +1,3 @@
-/*scroll down
-document.getElementById('scrollBtn').addEventListener('click', function() {
-    const element = document.getElementById('description');
-    const elementPosition = element.getBoundingClientRect().top;
-    const position = elementPosition + window.scrollY;
-    
-    window.scrollTo({
-        top: position,
-        behavior: 'smooth'
-    });
-});
-*/
-
-//scroll up
 var topButton = document.getElementById("top");
     
 function GoTop() {

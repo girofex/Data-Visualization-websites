@@ -20,7 +20,7 @@ const colors = d3.scaleOrdinal()
   .domain(category)
   .range(["#f87060", "#69b3a2"]);
 
-d3.csv("../resources/plots/sectionone/grouped_bar_data.csv")
+d3.csv("resources/plots/sectionone/grouped_bar_data.csv")
   .then(function(data) {
     //X0 scale
     const x0 = d3.scaleBand()
