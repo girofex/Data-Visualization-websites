@@ -106,7 +106,7 @@ export function renderHistogram(){
             d3.select(this)
               .style("opacity", 0.7);
 
-            const formattedNumber = d3.format(",.0f")(yLocal(d.length));
+            const formattedNumber = d3.format(",.0f")(d.length);
           
             tooltip
               .style("opacity", 1)
