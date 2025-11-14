@@ -109,8 +109,8 @@ d3.csv("resources/plots/sectionone/bar_data.csv")
       window.updateBarChartTheme(initialTheme);
   })
 
-  .catch(function(error) {
-    console.error("Error loading the data:", error);
+.catch(function(error) {
+  console.error("Error loading the data:", error);
 });
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*

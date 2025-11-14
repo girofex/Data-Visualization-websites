@@ -2,7 +2,7 @@
 <html lang="eng">
 
 <head>
-    <title>Home</title>
+    <title>Time</title>
     <link rel="shortcut icon" href="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/dropdown.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/links.css">
     <link rel="stylesheet" href="css/scrollbar.css">
@@ -25,6 +26,7 @@
     <script src="js/sidebar.js"></script>
     <script src="js/scrolling.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/charts/sectionthree/linechart.js" defer type="module"></script>
 </head>
 
 <body>
@@ -36,7 +38,7 @@
 
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item" id="home">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="sectionone.html">Overview</a>
@@ -45,7 +47,7 @@
                     <a class="nav-link" href="sectiontwo.html">Conflicts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="sectionthree.html">Time</a>
+                    <a class="nav-link" href="#">Time</a>
                 </li>
             </ul>
         </div>
@@ -55,33 +57,23 @@
         <div class="sidebar-linklist-wrapper" id="sidebarLinks"></div>
     </div>
 
-    <div class="container">
+    <section class="container">
         <div class="column">
-            <h1 id="title">Conflict and Human Suffering through Data</h1>
-
-            <hr>
-
-            <h2 id="description">Project description</h2>
+            <h2 id="h2">H2</h2>
             <p>
-                As war seems to be a constant in daily news and discussions, the public often loses
-                sight of the real distribution of conflicts around the globe.
-                <a href="https://acleddata.com/about-acled" class="link" target="_blank">ACLED (Armed Conflict Location
-                    & Event Data)</a> is an independent, impartial global monitor that contains 485,991 recorded conflict and protest events
-                worldwide, describing the type of event, its geographic location, and the population affected.
-                <br><br>
-                Through data visualization and interactive elements, we seek to provide a website which makes use of
-                this data and renders it in an
-                accessible and understandable way to a wider audience.
+                ...
             </p>
         </div>
-    </div>
+
+        <div id="linechart"></div>        
+    </section>
 
     <div class="footer">
         <hr>
 
         <div class="container-fluid d-flex flex-column flex-lg-row">
             <div class="container">
-                <div class="column" id="credits">
+                <div class="column">
                     <p>A Data Visualization project by</p>
                     <h3>Plot twist</h3>
                     <p>
@@ -92,9 +84,6 @@
                         <br><br>
                         Data downloaded on October 28th 2025
                     </p>
-                </div>
-                <div class="column">
-                    <img id="logo" src="img/DIBRIS_UniGe_black.svg" alt="Logo for the DIBRIS department of the University of Genoa">
                 </div>
             </div>
         </div>
