@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     var mode = document.getElementById("mode");
     var navbar = document.querySelector(".navbar");
-    var sidebar = document.querySelectorAll(".sidebar-link");
+    var sidebar = document.querySelectorAll(".sidebar-tick");
     var link = document.querySelector(".link");
     var body = document.body;
 

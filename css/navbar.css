@@ -42,6 +42,7 @@
   text-shadow: 0 0 1rem #f86f60ad;
 }
 
+/* Side bar */
 .sidebar-wrapper{
   position: fixed;
   top: 50%;
@@ -50,16 +51,15 @@
   z-index: 100;
 }
 
-.sidebar-link{
+.sidebar-tick{
   padding: 0.5rem;
   transition: all 0.2s ease;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
 }
 
-.sidebar-link::before{
+.sidebar-tick::before{
   content: '';
   height: 0.15rem;
   background-color: #102542;
@@ -68,45 +68,58 @@
   flex-shrink: 0;
 }
 
-.sidebar-link::after{
-  content: attr(data-text);
-  font-family: "Roboto Slab", serif;
-  font-size: 0.7rem;
-  color: #102542;
-  transition: all 0.2s ease;
-  white-space: normal;
-  max-width: 12rem;
-}
-
-.sidebar-link:hover::before,
-.sidebar-link.active::before{
+.sidebar-tick:hover::before,
+.sidebar-tick.active::before{
   background-color: #f87060;
   height: 0.2rem;
 }
 
-.sidebar-link:hover::after,
-.sidebar-link.active::after{
-  color: #f87060;
-  text-shadow: 0 0 0.5rem rgba(248, 112, 96, 0.3);
-}
-
-.sidebar-link[data-level="1"]::before{
+.sidebar-tick[data-level="1"]::before{
   width: 2rem;
 }
 
-.sidebar-link[data-level="2"]::before{
+.sidebar-tick[data-level="2"]::before{
   width: 1.5rem;
-  margin-right: 0.5rem;
 }
 
-.sidebar-link[data-level="3"]::before{
+.sidebar-tick[data-level="3"]::before{
   width: 1rem;
-  margin-right: 1rem;
 }
 
-.sidebar-link[data-level="4"]::before{
+.sidebar-tick[data-level="4"]::before{
   width: 0.5rem;
-  margin-right: 1.5rem;
+}
+
+.sidebar-menu {
+  position: fixed;
+  top: 0rem;
+  left: 2.7rem;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 0 1rem #102542;
+  border-radius: 1rem;
+  padding: .5rem 1rem;
+  z-index: 999;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar-wrapper:hover .sidebar-menu {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-item {
+  padding: .35rem 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.menu-item:hover {
+  color: #f87060;
 }
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
