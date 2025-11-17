@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 mode.style.color = "#ebe7e6";
 
             scrollbarThumbBorderColor = "#ebe7e6";
+            logo.src = './img/DIBRIS_UniGe_white.svg'
             
             if(mode){
                 mode.classList.remove("bi-brightness-high-fill");
@@ -45,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 mode.style.color = "#102542";
 
             scrollbarThumbBorderColor = "#102542";
+            logo.src = './img/DIBRIS_UniGe_black.svg'
             
             if(mode){
                 mode.classList.remove("bi-moon-fill");

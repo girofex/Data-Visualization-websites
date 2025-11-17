@@ -3,8 +3,13 @@
     font-weight: 400;
 }
 
-.link:hover{
+.link:hover,
+.github:hover{
     color: #f87060;
+}
+
+.github:hover{
+    cursor: pointer;
 }
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
