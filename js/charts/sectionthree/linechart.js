@@ -21,6 +21,7 @@ Promise.all(csv.map(file =>
   d3.csv(file.path).then(data => ({ name: file.name, data }))
 ))
 .then(function (datasets) {
+
     datasets.forEach(d => {
         d.data.forEach(row => {
             row.YEAR = +row.YEAR;
@@ -39,12 +40,48 @@ Promise.all(csv.map(file =>
     window.updateLineChartTheme(initialTheme);
 });
 
+//Animation
+const observerOptions = {
+    root: null,
+    threshold: 0.5
+};
+
+const chartObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+
+            const svg = d3.select(entry.target);
+
+            if (svg.attr("data-animate") === "false") {
+                svg.attr("data-animate", "true");
+
+                svg.selectAll(".line").each(function () {
+                    const totalLength = this.getTotalLength();
+
+                    d3.select(this)
+                        .attr("stroke-dasharray", totalLength + " " + totalLength)
+                        .attr("stroke-dashoffset", totalLength)
+                        .transition()
+                        .duration(2500)
+                        .ease(d3.easeSin)
+                        .attr("stroke-dashoffset", 0);
+                });
+            }
+        }
+    });
+}, observerOptions);
+
+//Chart
 function createChart(containerId, datasets, yField) {
-    const svg = d3.select(containerId)
+    const svgRoot = d3.select(containerId)
         .append("svg")
+        .attr("data-animate", "false")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
+        .attr("height", height + margin.top + margin.bottom);
+
+    chartObserver.observe(svgRoot.node());
+
+    const svg = svgRoot.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
     const colorScale = d3.scaleOrdinal()
@@ -105,13 +142,13 @@ function createChart(containerId, datasets, yField) {
         .x(d => x(d.YEAR))
         .y(d => y(d[yField]))
         .defined(d => !isNaN(d.YEAR) && !isNaN(d[yField]));
-
+    
     const group = svg.selectAll(".area-line")
         .data(datasets)
         .join("g")
         .attr("class", "area-line");
-
-    group.append("path")
+    
+    const path = group.append("path")
         .attr("class", "line")
         .attr("data-region", d => d.name)
         .attr("d", d => lineGen(d.data))
@@ -121,18 +158,16 @@ function createChart(containerId, datasets, yField) {
         .style("cursor", "pointer")
         .on("click", handleToggle);
 
-    group.selectAll(".line")
-        .on("click", handleToggle);
-
+    //Labels
     let labels = datasets.map(d => {
         const lastPoint = [...d.data].reverse().find(p => lineGen.defined()(p));
 
         return {
             name: d.name,
             color: colorScale(d.name),
-            x: lastPoint ? x(lastPoint.YEAR) : x(d.data[d.data.length-1].YEAR),
-            y: lastPoint ? y(lastPoint[yField]) : y(d.data[d.data.length-1][yField]),
-            origY: lastPoint ? y(lastPoint[yField]) : y(d.data[d.data.length-1][yField])
+            x: x(lastPoint.YEAR),
+            y: y(lastPoint[yField]),
+            origY: y(lastPoint[yField])
         };
     });
 
@@ -169,19 +204,17 @@ function createChart(containerId, datasets, yField) {
 
     //Annotation
     if(containerId=="#linechart"){
-        const note = [
-            {
-                note: {
-                    label: "Min value: 138.390",
-                    title: "Warning: this isn't 0"
-                },
-                x: x(2019),
-                y: y(0),
-                dx: -40,
-                dy: -40,
-                color: "#102542"
-            }
-        ];
+        const note = [{
+            note: {
+                label: "Min value: 138.390",
+                title: "Warning: this isn't 0"
+            },
+            x: x(2019),
+            y: y(0),
+            dx: -40,
+            dy: -40,
+            color: "#102542"
+        }];
 
         const makeAnnotations = annotation()
             .annotations(note)
@@ -194,7 +227,6 @@ function createChart(containerId, datasets, yField) {
 
         annotationGroup.selectAll(".annotation-note-label").each(function() {
             const bbox = this.getBBox();
-
             const x = bbox.x;
             const y = bbox.y + bbox.height + 8;
             const underlineLength = bbox.width - 15;
@@ -221,12 +253,12 @@ function createChart(containerId, datasets, yField) {
             .style("fill", "#102542");
     }
 
+    //Opacity
     let activeRegion = null;
 
     function handleToggle(event) {
         const clickedRegion = d3.select(this).attr("data-region");
 
-        // If clicking the same region → reset
         if (activeRegion === clickedRegion) {
             activeRegion = null;
 
@@ -245,9 +277,6 @@ function createChart(containerId, datasets, yField) {
 
         svg.selectAll(".line")
             .transition().duration(300)
-            .style("opacity", d =>
-                d3.select(d3.event ? d3.event.target : this)
-            )
             .style("opacity", function () {
                 return d3.select(this).attr("data-region") === clickedRegion ? 1 : 0.2;
             });
