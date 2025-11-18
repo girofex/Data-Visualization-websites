@@ -1,5 +1,10 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+
 const margin = {top: 30, right: 195, bottom: 70, left: 60};
 const width = 800 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
@@ -18,7 +23,7 @@ const tooltip = d3.select("body").append("div")
 const categories = ["ViolentDemonstrations", "PeacefulProtests"];
 const colors = d3.scaleOrdinal()
   .domain(categories)
-  .range(["#f87060", "#69b3a2"]);
+  .range([cssOrange, cssGreen]);
 
 d3.csv("resources/plots/sectionone/stacked_bar_data.csv")
   .then(function(data) {
@@ -158,12 +163,12 @@ DARK MODE
 window.updateStackedBarChartTheme = function(isDarkMode) {
   if (!tooltip.empty()) {
     tooltip
-      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      .style("background-color", isDarkMode ? cssBlack : cssWhite)
+      .style("color", isDarkMode ? cssWhite : cssBlack)
+      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
   }
   
   const legendText = d3.selectAll("#stackedbarchart .legendText");
   if (!legendText.empty())
-    legendText.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    legendText.style("fill", isDarkMode ? cssWhite : cssBlack);
 };

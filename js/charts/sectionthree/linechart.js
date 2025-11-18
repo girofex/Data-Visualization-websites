@@ -1,6 +1,15 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import { annotation, annotationLabel } from "https://cdn.jsdelivr.net/npm/d3-svg-annotation@2.5.1/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+const cssBlue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
+const cssRed = getComputedStyle(document.documentElement).getPropertyValue("--red").trim();
+const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
+const cssYellow = getComputedStyle(document.documentElement).getPropertyValue("--yellow").trim();
+
 var margin = {top: 70, right: 150, bottom: 55, left: 110},
   width = 1200 - margin.left - margin.right,
   height = 600 - margin.top - margin.bottom;
@@ -86,7 +95,7 @@ function createChart(containerId, datasets, yField) {
 
     const colorScale = d3.scaleOrdinal()
         .domain(datasets.map(d => d.name))
-        .range(['#1f77b4','#f87060','#69b3a2', '#d62728', '#9467bd', '#ffca4d']);
+        .range([cssBlue, cssOrange, cssGreen, cssRed, cssPurple, cssYellow]);
 
     //X axis
     const x = d3.scaleLinear()
@@ -213,7 +222,7 @@ function createChart(containerId, datasets, yField) {
             y: y(0),
             dx: -40,
             dy: -40,
-            color: "#102542"
+            color: cssBlack
         }];
 
         const makeAnnotations = annotation()
@@ -237,7 +246,7 @@ function createChart(containerId, datasets, yField) {
                 .attr("x2", x + underlineLength)
                 .attr("y1", y)
                 .attr("y2", y)
-                .attr("stroke", "#102542")
+                .attr("stroke", cssBlack)
                 .attr("stroke-width", 1);
         });
 
@@ -245,12 +254,12 @@ function createChart(containerId, datasets, yField) {
             .style("font-family", "Roboto Slab")
             .style("font-size", "12px")
             .style("font-weight", "bold")
-            .style("fill", "#102542");
+            .style("fill", cssBlack);
 
         annotationGroup.selectAll(".annotation-note-label")
             .style("font-family", "Fira Sans")
             .style("font-size", "12px")
-            .style("fill", "#102542");
+            .style("fill", cssBlack);
     }
 
     //Opacity
@@ -295,29 +304,29 @@ DARK MODE
 window.updateLineChartTheme = function(isDarkMode) {
     const axisTitle1 = d3.selectAll("#linechart .yAxisTitle");
     if (!axisTitle1.empty())
-        axisTitle1.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+        axisTitle1.style("fill", isDarkMode ? cssWhite : cssBlack);
     
     const axisTitle2 = d3.selectAll("#linechart2 .yAxisTitle");
     if (!axisTitle2.empty())
-        axisTitle2.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+        axisTitle2.style("fill", isDarkMode ? cssWhite : cssBlack);
 
     const annotationTitles = d3.selectAll("#linechart .annotation-note-title");
     if (!annotationTitles.empty())
-        annotationTitles.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+        annotationTitles.style("fill", isDarkMode ? cssWhite : cssBlack);
 
     const annotationLabels = d3.selectAll("#linechart .annotation-note-label");
     if (!annotationLabels.empty())
-        annotationLabels.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+        annotationLabels.style("fill", isDarkMode ? cssWhite : cssBlack);
 
     const annotationLines = d3.selectAll("#linechart .annotation-group line");
     if (!annotationLines.empty())
-        annotationLines.style("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+        annotationLines.style("stroke", isDarkMode ? cssWhite : cssBlack);
 
     const connector = d3.selectAll("#linechart .annotation-connector path");
     if (!connector.empty())
-        connector.style("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+        connector.style("stroke", isDarkMode ? cssWhite : cssBlack);
     
     const legendText = d3.selectAll("#linechart .legendText");
     if (!legendText.empty())
-        legendText.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+        legendText.style("fill", isDarkMode ? cssWhite : cssBlack);
 };

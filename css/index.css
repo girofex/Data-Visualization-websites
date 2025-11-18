@@ -1,6 +1,6 @@
 .body{
-  background: #ebe7e6;
-  color: #102542;
+  background: var(--white);
+  color: var(--black);
 }
 
 h1,
@@ -61,12 +61,12 @@ hr{
 
 .tooltip {
   position: absolute;
-  color: #102542;
-  background-color: #ebe7e6;
+  color: var(--black);
+  background-color: var(--white);
   padding: 1rem 1rem;
   border-radius: 0.5rem;
   pointer-events: none;
-  box-shadow: 0 0 0.5rem #102542;
+  box-shadow: 0 0 0.5rem var(--black);
 }
 
 #top{
@@ -87,6 +87,6 @@ DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
 
 .body-mode{
-  background: #102542;
-  color: #ebe7e6 !important;
+  background: var(--black);
+  color: var(--white) !important;
 }

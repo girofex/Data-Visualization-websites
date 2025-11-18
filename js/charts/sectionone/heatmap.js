@@ -1,5 +1,8 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+
 const margin = {top: 80, right: 185, bottom: 70, left: 200};
 const width = 1000 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
@@ -87,7 +90,7 @@ d3.csv("resources/plots/sectionone/heatmap_data.csv")
         .attr("width", x.bandwidth())
         .attr("height", y.bandwidth())
         .attr("fill", d => colorScale(d.value))
-        .attr("stroke", "#ebe7e6")
+        .attr("stroke", cssWhite)
         .on("mouseover", function(event, d) {
           d3.select(this)
             .attr("opacity", 0.7);
@@ -157,7 +160,7 @@ d3.csv("resources/plots/sectionone/heatmap_data.csv")
       .attr("width", legendWidth)
       .attr("height", legendHeight)
       .style("fill", "url(#legend-gradient)")
-      .attr("stroke", "#102542")
+      .attr("stroke", cssBlack)
       .attr("stroke-width", 1);
     
     const legendScale = d3.scaleLinear()
@@ -187,12 +190,12 @@ DARK MODE
 window.updateHeatMapTheme = function(isDarkMode) {
   if (!tooltip.empty()) {
     tooltip
-      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      .style("background-color", isDarkMode ? cssBlack : cssWhite)
+      .style("color", isDarkMode ? cssWhite : cssBlack)
+      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
   }
   
   const legendTitle = d3.select("#heatmap .legend-title");
   if (!legendTitle.empty())
-      legendTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+      legendTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
 };

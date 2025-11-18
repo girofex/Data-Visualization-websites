@@ -1,5 +1,11 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+const cssBlue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
+
 const tooltip = d3.select("body")
   .append("div")
   .attr("class", "tooltip");
@@ -31,7 +37,7 @@ export function renderHistogram(){
 
     const color = d3.scaleOrdinal()
       .domain(datasets.map(d => d.name))
-      .range(['#69b3a2','#f87060','#1f77b4']);
+      .range([cssGreen, cssOrange, cssBlue]);
     
     const histogram = d3.histogram()
       .value(d => +d.POPULATION_EXPOSURE)
@@ -147,17 +153,17 @@ export function renderHistogram(){
   window.updateHistogramTheme = function(isDarkMode) {
     const yAxisTitle = d3.selectAll("#histogram_container .yAxisTitle");
     if (!yAxisTitle.empty())
-      yAxisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+      yAxisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
 
     const xAxisTitle = d3.selectAll("#histogram_container .xAxisTitle");
     if (!xAxisTitle.empty())
-      xAxisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+      xAxisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
   
     if (!tooltip.empty()) {
       tooltip
-        .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-        .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-        .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+        .style("background-color", isDarkMode ? cssBlack : cssWhite)
+        .style("color", isDarkMode ? cssWhite : cssBlack)
+        .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
     }
   };
 }

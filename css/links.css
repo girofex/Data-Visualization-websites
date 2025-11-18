@@ -1,11 +1,11 @@
 .link{
-    color: #102542;
+    color: var(--black);
     font-weight: 400;
 }
 
 .link:hover,
 .github:hover{
-    color: #f87060;
+    color: var(--orange);
 }
 
 .github:hover{
@@ -17,5 +17,5 @@ DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
 
 .link-mode{
-    color: #ebe7e6;
+    color: var(--white);
 }

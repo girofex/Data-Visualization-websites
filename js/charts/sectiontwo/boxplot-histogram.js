@@ -2,6 +2,9 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import { renderBoxPlot } from "./boxplot.js";
 import { renderHistogram } from "./histogram.js";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+
 const dropdown = d3.select("#dropdown")
   .append("select")
   .attr("id", "plot-select");
@@ -43,9 +46,9 @@ window.updateDropdownTheme = function(isDarkMode) {
   const menu = d3.select("#plot-select");
   if(!menu.empty()){
     menu
-      .style("background-color", isDarkMode ? "#102542" : "transparent")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      .style("background-color", isDarkMode ? cssBlack : "transparent")
+      .style("color", isDarkMode ? cssWhite : cssBlack)
+      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
   }
 };
 

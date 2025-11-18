@@ -1,5 +1,13 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+const cssBlue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
+const cssRed = getComputedStyle(document.documentElement).getPropertyValue("--red").trim();
+const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
+
 var margin = {top: 70, right: 30, bottom: 55, left: 110},
   width = 1000 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
@@ -27,7 +35,7 @@ Promise.all(csv.map(file =>
 .then(function(datasets) {
   const colorScale = d3.scaleOrdinal()
     .domain(datasets.map(d => d.name))
-    .range(['#69b3a2','#f87060','#9467bd']);
+    .range([cssGreen, cssOrange, cssPurple]);
 
   const allExposures = datasets.flatMap(d => 
     d.data.map(row => +row.POPULATION_EXPOSURE)
@@ -175,20 +183,20 @@ DARK MODE
 window.updateRidgeLinePlotTheme = function(isDarkMode) {
   const xAxisTitle = d3.selectAll("#ridgeline .xAxisTitle");
   if (!xAxisTitle.empty())
-    xAxisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    xAxisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
 
   const yAxisTitle = d3.selectAll("#ridgeline .yAxisTitle");
   if (!yAxisTitle.empty())
-    yAxisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    yAxisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
 
   const xLines = d3.selectAll("#ridgeline .lines");
   if (!xLines.empty())
-    xLines.attr("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+    xLines.attr("stroke", isDarkMode ? cssWhite : cssBlack);
 
   if (!tooltip.empty()) {
     tooltip
-      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      .style("background-color", isDarkMode ? cssBlack : cssWhite)
+      .style("color", isDarkMode ? cssWhite : cssBlack)
+      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
   }
 };

@@ -3,9 +3,13 @@ document.addEventListener("DOMContentLoaded", function() {
     var navbar = document.querySelector(".navbar");
     var sidebar = document.querySelectorAll(".sidebar-tick");
     var link = document.querySelector(".link");
+    var logo = document.getElementById("logo");
     var body = document.body;
 
-    var scrollbarThumbBorderColor = "#102542";
+    const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+    const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+
+    var scrollbarThumbBorderColor = cssBlack;
     document.documentElement.style.setProperty("--scrollbar-thumb-border-color", scrollbarThumbBorderColor);
 
     var themeMode = localStorage.getItem("theme") || "dark";
@@ -21,33 +25,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function applyTheme(theme){
         const isDark = theme === "dark";
+
         body.classList.toggle("body-mode", isDark);
+        if(navbar) navbar.classList.toggle("navbar-mode", isDark);
+        if(link) link.classList.toggle("link-mode", isDark);
 
-        if(navbar)
-            navbar.classList.toggle("navbar-mode", isDark);
-        if(link)
-            link.classList.toggle("link-mode", isDark);
+        sidebar.forEach(el => el.classList.toggle("sidebar-link-mode", isDark));
 
-        sidebar.forEach(link => link.classList.toggle("sidebar-link-mode", isDark));
+        let scrollbarThumbBorderColor;
 
         if(isDark){
-            if (mode)
-                mode.style.color = "#ebe7e6";
-
-            scrollbarThumbBorderColor = "#ebe7e6";
-            logo.src = './img/DIBRIS_UniGe_white.svg'
-            
+            if (mode) mode.style.color = cssWhite;
+            scrollbarThumbBorderColor = cssWhite;
+            if (logo) logo.src = './img/DIBRIS_UniGe_white.svg';
             if(mode){
                 mode.classList.remove("bi-brightness-high-fill");
                 mode.classList.add("bi-moon-fill");
             }
         } else {
-            if(mode)
-                mode.style.color = "#102542";
-
-            scrollbarThumbBorderColor = "#102542";
-            logo.src = './img/DIBRIS_UniGe_black.svg'
-            
+            if (mode) mode.style.color = cssBlack;
+            scrollbarThumbBorderColor = cssBlack;
+            if (logo) logo.src = './img/DIBRIS_UniGe_black.svg';
             if(mode){
                 mode.classList.remove("bi-moon-fill");
                 mode.classList.add("bi-brightness-high-fill");
@@ -68,8 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateRidgeLinePlotTheme,
             window.updateLineChartTheme
         ].forEach(fn => {
-            if(typeof fn === "function")
-                fn(isDark);
+            if (typeof fn === "function") fn(isDark);
         });
     }
 });

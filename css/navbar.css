@@ -1,5 +1,5 @@
 .navbar{
-  color: #102542;
+  color: var(--black);
   margin: 1rem auto;
   padding: 1rem 1rem;
   text-decoration: none;
@@ -8,7 +8,7 @@
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 0 1rem #102542;
+  box-shadow: 0 0 1rem var(--black);
   border-radius: 1rem;
   font-family: "Roboto Slab", serif;
   font-optical-sizing: auto;
@@ -17,7 +17,7 @@
 }
 
 #mode{
-  color: #102542;
+  color: var(--black);
   margin-top: -0.2rem;
   margin-left: -0.5rem;
   width: 1.5rem;
@@ -26,18 +26,18 @@
 }
 
 #mode:hover{
-  color: #f87060 !important;
+  color: var(--orange) !important;
 }
 
 .nav-link,
 .nav-link:focus,
 .nav-link:active{
-  color: #102542;
+  color: var(--black);
 }
 
 .nav-link:hover{
   text-decoration: none;
-  color: #f87060;
+  color: var(--orange);
   text-shadow: 0 0 1rem #f86f60ad;
 }
 
@@ -61,7 +61,7 @@
 .sidebar-tick::before{
   content: '';
   height: 0.15rem;
-  background-color: #102542;
+  background-color: var(--black);
   transition: all 0.2s ease;
   border-radius: 1rem;
   flex-shrink: 0;
@@ -69,7 +69,7 @@
 
 .sidebar-tick:hover::before,
 .sidebar-tick.active::before{
-  background-color: #f87060;
+  background-color: var(--orange);
   height: 0.2rem;
 }
 
@@ -96,7 +96,7 @@
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 0 1rem #102542;
+  box-shadow: 0 0 1rem var(--black);
   border-radius: 1rem;
   padding: .5rem 1rem;
   z-index: 999;
@@ -121,7 +121,7 @@
 }
 
 .menu-item:hover {
-  color: #f87060;
+  color: var(--orange);
 }
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
@@ -131,32 +131,32 @@ DARK MODE
 .navbar-mode .nav-link,
 .navbar-mode .nav-link:focus,
 .navbar-mode .nav-link:active {
-  color: #ebe7e6 !important;
+  color: var(--white) !important;
 }
 
 .navbar-mode{
-  box-shadow: 0 0 1rem #ebe7e6;
+  box-shadow: 0 0 1rem var(--white);
 }
 
 .navbar-mode .nav-link:hover {
-  color: #f87060 !important;
+  color: var(--orange) !important;
 }
 
 .sidebar-link-mode::before {
-  background-color: #ebe7e6;
+  background-color: var(--white);
 }
 
 .sidebar-link-mode::after {
-  color: #ebe7e6;
+  color: var(--white);
 }
 
 .sidebar-link-mode:hover::before,
 .sidebar-link-mode.active::before {
-  background-color: #f87060;
+  background-color: var(--orange);
 }
 
 .sidebar-link-mode:hover::after,
 .sidebar-link-mode.active::after {
-  color: #f87060;
+  color: var(--orange);
   text-shadow: 0 0 0.5rem rgba(248, 112, 96, 0.3);
 }

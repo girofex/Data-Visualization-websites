@@ -1,5 +1,13 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+const cssBlue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
+const cssRed = getComputedStyle(document.documentElement).getPropertyValue("--red").trim();
+const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
+
 const margin = {top: 50, right: 250, bottom: 70, left: 100};
 const width = 700 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
@@ -27,11 +35,11 @@ const dropdown = menuContainer.append("select")
   .attr("id", "region-select");
 
 const categoryColors = {
-  "Battles": "#1f77b4",
-  "Explosions/Remote violence": "#f87060",
-  "Violence against civilians": "#69b3a2",
-  "Protests": "#d62728",
-  "Riots": "#9467bd"
+  "Battles": cssBlue,
+  "Explosions/Remote violence": cssOrange,
+  "Violence against civilians": cssGreen,
+  "Protests": cssRed,
+  "Riots": cssPurple
 };
 
 d3.csv("resources/plots/sectionone/waffle_data.csv")
@@ -152,19 +160,19 @@ window.updateWaffleChartTheme = function(isDarkMode) {
   const dropdown = d3.select("#region-select");
   if (!dropdown.empty()) {
     dropdown
-      .style("background-color", isDarkMode ? "#102542" : "transparent")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      .style("background-color", isDarkMode ? cssBlack : "transparent")
+      .style("color", isDarkMode ? cssWhite : cssBlack)
+      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
   }
 
   if (!tooltip.empty()) {
     tooltip
-      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      .style("background-color", isDarkMode ? cssBlack : cssWhite)
+      .style("color", isDarkMode ? cssWhite : cssBlack)
+      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
   }
 
   const legendText = d3.selectAll("#wafflechart .legend text");
   if (!legendText.empty())
-    legendText.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    legendText.style("fill", isDarkMode ? cssWhite : cssBlack);
 };

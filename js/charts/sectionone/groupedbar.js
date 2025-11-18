@@ -1,6 +1,11 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import { annotation, annotationLabel } from "https://cdn.jsdelivr.net/npm/d3-svg-annotation@2.5.1/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+
 const margin = {top: 50, right: 190, bottom: 70, left: 100};
 const width = 1000 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
@@ -18,7 +23,7 @@ const tooltip = d3.select("body").append("div")
 const category = ["Battles", "ViolenceAgainstCivilians"];
 const colors = d3.scaleOrdinal()
   .domain(category)
-  .range(["#f87060", "#69b3a2"]);
+  .range([cssOrange, cssGreen]);
 
 d3.csv("resources/plots/sectionone/grouped_bar_data.csv")
   .then(function(data) {
@@ -144,7 +149,7 @@ d3.csv("resources/plots/sectionone/grouped_bar_data.csv")
         y: barY,
         dx: 50,
         dy: -50,
-        color: "#102542"
+        color: cssBlack
       }
     ];
 
@@ -171,7 +176,7 @@ d3.csv("resources/plots/sectionone/grouped_bar_data.csv")
         .attr("x2", x + underlineLength)
         .attr("y1", y)
         .attr("y2", y)
-        .attr("stroke", "#102542")
+        .attr("stroke", cssBlack)
         .attr("stroke-width", 1);
     });
 
@@ -179,12 +184,12 @@ d3.csv("resources/plots/sectionone/grouped_bar_data.csv")
       .style("font-family", "Roboto Slab")
       .style("font-size", "12px")
       .style("font-weight", "bold")
-      .style("fill", "#102542");
+      .style("fill", cssBlack);
 
     annotationGroup.selectAll(".annotation-note-label")
       .style("font-family", "Fira Sans")
       .style("font-size", "12px")
-      .style("fill", "#102542");
+      .style("fill", cssBlack);
 
     //Legend
     const legend = svg.append("g")
@@ -229,32 +234,32 @@ DARK MODE
 window.updateGroupedBarChartTheme = function(isDarkMode) {
   const axisTitle = d3.selectAll("#groupedbarchart .yAxisTitle");
   if (!axisTitle.empty())
-    axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    axisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
   
   if (!tooltip.empty()) {
     tooltip
-      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      .style("background-color", isDarkMode ? cssBlack : cssWhite)
+      .style("color", isDarkMode ? cssWhite : cssBlack)
+      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
   }
 
   const annotationTitles = d3.selectAll("#groupedbarchart .annotation-note-title");
   if (!annotationTitles.empty())
-    annotationTitles.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    annotationTitles.style("fill", isDarkMode ? cssWhite : cssBlack);
 
   const annotationLabels = d3.selectAll("#groupedbarchart .annotation-note-label");
   if (!annotationLabels.empty())
-    annotationLabels.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    annotationLabels.style("fill", isDarkMode ? cssWhite : cssBlack);
 
   const annotationLines = d3.selectAll("#groupedbarchart .annotation-group line");
   if (!annotationLines.empty())
-    annotationLines.style("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+    annotationLines.style("stroke", isDarkMode ? cssWhite : cssBlack);
 
   const connector = d3.selectAll("#groupedbarchart .annotation-connector path");
   if (!connector.empty())
-    connector.style("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+    connector.style("stroke", isDarkMode ? cssWhite : cssBlack);
   
   const legendText = d3.selectAll("#groupedbarchart .legendText");
   if (!legendText.empty())
-    legendText.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    legendText.style("fill", isDarkMode ? cssWhite : cssBlack);
 };

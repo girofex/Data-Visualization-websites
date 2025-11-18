@@ -1,8 +1,12 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+
 var margin = {top: 30, right: 30, bottom: 80, left: 100},
-    width = 800 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+  width = 800 - margin.left - margin.right,
+  height = 700 - margin.top - margin.bottom;
 
 var svg = d3.select("#barchart")
   .append("svg")
@@ -79,7 +83,7 @@ d3.csv("resources/plots/sectionone/bar_data.csv")
         .attr("y", function(d) { return y(d.TotalEvents); })
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height - y(d.TotalEvents); })
-        .attr("fill", "#69b3a2")
+        .attr("fill", cssGreen)
         .on("mouseover", function(event, d) {
           d3.select(this)
             .attr("opacity", 0.7);
@@ -120,12 +124,12 @@ DARK MODE
 window.updateBarChartTheme = function(isDarkMode) {
   const axisTitle = d3.selectAll("#barchart .yAxisTitle");
   if (!axisTitle.empty())
-    axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+    axisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
 
   if (!tooltip.empty()) {
     tooltip
-      .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-      .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-      .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+      .style("background-color", isDarkMode ? cssBlack : cssWhite)
+      .style("color", isDarkMode ? cssWhite : cssBlack)
+      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
   }
 };

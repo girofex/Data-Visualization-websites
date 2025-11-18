@@ -1,5 +1,11 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
+
 const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip");
@@ -50,7 +56,7 @@ export function renderBoxPlot(){
 
     const colorScale = d3.scaleOrdinal()
       .domain(datasets.map(d => d.name))
-      .range(['#69b3a2','#f87060','#9467bd']);
+      .range([cssGreen, cssOrange, cssPurple]);
 
     //X scale
     var x = d3.scaleBand()
@@ -108,7 +114,7 @@ export function renderBoxPlot(){
         .attr("x2", d => x(d.key) + x.bandwidth() / 2)
         .attr("y1", d => y(d.value.min))
         .attr("y2", d => y(d.value.max))
-        .attr("stroke", "#102542");
+        .attr("stroke", cssBlack);
 
     //Main box
     var boxWidth = 80
@@ -122,7 +128,7 @@ export function renderBoxPlot(){
         .attr("y", function(d){return(y(d.value.q3))})
         .attr("height", function(d){return(y(d.value.q1)-y(d.value.q3))})
         .attr("width", boxWidth)
-        .attr("stroke", "#102542")
+        .attr("stroke", cssBlack)
         .style("fill", function(d) { return colorScale(d.key); })
         .on("mouseover", function(event, d) {
           d3.select(this)
@@ -176,7 +182,7 @@ export function renderBoxPlot(){
         .attr("x2", function(d){return(x(d.key)+boxWidth/2) })
         .attr("y1", function(d){return(y(d.value.median))})
         .attr("y2", function(d){return(y(d.value.median))})
-        .attr("stroke", "#102542");
+        .attr("stroke", cssBlack);
 
       const initialTheme = document.body.classList.contains("body-mode");
       window.updateBoxPlotTheme(initialTheme);
@@ -189,25 +195,25 @@ export function renderBoxPlot(){
     window.updateBoxPlotTheme = function(isDarkMode) {
       const axisTitle = d3.selectAll("#boxplot_container .yAxisTitle");
       if (!axisTitle.empty())
-        axisTitle.style("fill", isDarkMode ? "#ebe7e6" : "#102542");
+        axisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
 
       const line = d3.selectAll("#boxplot_container .vertLine");
       if (!line.empty())
-        line.attr("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+        line.attr("stroke", isDarkMode ? cssWhite : cssBlack);
 
       const rect = d3.selectAll("#boxplot_container .rectangles");
       if (!rect.empty())
-        rect.attr("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+        rect.attr("stroke", isDarkMode ? cssWhite : cssBlack);
 
       const med = d3.selectAll("#boxplot_container .median");
       if (!med.empty())
-        med.attr("stroke", isDarkMode ? "#ebe7e6" : "#102542");
+        med.attr("stroke", isDarkMode ? cssWhite : cssBlack);
     
       if (!tooltip.empty()) {
         tooltip
-          .style("background-color", isDarkMode ? "#102542" : "#ebe7e6")
-          .style("color", isDarkMode ? "#ebe7e6" : "#102542")
-          .style("border", `1px solid ${isDarkMode ? "#ebe7e6" : "#102542"}`);
+          .style("background-color", isDarkMode ? cssBlack : cssWhite)
+          .style("color", isDarkMode ? cssWhite : cssBlack)
+          .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
       }
     };
 }
