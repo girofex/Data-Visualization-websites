@@ -1,23 +1,48 @@
+.container-fill{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+}
+
+.btn{
+    height: 3.5rem;
+    display: flex;
+    flex-direction: row;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 1rem 1rem;
+    border-radius: 0.5rem;
+    border-color: var(--black);
+    pointer-events: none;
+    box-shadow: 0 0 1rem var(--black);
+    pointer-events: auto;
+}
+
+.btn:hover{
+    border-color: var(--orange);
+    box-shadow: 0 0 1rem #f86f60ad;
+}
+
 button {
     width: 2.5rem;
-    height: 2.5rem;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
+    border: none;
     background-color: transparent;
+    cursor: pointer;
 }
 
 .bi {
-    color: var(--white);
+    color: var(--black);
 }
 
 /*///*//*/*//*/*//*/*//*/*//*/*//*/*
 //DARK MODE
 /*//*///*//*//*//*//*//*//*//*//*/
-.button-mode {
-    border-color: var(--black);
+.btn-mode {
+    border-color: var(--white);
+    box-shadow: 0 0 1rem var(--white);
 }
 
 .bi-mode {
-    color: var(--black);
+    color: var(--white);
 }

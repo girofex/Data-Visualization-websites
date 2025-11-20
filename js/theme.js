@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var sidebar = document.querySelectorAll(".sidebar-tick");
     var link = document.querySelector(".link");
     var logo = document.getElementById("logo");
-    var button = document.querySelectorAll(".button")
+    var btn = document.querySelector(".btn")
     var zoom = document.querySelectorAll(".bi");
     var body = document.body;
 
@@ -48,10 +48,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 mode.classList.remove("bi-brightness-high-fill");
                 mode.classList.add("bi-moon-fill");
             }
-            if(button)
-                button.forEach(el => el.classList.toggle("button", isDark));
+            if(btn)
+                btn.classList.toggle("btn-mode", true);
             if(zoom)
-                zoom.forEach(el => el.classList.toggle("bi", isDark));
+                zoom.forEach(el => el.classList.toggle("bi-mode", true));
         } else {
             scrollbarThumbBorderColor = cssBlack;
             if (mode)
@@ -62,10 +62,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 mode.classList.remove("bi-moon-fill");
                 mode.classList.add("bi-brightness-high-fill");
             }
-            if(button)
-                button.forEach(el => el.classList.toggle("button-mode", !isDark));
+            if(btn)
+                btn.classList.toggle("btn-mode", false);
             if(zoom)
-                zoom.forEach(el => el.classList.toggle("bi-mode", !isDark));
+                zoom.forEach(el => el.classList.toggle("bi-mode", false));
         }
 
         document.documentElement.style.setProperty("--scrollbar-thumb-border-color", scrollbarThumbBorderColor);
@@ -80,8 +80,8 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateBoxPlotTheme,
             window.updateHistogramTheme,
             window.updateRidgeLinePlotTheme,
-            window.updateLineChartTheme/*,
-            updateChoroplethTheme*/
+            window.updateLineChartTheme,
+            updateChoroplethTheme
         ].forEach(fn => {
             if (typeof fn === "function") fn(isDark);
         });
