@@ -1,0 +1,23 @@
+button {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.bi {
+    color: var(--white);
+}
+
+/*///*//*/*//*/*//*/*//*/*//*/*//*/*
+//DARK MODE
+/*//*///*//*//*//*//*//*//*//*//*/
+.button-mode {
+    border-color: var(--black);
+}
+
+.bi-mode {
+    color: var(--black);
+}

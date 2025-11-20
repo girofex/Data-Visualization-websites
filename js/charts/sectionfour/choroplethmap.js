@@ -2,134 +2,137 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
 
-var margin = {top: 30, right: 30, bottom: 80, left: 100},
-  width = 800 - margin.left - margin.right,
+var margin = {top: 10, right: 10, bottom: 10, left: 10},
+  width = 1000 - margin.left - margin.right,
   height = 700 - margin.top - margin.bottom;
 
-var svg = d3.select("#choropleth")
+const eventColors = {
+  "Riots": cssGreen,
+  "Explosions/Remote violence": cssOrange,
+  "Violence against civilians": cssPurple
+};
+
+const rootSvg = d3.select("#choropleth")
   .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom);
+
+const svg = rootSvg.append("g")
+  .attr("transform", `translate(${margin.left},${margin.top})`);
+
+const projection = d3.geoMercator()
+  .scale(130)
+  .translate([width / 2, height / 1.5]);
 
 const tooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip");
+  .append("div")
+  .attr("class", "tooltip")
+  .style("position", "absolute")
+  .style("visibility", "hidden")
+  .style("background-color", "white")
+  .style("border", "1px solid #ddd")
+  .style("padding", "10px")
+  .style("border-radius", "5px");
 
-d3.csv("resources/plots/sectionone/bar_data.csv")
-  .then(function(data) {
-    //X axis
-    var x = d3.scaleBand()
-      .range([0, width])
-      .domain(data.map(function(d) { return d.Region; }))
-      .padding(0.2);
-      
-    svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x))
-    .selectAll("text")
+//Zoom
+let myZoom = d3.zoom()
+  .scaleExtent([1, 10])
+  .on('zoom', handleZoom);
+
+function handleZoom(e) {
+  svg.attr('transform', e.transform);
+}
+
+function initEvents() {
+  d3.select('#zoom-in').on('click', zoomIn);
+  d3.select('#zoom-out').on('click', zoomOut);
+}
+
+function initZoom() {
+  rootSvg.call(myZoom);
+}
+
+function zoomIn() {
+  rootSvg.transition().call(myZoom.scaleBy, 2);
+}
+
+function zoomOut() {
+  rootSvg.transition().call(myZoom.scaleBy, 0.5);
+}
+
+initEvents();
+initZoom();
+
+Promise.all([
+  d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
+  d3.csv("resources/plots/sectionfour/choropleth.csv")
+]).then(function(loadData){
+  let topo = loadData[0];
+  let eventData = loadData[1];
+  
+  const countryEventMap = new Map();
+  eventData.forEach(row => {
+    countryEventMap.set(row.COUNTRY, row.EVENT_TYPE);
+  });
+  
+  svg.selectAll("path")
+      .data(topo.features)
+      .join("path")
+      .attr("d", d3.geoPath().projection(projection))
+      .attr("fill", d => {
+        const countryName = d.properties.name;
+        const eventType = countryEventMap.get(countryName);
+        return eventType ? eventColors[eventType] : "#cccccc";
+      })
+      .attr("stroke", cssBlack)
+      .attr("stroke-width", 0.3)
+      .on("mouseover", function(event, d) {
+        const countryName = d.properties.name;
+        const eventType = countryEventMap.get(countryName);
+        
+        tooltip
+          .style("visibility", "visible")
+          .html(`<strong>${countryName}</strong><br/>${eventType || "No data"}`);
+        
+        d3.select(this)
+          .attr("fill-opacity", 0.6)
+      })
+      .on("mousemove", function(event) {
+        tooltip
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
+      })
+      .on("mouseout", function() {
+        tooltip.style("visibility", "hidden");
+        
+        d3.select(this)
+          .attr("fill-opacity", 1)
+      });
+  
+  //Legend
+  const legend = rootSvg.append("g")
+    .attr("class", "legend")
+    .attr("transform", `translate(20, ${height - 100})`);
+  
+  Object.entries(eventColors).forEach(([eventType, color], i) => {
+    const legendRow = legend.append("g")
+      .attr("transform", `translate(0, ${i * 25})`);
+    
+    legendRow.append("rect")
+      .attr("width", 20)
+      .attr("height", 20)
+      .attr("fill", color);
+    
+    legendRow.append("text")
+      .attr("x", 30)
+      .attr("y", 15)
       .style("font-size", "12px")
       .style("font-family", "Fira Sans")
-      .style("text-anchor", "middle")
-      .each(function(d) {
-        var text = d3.select(this);
-        var parts = d.split("/");
-        text.text("");
-        
-        parts.forEach(function(part, i) {
-          text.append("tspan")
-            .attr("x", 0)
-            .attr("dy", i === 0 ? "0.8em" : "1.1em")
-            .text(i < parts.length - 1 ? part + "," : part);
-        });
-      });
-
-    //Y axis
-    var y = d3.scaleLinear()
-      .domain([0, 500000])
-      .range([height, 0]);
-    
-    const yAxis = d3.axisLeft(y)
-      .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
-
-    svg.append("g")
-      .call(d3.axisLeft(y))
-      .call(yAxis)
-      .selectAll("text")
-        .style("font-size", "12px")
-        .style("font-family", "Fira Sans");
-    
-    svg.append("text")
-      .attr("class", "yAxisTitle")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left)
-      .attr("x", 0 - height / 2)
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .style("font-size", "12px")
-      .style("font-weight", "bold")
-      .style("font-family", "Roboto Slab")
-      .text("Total occurrences");
-
-    //Bars
-    svg.selectAll("mybar")
-      .data(data)
-      .enter()
-      .append("rect")
-        .attr("x", function(d) { return x(d.Region); })
-        .attr("y", function(d) { return y(d.TotalEvents); })
-        .attr("width", x.bandwidth())
-        .attr("height", function(d) { return height - y(d.TotalEvents); })
-        .attr("fill", cssGreen)
-        .on("mouseover", function(event, d) {
-          d3.select(this)
-            .attr("opacity", 0.7);
-          
-          const formatNumber = d3.format(",");
-          const formatted = formatNumber(d.TotalEvents).replace(/,/g, ".");
-        
-          tooltip
-            .style("opacity", 1)
-            .html(`<strong>Total Occurrences</strong>: ${formatted}`);
-        })
-
-        .on("mousemove", function(event, d) {
-          tooltip
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 10) + "px");
-        })
-        
-        .on("mouseout", function() {
-          d3.select(this)
-            .attr("opacity", 1);
-          
-          tooltip.style("opacity", 0);
-        });
-    
-      //const initialTheme = document.body.classList.contains("body-mode");
-      //window.updateChoroplethTheme(initialTheme);
-  })
-
-.catch(function(error) {
-  console.error("Error loading the data:", error);
+      .attr("fill", cssBlack)
+      .text(eventType);
+  });
 });
-
-/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
-DARK MODE
-/*//*/*//*//*//*//*//*//*//*//*//*//*/
-/*
-window.updateChoroplethTheme = function(isDarkMode) {
-  const axisTitle = d3.selectAll("#barchart .yAxisTitle");
-  if (!axisTitle.empty())
-    axisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
-
-  if (!tooltip.empty()) {
-    tooltip
-      .style("background-color", isDarkMode ? cssBlack : cssWhite)
-      .style("color", isDarkMode ? cssWhite : cssBlack)
-      .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
-  }
-};*/

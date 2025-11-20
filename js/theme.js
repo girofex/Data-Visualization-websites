@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var sidebar = document.querySelectorAll(".sidebar-tick");
     var link = document.querySelector(".link");
     var logo = document.getElementById("logo");
+    var button = document.querySelectorAll(".button")
+    var zoom = document.querySelectorAll(".bi");
     var body = document.body;
 
     const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
@@ -27,29 +29,43 @@ document.addEventListener("DOMContentLoaded", function() {
         const isDark = theme === "dark";
 
         body.classList.toggle("body-mode", isDark);
-        if(navbar) navbar.classList.toggle("navbar-mode", isDark);
-        if(link) link.classList.toggle("link-mode", isDark);
+        if(navbar)
+            navbar.classList.toggle("navbar-mode", isDark);
+        if(link)
+            link.classList.toggle("link-mode", isDark);
 
         sidebar.forEach(el => el.classList.toggle("sidebar-link-mode", isDark));
 
         let scrollbarThumbBorderColor;
 
         if(isDark){
-            if (mode) mode.style.color = cssWhite;
+            if (mode)
+                mode.style.color = cssWhite;
             scrollbarThumbBorderColor = cssWhite;
-            if (logo) logo.src = './img/DIBRIS_UniGe_white.svg';
+            if (logo)
+                logo.src = './img/DIBRIS_UniGe_white.svg';
             if(mode){
                 mode.classList.remove("bi-brightness-high-fill");
                 mode.classList.add("bi-moon-fill");
             }
+            if(button)
+                button.forEach(el => el.classList.toggle("button", isDark));
+            if(zoom)
+                zoom.forEach(el => el.classList.toggle("bi", isDark));
         } else {
-            if (mode) mode.style.color = cssBlack;
             scrollbarThumbBorderColor = cssBlack;
-            if (logo) logo.src = './img/DIBRIS_UniGe_black.svg';
+            if (mode)
+                mode.style.color = cssBlack;
+            if (logo)
+                logo.src = './img/DIBRIS_UniGe_black.svg';
             if(mode){
                 mode.classList.remove("bi-moon-fill");
                 mode.classList.add("bi-brightness-high-fill");
             }
+            if(button)
+                button.forEach(el => el.classList.toggle("button-mode", !isDark));
+            if(zoom)
+                zoom.forEach(el => el.classList.toggle("bi-mode", !isDark));
         }
 
         document.documentElement.style.setProperty("--scrollbar-thumb-border-color", scrollbarThumbBorderColor);
@@ -64,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateBoxPlotTheme,
             window.updateHistogramTheme,
             window.updateRidgeLinePlotTheme,
-            window.updateLineChartTheme
+            window.updateLineChartTheme/*,
+            updateChoroplethTheme*/
         ].forEach(fn => {
             if (typeof fn === "function") fn(isDark);
         });
