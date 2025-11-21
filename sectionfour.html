@@ -30,6 +30,7 @@
     <script src="js/scrolling.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/charts/sectionfour/choroplethmap.js" defer type="module"></script>
+    <script src="js/charts/sectionfour/dot.js" defer type="module"></script>
 </head>
 
 <body>
@@ -88,7 +89,17 @@
                 hotspot evento violento nelle 3 zone (lat e long)
             </p>
         </div>
+    </section>
 
+    <div class="container-fluid container-fill">
+        <div id="dot"></div>
+        <div class="btn">
+            <button id="zoom-in"><i class="bi bi-zoom-in"></i></button>
+            <button id="zoom-out"><i class="bi bi-zoom-out"></i></button>
+        </div>
+    </div>
+
+    <section>
         <div class="column">
             <h2 id="h2">Grid Map</h2>
             <p>

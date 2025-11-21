@@ -16,41 +16,44 @@ const eventColors = {
   "Violence against civilians": cssPurple
 };
 
-const rootSvg = d3.select("#choropleth")
+const rootSvg = d3.select("#dot")
   .append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom);
 
-const svg = rootSvg.append("g")
+const container = rootSvg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
+
+const svg = container.append("g");
 
 const projection = d3.geoMercator()
   .scale(130)
   .translate([width / 2, height / 1.5]);
+
+const geoPath = d3.geoPath().projection(projection);
 
 const tooltip = d3.select("body")
   .append("div")
   .attr("class", "tooltip")
   .style("position", "absolute")
   .style("opacity", 0)
-  .style("background-color", `${cssWhite}`)
+  .style("background-color", cssWhite)
   .style("border", `1px solid ${cssWhite}`)
   .style("padding", "10px")
   .style("border-radius", "5px")
   .style("z-index", "999999")
   .style("pointer-events", "none");
 
-//Zoom
 let myZoom = d3.zoom()
   .scaleExtent([1, 10])
-  .on('zoom', (e) => svg.attr('transform', `translate(${margin.left},${margin.top}) ${e.transform}`));
+  .on("zoom", (e) => svg.attr("transform", e.transform));
 
 rootSvg.call(myZoom);
 
-d3.select('#zoom-in').on('click', () =>
+d3.select("#zoom-in").on("click", () =>
   rootSvg.transition().call(myZoom.scaleBy, 2)
 );
-d3.select('#zoom-out').on('click', () => {
+d3.select("#zoom-out").on("click", () => {
   const t = d3.zoomTransform(rootSvg.node());
   if (t.k <= 1.001)
     rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
@@ -60,39 +63,54 @@ d3.select('#zoom-out').on('click', () => {
 
 Promise.all([
   d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
-  d3.csv("resources/plots/sectionfour/choropleth.csv")
+  d3.csv("resources/plots/sectionfour/dot.csv")
 ]).then(function (loadData) {
   let topo = loadData[0];
   let eventData = loadData[1];
 
   const countryEventMap = new Map();
   eventData.forEach(row => {
-    countryEventMap.set(row.COUNTRY, row.EVENT_TYPE);
+    countryEventMap.set(row.COUNTRY);
+    countryEventMap.CENTROID_LATITUDE = +countryEventMap.CENTROID_LATITUDE;
+    countryEventMap.CENTROID_LONGITUDE = +countryEventMap.CENTROID_LONGITUDE;
+    countryEventMap.EVENTS = +countryEventMap.EVENTS;
   });
 
+  //Countries
   svg.selectAll("path")
-    .attr("class", "borders")
     .data(topo.features)
     .join("path")
-    .attr("d", d3.geoPath().projection(projection))
-    .attr("fill", d => {
-      const countryName = d.properties.name;
-      const eventType = countryEventMap.get(countryName);
-      return eventType ? eventColors[eventType] : "#cccccc";
-    })
+    .attr("class", "borders")
+    .attr("d", geoPath)
+    .attr("fill", cssWhite)
     .attr("stroke", cssBlack)
     .attr("stroke-width", 0.3)
-    .attr("pointer-events", "all")
-    .style("pointer-events", "all")
-    .on("mouseover", function (event, d) {
-      const countryName = d.properties.name;
-      const eventType = countryEventMap.get(countryName);
+    .style("pointer-events", "all");
 
+  //Dots
+  svg.selectAll("circle")
+    .data(eventData)
+    .join("circle")
+    .attr("cx", d => projection([d.CENTROID_LONGITUDE, d.CENTROID_LATITUDE])[0])
+    .attr("cy", d => projection([d.CENTROID_LONGITUDE, d.CENTROID_LATITUDE])[1])
+    .attr("r", 4)
+    .attr("fill", d => eventColors[d.EVENT_TYPE])
+    .attr("opacity", 0.8)
+    .attr("stroke", cssBlack)
+    .attr("stroke-width", 0.4)
+    .on("mouseover", function (event, d) {
       tooltip
-        .html(`<strong>${countryName}</strong><br/>${eventType || "No data"}`)
+        .html(`
+          <strong>${d.COUNTRY}</strong><br/>
+          ${d.EVENT_TYPE}<br/>
+          Events: ${d.EVENTS}<br/>
+          Week: ${d.WEEK}
+        `)
         .style("opacity", 1);
 
-      d3.select(this).attr("fill-opacity", 0.6);
+      d3.select(this)
+        .attr("r", 6)
+        .attr("opacity", 1);
     })
     .on("mousemove", function (event) {
       tooltip
@@ -101,7 +119,9 @@ Promise.all([
     })
     .on("mouseout", function () {
       tooltip.style("opacity", 0);
-      d3.select(this).attr("fill-opacity", 1);
+      d3.select(this)
+        .attr("r", 4)
+        .attr("opacity", 0.8);
     });
 
   //Legend
@@ -128,21 +148,21 @@ Promise.all([
   });
 
   const initialTheme = document.body.classList.contains("body-mode");
-  window.updateChoroplethTheme(initialTheme);
+  window.updateDotMapTheme(initialTheme);
 });
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
 DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
-window.updateChoroplethTheme = function(isDarkMode) {
-  const borders = d3.selectAll("#choropleth .borders");
-  if(!borders.empty())
+window.updateDotMapTheme = function (isDarkMode) {
+  const borders = d3.selectAll("#dot .borders");
+  if (!borders.empty())
     borders.attr("stroke", isDarkMode ? cssBlack : cssWhite);
 
-  const legendText = d3.selectAll("#choropleth .legend text");
+  const legendText = d3.selectAll("#dot .legend text");
   if (!legendText.empty())
     legendText.style("fill", isDarkMode ? cssWhite : cssBlack);
-  
+
   if (!tooltip.empty()) {
     tooltip
       .style("background-color", isDarkMode ? cssBlack : cssWhite)

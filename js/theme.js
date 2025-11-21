@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var sidebar = document.querySelectorAll(".sidebar-tick");
     var link = document.querySelector(".link");
     var logo = document.getElementById("logo");
-    var btn = document.querySelector(".btn")
+    var btn = document.querySelectorAll(".btn")
     var zoom = document.querySelectorAll(".bi");
     var body = document.body;
 
@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function() {
             link.classList.toggle("link-mode", isDark);
 
         sidebar.forEach(el => el.classList.toggle("sidebar-link-mode", isDark));
-
         let scrollbarThumbBorderColor;
 
         if(isDark){
@@ -49,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 mode.classList.add("bi-moon-fill");
             }
             if(btn)
-                btn.classList.toggle("btn-mode", true);
+                btn.forEach(el => el.classList.toggle("btn-mode", true));
             if(zoom)
                 zoom.forEach(el => el.classList.toggle("bi-mode", true));
         } else {
@@ -63,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 mode.classList.add("bi-brightness-high-fill");
             }
             if(btn)
-                btn.classList.toggle("btn-mode", false);
+                btn.forEach(el => el.classList.toggle("btn-mode", false));
             if(zoom)
                 zoom.forEach(el => el.classList.toggle("bi-mode", false));
         }
@@ -81,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateHistogramTheme,
             window.updateRidgeLinePlotTheme,
             window.updateLineChartTheme,
-            updateChoroplethTheme
+            updateChoroplethTheme,
+            updateDotMapTheme
         ].forEach(fn => {
             if (typeof fn === "function") fn(isDark);
         });
