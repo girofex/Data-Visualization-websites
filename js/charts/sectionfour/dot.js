@@ -78,14 +78,13 @@ Promise.all([
 
   //Countries
   svg.selectAll("path")
+    .attr("class", "borders")
     .data(topo.features)
     .join("path")
-    .attr("class", "borders")
-    .attr("d", geoPath)
+    .attr("d", d3.geoPath().projection(projection))
     .attr("fill", cssWhite)
     .attr("stroke", cssBlack)
-    .attr("stroke-width", 0.3)
-    .style("pointer-events", "all");
+    .attr("stroke-width", 0.3);
 
   //Dots
   svg.selectAll("circle")
@@ -103,8 +102,7 @@ Promise.all([
         .html(`
           <strong>${d.COUNTRY}</strong><br/>
           ${d.EVENT_TYPE}<br/>
-          Events: ${d.EVENTS}<br/>
-          Week: ${d.WEEK}
+          Date of event: ${d.WEEK}
         `)
         .style("opacity", 1);
 
