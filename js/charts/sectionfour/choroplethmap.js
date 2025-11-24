@@ -25,6 +25,7 @@ const svg = rootSvg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
 const projection = d3.geoMercator()
+  .rotate([-10, 0])
   .scale(130)
   .translate([width / 2, height / 1.5]);
 

@@ -6,9 +6,9 @@ const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("-
 const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
 
-const margin = { top: 10, right: 10, bottom: 10, left: 250 };
-const width = 1000 - margin.left - margin.right;
-const height = 700 - margin.top - margin.bottom;
+const margin = { top: 20, right: 10, bottom: 10, left: 250 };
+const width = 1000;
+const height = 400;
 
 const rootSvg = d3.select("#dot")
   .append("svg")
@@ -71,6 +71,10 @@ Promise.all([
     const mapG = d3.select(this);
     const localData = datasets[i].data;
     const proj = d3.geoMercator();
+    
+    if (i === 0)
+      proj.rotate([-10, 0]);
+    
     const path = d3.geoPath().projection(proj);
 
     proj.fitSize([miniMapWidth, miniMapHeight], geo);
@@ -101,7 +105,7 @@ Promise.all([
           .html(`
             <strong>${d.COUNTRY}</strong><br/>
             ${d.EVENT_TYPE}<br/>
-            Date: ${d.WEEK}
+            Date of the event: ${d.WEEK}
           `);
         d3.select(this)
           .attr("r", 6)
@@ -121,8 +125,11 @@ Promise.all([
 
     //Label
     mapG.append("text")
-      .attr("x", 10)
-      .attr("y", 20)
+      .attr("class", "titles")
+      .attr("x", 0)
+      .attr("y", -5)
+      .style("text-anchor", "middle")
+      .attr("x", miniMapWidth / 2)
       .style("font-size", "14px")
       .style("font-family", "Fira Sans")
       .style("font-weight", "bold")
@@ -132,7 +139,7 @@ Promise.all([
   //Legend
   const legend = rootSvg.append("g")
     .attr("class", "legend")
-    .attr("transform", `translate(20, 350)`);
+    .attr("transform", `translate(20, 180)`);
 
   Object.entries(eventColors).forEach(([eventType, color], i) => {
     const row = legend.append("g")
@@ -160,8 +167,9 @@ Promise.all([
 //DARK MODE
 /*//*///*//*//*//*//*//*//*//*//*/
 function updateDotMapTheme(isDarkMode) {
-  d3.selectAll("#dot .borders")
-    .attr("stroke", isDarkMode ? cssWhite : cssBlack);
+  const titles = d3.selectAll("#dot .titles")
+  if(!titles.empty())
+    titles.style("fill", isDarkMode ? cssWhite : cssBlack);
 
   d3.selectAll("#dot .legend text")
     .style("fill", isDarkMode ? cssWhite : cssBlack);
