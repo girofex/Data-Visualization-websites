@@ -24,25 +24,25 @@
     box-shadow: 0 0 1rem #f86f60ad;
 }
 
-button {
+button{
     width: 2.5rem;
     border: none;
     background-color: transparent;
     cursor: pointer;
 }
 
-.bi {
+.bi{
     color: var(--black);
 }
 
 /*///*//*/*//*/*//*/*//*/*//*/*//*/*
 //DARK MODE
 /*//*///*//*//*//*//*//*//*//*//*/
-.btn-mode {
+.btn-mode{
     border-color: var(--white);
     box-shadow: 0 0 1rem var(--white);
 }
 
-.bi-mode {
+.bi-mode{
     color: var(--white);
 }
