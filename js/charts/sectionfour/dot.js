@@ -92,9 +92,15 @@ Promise.all([
       .data(localData)
       .enter()
       .append("circle")
-      .attr("cx", d => proj([+d.CENTROID_LONGITUDE, +d.CENTROID_LATITUDE])[0])
-      .attr("cy", d => proj([+d.CENTROID_LONGITUDE, +d.CENTROID_LATITUDE])[1])
-      .attr("r", 4)
+      .attr("cx", d => {
+        const coords = proj([+d.CENTROID_LONGITUDE, +d.CENTROID_LATITUDE]);
+        return coords[0] + (Math.random()) * 3; // Add small random offset
+      })
+      .attr("cy", d => {
+        const coords = proj([+d.CENTROID_LONGITUDE, +d.CENTROID_LATITUDE]);
+        return coords[1] + (Math.random()) * 3;
+      })
+      .attr("r", 2)
       .attr("fill", d => eventColors[d.EVENT_TYPE])
       .attr("opacity", 0.8)
       .attr("stroke", cssBlack)
