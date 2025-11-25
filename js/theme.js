@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateLineChartTheme,
             updateChoroplethTheme,
             updateDotMapTheme,
-            updateHexTheme
+            updateHexbinTheme
         ].forEach(fn => {
             if (typeof fn === "function") fn(isDark);
         });
