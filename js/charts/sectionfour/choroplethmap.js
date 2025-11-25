@@ -5,6 +5,7 @@ const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--
 const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
+const cssGray = getComputedStyle(document.documentElement).getPropertyValue("--gray").trim();
 
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },
   width = 1000 - margin.left - margin.right,
@@ -27,7 +28,7 @@ const svg = rootSvg.append("g")
 const projection = d3.geoMercator()
   .rotate([-10, 0])
   .scale(130)
-  .translate([width / 2, height / 1.5]);
+  .translate([width / 1.8, height / 1.8]);
 
 const tooltip = d3.select("body")
   .append("div")
@@ -79,7 +80,7 @@ Promise.all([
     .attr("fill", d => {
       const countryName = d.properties.name;
       const eventType = countryEventMap.get(countryName);
-      return eventType ? eventColors[eventType] : "#cccccc";
+      return eventType ? eventColors[eventType] : cssGray;
     })
     .attr("stroke", cssBlack)
     .attr("stroke-width", 0.3)

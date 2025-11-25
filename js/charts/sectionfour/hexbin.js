@@ -1,37 +1,28 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+import { hexbin as d3Hexbin } from "https://cdn.jsdelivr.net/npm/d3-hexbin@0.2.2/+esm";
+import * as d3Geo from "https://d3js.org/d3-geo-projection.v2.min.js";
 
 const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
-const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
-const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
-const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
+const cssGray = getComputedStyle(document.documentElement).getPropertyValue("--gray").trim();
 
-var margin = { top: 10, right: 10, bottom: 10, left: 10 },
-  width = 1000 - margin.left - margin.right,
-  height = 700 - margin.top - margin.bottom;
+const margin = { top: 10, right: 10, bottom: 10, left: 10 },
+      width = 1000 - margin.left - margin.right,
+      height = 700 - margin.top - margin.bottom;
 
-const eventColors = {
-  "Riots": cssGreen,
-  "Explosions/Remote violence": cssOrange,
-  "Violence against civilians": cssPurple
-};
-
-const rootSvg = d3.select("#dot")
+const rootSvg = d3.select("#hex")
   .append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom);
 
-const container = rootSvg.append("g")
+const svg = rootSvg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
-const svg = container.append("g");
-
 const projection = d3.geoMercator()
-  .scale(130)
-  .translate([width / 2, height / 1.5]);
+  .scale(350)
+  .translate([width / 1.8, height / 1.8]);
 
-const geoPath = d3.geoPath().projection(projection);
-
+//Tooltip
 const tooltip = d3.select("body")
   .append("div")
   .attr("class", "tooltip")
@@ -44,128 +35,116 @@ const tooltip = d3.select("body")
   .style("z-index", "999999")
   .style("pointer-events", "none");
 
-
-// Zoom
-let myZoom = d3.zoom()
+//Zoom
+const zoom = d3.zoom()
   .scaleExtent([1, 10])
-  .on("zoom", (e) => svg.attr("transform", e.transform));
+  .on("zoom", (event) => svg.attr("transform", `translate(${margin.left},${margin.top}) ${event.transform}`));
 
-rootSvg.call(myZoom);
+rootSvg.call(zoom);
 
-d3.select("#zoom-in").on("click", () =>
-  rootSvg.transition().call(myZoom.scaleBy, 2)
-);
+d3.select("#zoom-in").on("click", () => rootSvg.transition().call(zoom.scaleBy, 2));
 d3.select("#zoom-out").on("click", () => {
   const t = d3.zoomTransform(rootSvg.node());
-  if (t.k <= 1.001)
-    rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
+  if(t.k <= 1.001)
+    rootSvg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
   else
-    rootSvg.transition().call(myZoom.scaleBy, 0.5);
+    rootSvg.transition().call(zoom.scaleBy, 0.5);
 });
 
 Promise.all([
   d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
-  d3.csv("resources/plots/sectionfour/dot.csv")
-]).then(function (loadData) {
-  let topo = loadData[0];
-  let eventData = loadData[1];
-
-  const countryEventMap = new Map();
-  eventData.forEach(row => {
-    countryEventMap.set(row.COUNTRY);
-    countryEventMap.CENTROID_LATITUDE = +countryEventMap.CENTROID_LATITUDE;
-    countryEventMap.CENTROID_LONGITUDE = +countryEventMap.CENTROID_LONGITUDE;
-    countryEventMap.EVENTS = +countryEventMap.EVENTS;
+  d3.csv("resources/plots/sectionfour/hex.csv")
+]).then(([topo, eventData]) => {
+  const countryCountMap = new Map();
+  eventData.forEach(d => {
+    const country = (d.COUNTRY || "").trim();
+    const count = +d.count || 0;
+    countryCountMap.set(country, count);
   });
 
-  //Countries
-  svg.selectAll("path")
+  const maxCount = d3.max(eventData, d => +d.count);
+  const colorScale = d3.scaleSequential()
+    .domain([0, maxCount])
+    .interpolator(d3.interpolateOrRd);
+
+  // Disegna i paesi (base mappa)
+  svg.selectAll("path.country")
     .data(topo.features)
-    .join("path")
-    .attr("class", "borders")
-    .attr("d", geoPath)
-    .attr("fill", cssWhite)
+    .enter()
+    .append("path")
+    .attr("class", "country")
+    .attr("d", d3.geoPath().projection(projection))
+    .attr("fill", d => {
+      const countryName = d.properties.name;
+      const count = countryCountMap.get(countryName);
+      return count ? colorScale(count) : cssGray;
+    })
     .attr("stroke", cssBlack)
     .attr("stroke-width", 0.3)
-    .style("pointer-events", "all");
-
-  //Dots
-  svg.selectAll("circle")
-    .data(eventData)
-    .join("circle")
-    .attr("cx", d => projection([d.CENTROID_LONGITUDE, d.CENTROID_LATITUDE])[0])
-    .attr("cy", d => projection([d.CENTROID_LONGITUDE, d.CENTROID_LATITUDE])[1])
-    .attr("r", 4)
-    .attr("fill", d => eventColors[d.EVENT_TYPE])
-    .attr("opacity", 0.8)
-    .attr("stroke", cssBlack)
-    .attr("stroke-width", 0.4)
-    .on("mouseover", function (event, d) {
+    .on("mouseover", function(event, d) {
+      const countryName = d.properties.name;
+      const count = countryCountMap.get(countryName) || 0;
       tooltip
-        .html(`
-          <strong>${d.COUNTRY}</strong><br/>
-          ${d.EVENT_TYPE}<br/>
-          Events: ${d.EVENTS}<br/>
-          Week: ${d.WEEK}
-        `)
-        .style("opacity", 1);
-
-      d3.select(this)
-        .attr("r", 6)
-        .attr("opacity", 1);
+        .style("opacity", 1)
+        .html(`<strong>${countryName}</strong><br/>Events: ${count}`);
+      d3.select(this).attr("opacity", 0.7);
     })
-    .on("mousemove", function (event) {
+    .on("mousemove", event => {
       tooltip
-        .style("top", (event.pageY + 15) + "px")
-        .style("left", (event.pageX + 15) + "px");
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY + 10) + "px");
     })
-    .on("mouseout", function () {
+    .on("mouseout", function() {
       tooltip.style("opacity", 0);
-      d3.select(this)
-        .attr("r", 4)
-        .attr("opacity", 0.8);
+      d3.select(this).attr("opacity", 1);
     });
 
   //Legend
+  const legendWidth = 300;
+  const legendHeight = 20;
   const legend = rootSvg.append("g")
     .attr("class", "legend")
-    .attr("transform", `translate(20, ${height - 650})`);
+    .attr("transform", `translate(${width - legendWidth - 20}, ${height - 40})`);
 
-  Object.entries(eventColors).forEach(([eventType, color], i) => {
-    const legendRow = legend.append("g")
-      .attr("transform", `translate(0, ${i * 25})`);
+  const defs = rootSvg.append("defs");
+  const linearGradient = defs.append("linearGradient")
+    .attr("id", "legend-gradient")
+    .attr("x1", "0%")
+    .attr("x2", "100%");
 
-    legendRow.append("rect")
-      .attr("width", 20)
-      .attr("height", 20)
-      .attr("fill", color);
+  linearGradient.append("stop").attr("offset", "0%").attr("stop-color", colorScale(0));
+  linearGradient.append("stop").attr("offset", "100%").attr("stop-color", colorScale(maxCount));
 
-    legendRow.append("text")
-      .attr("x", 30)
-      .attr("y", 15)
-      .style("font-size", "12px")
-      .style("font-family", "Fira Sans")
-      .attr("fill", cssBlack)
-      .text(eventType);
-  });
+  legend.append("rect")
+    .attr("width", legendWidth)
+    .attr("height", legendHeight)
+    .attr("fill", "url(#legend-gradient)");
+
+  legend.append("text")
+    .attr("y", legendHeight + 15)
+    .attr("x", 0)
+    .style("font-size", "12px")
+    .text("0");
+
+  legend.append("text")
+    .attr("y", legendHeight + 15)
+    .attr("x", legendWidth)
+    .attr("text-anchor", "end")
+    .style("font-size", "12px")
+    .text(maxCount);
 
   const initialTheme = document.body.classList.contains("body-mode");
-  window.updateDotMapTheme(initialTheme);
+  window.updateHexTheme(initialTheme);
 });
 
 /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
 DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
-window.updateDotMapTheme = function (isDarkMode) {
-  const borders = d3.selectAll("#dot .borders");
-  if (!borders.empty())
-    borders.attr("stroke", isDarkMode ? cssBlack : cssWhite);
+window.updateHexTheme = function(isDarkMode) {
+  const borders = d3.selectAll("#hex path");
+  if(!borders.empty()) borders.attr("stroke", isDarkMode ? cssWhite : cssBlack);
 
-  const legendText = d3.selectAll("#dot .legend text");
-  if (!legendText.empty())
-    legendText.style("fill", isDarkMode ? cssWhite : cssBlack);
-
-  if (!tooltip.empty()) {
+  if(!tooltip.empty()) {
     tooltip
       .style("background-color", isDarkMode ? cssBlack : cssWhite)
       .style("color", isDarkMode ? cssWhite : cssBlack)

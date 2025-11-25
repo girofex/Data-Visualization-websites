@@ -31,6 +31,7 @@
     <script src="js/theme.js"></script>
     <script src="js/charts/sectionfour/choroplethmap.js" defer type="module"></script>
     <script src="js/charts/sectionfour/dot.js" defer type="module"></script>
+    <script src="js/charts/sectionfour/hexbin.js" defer type="module"></script>
 </head>
 
 <body>
@@ -97,12 +98,16 @@
 
     <section class="container" style="margin-top: 5rem">
         <div class="column">
-            <h2 id="h2">Grid Map</h2>
+            <h2 id="h2">Hexbin Map</h2>
             <p>
-                dropdown con sopra per vedere colore a seconda del numero di hotspot, esagono è zona amministrativa o regione della regione
+                dropdown con prism map per vedere frequenza dei 3 eventi per stato. vision 3d e 2d
             </p>
         </div>
     </section>
+
+    <div class="container">
+        <div id="hexbin"></div>
+    </div>
 
     <div class="footer">
         <hr>
