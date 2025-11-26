@@ -6,9 +6,9 @@ const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("-
 const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
 
-const margin = { top: 20, right: 10, bottom: 10, left: 250 };
-const width = 1000;
-const height = 400;
+const margin = { top: 20, right: 10, bottom: 10, left: 450 };
+const width = 1200;
+const height = 600;
 
 const rootSvg = d3.select("#dot")
   .append("svg")
@@ -39,9 +39,9 @@ const tooltip = d3.select("body")
   .style("pointer-events", "none");
 
 const csvFiles = [
-  { name: "Ukraine-Russia", path: "resources/plots/sectionfour/dot1.csv" },
-  { name: "Mexico", path: "resources/plots/sectionfour/dot2.csv" },
-  { name: "Israel-Palestine", path: "resources/plots/sectionfour/dot3.csv" }
+  { name: "Ukraine-Russia", path: "resources/plots/sectionfour/dot1_alt.csv" },
+  { name: "Mexico", path: "resources/plots/sectionfour/dot2_alt.csv" },
+  { name: "Israel-Palestine", path: "resources/plots/sectionfour/dot3_alt.csv" }
 ];
 
 const geoFiles = [
@@ -56,9 +56,14 @@ Promise.all([
 ]).then(loadData => {
   const geojsons = loadData.slice(0, geoFiles.length);
   const datasets = loadData.slice(geoFiles.length);
-  const miniMapWidth = 300;
-  const miniMapHeight = 400;
-  const miniMapSpacing = 50;
+  const miniMapWidth = 400;
+  const miniMapHeight = 500;
+  const miniMapSpacing = 0;
+  
+  const maxEvents = d3.max(datasets.flatMap(d => d.data), d => +d.EVENTS);
+  const radiusScale = d3.scaleSqrt()
+  .domain([1, maxEvents]) 
+  .range([4, 15]); 
 
   const maps = svg.selectAll(".mini-map")
     .data(geojsons)
@@ -71,13 +76,18 @@ Promise.all([
     const mapG = d3.select(this);
     const localData = datasets[i].data;
     const proj = d3.geoMercator();
-    
-    if (i === 0)
-      proj.rotate([-10, 0]);
-    
+
     const path = d3.geoPath().projection(proj);
 
-    proj.fitSize([miniMapWidth, miniMapHeight], geo);
+    if (i === 0){
+      const customScale = 120;
+      const centralLongiitude = 300;
+      const centralLatitude = 50;
+      proj.rotate([-10, 0]);
+      proj.scale(customScale)
+      .center([centralLongiitude, centralLatitude]);
+    } else
+      proj.fitSize([miniMapWidth, miniMapHeight], geo);
 
     mapG.append("path")
       .datum(geo)
@@ -94,15 +104,15 @@ Promise.all([
       .append("circle")
       .attr("cx", d => {
         const coords = proj([+d.CENTROID_LONGITUDE, +d.CENTROID_LATITUDE]);
-        return coords[0] + (Math.random()) * 3; // Add small random offset
+        return coords[0] + (Math.random()) * 5; // Add small random offset
       })
       .attr("cy", d => {
         const coords = proj([+d.CENTROID_LONGITUDE, +d.CENTROID_LATITUDE]);
-        return coords[1] + (Math.random()) * 3;
+        return coords[1] + (Math.random()) * 5;
       })
-      .attr("r", 2)
+      .attr("r", d => radiusScale(+d.EVENTS))
       .attr("fill", d => eventColors[d.EVENT_TYPE])
-      .attr("opacity", 0.8)
+      .attr("opacity", 1)
       .attr("stroke", cssBlack)
       .attr("stroke-width", 0.4)
       .on("mouseover", function(event, d) {
@@ -111,10 +121,10 @@ Promise.all([
           .html(`
             <strong>${d.COUNTRY}</strong><br/>
             ${d.EVENT_TYPE}<br/>
-            Date of the event: ${d.WEEK}
+            Number of events: ${d.EVENTS}
           `);
         d3.select(this)
-          .attr("r", 6)
+          .attr("r", d => radiusScale(+d.EVENTS)*1.2)
           .attr("opacity", 1);
       })
       .on("mousemove", event => {
@@ -125,7 +135,7 @@ Promise.all([
       .on("mouseout", function() {
         tooltip.style("opacity", 0);
         d3.select(this)
-          .attr("r", 4)
+          .attr("r", d => radiusScale(+d.EVENTS))
           .attr("opacity", 0.8);
       });
 
@@ -135,7 +145,7 @@ Promise.all([
       .attr("x", 0)
       .attr("y", -5)
       .style("text-anchor", "middle")
-      .attr("x", miniMapWidth / 2)
+      .attr("x", miniMapWidth / 4)
       .style("font-size", "14px")
       .style("font-family", "Fira Sans")
       .style("font-weight", "bold")
@@ -145,7 +155,7 @@ Promise.all([
   //Legend
   const legend = rootSvg.append("g")
     .attr("class", "legend")
-    .attr("transform", `translate(20, 180)`);
+    .attr("transform", `translate(0, 30)`);
 
   Object.entries(eventColors).forEach(([eventType, color], i) => {
     const row = legend.append("g")
