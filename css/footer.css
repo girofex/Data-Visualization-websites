@@ -1,8 +1,179 @@
-.footer{
-    text-align: center;
+/* =========================================
+   M3 FOOTER - STRUCTURE
+   ========================================= */
+
+.m3-footer {
+    /* Background: Surface Container (Grigio/Viola chiarissimo) */
+    background-color: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface);
+    
+    /* Design: "Sheet" effect (Angoli superiori arrotondati) */
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+    
+    margin-top: 0; /* La wavy line gestisce lo spazio sopra */
+    padding: 60px 20px 20px 20px;
+    position: relative;
 }
 
-#logo{
-    height: 4rem;
-    margin-bottom: 1rem;
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    
+    /* Layout a 2 Colonne (Flexbox) */
+    display: flex;
+    flex-wrap: wrap; /* Su mobile va a capo */
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* =========================================
+   LEFT COLUMN: BRAND & LOGO
+   ========================================= */
+.footer-brand {
+    flex: 1; /* Prende spazio disponibile */
+    min-width: 300px;
+    text-align: left;
+}
+
+.brand-title {
+    font-family: 'Roboto Slab', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    color: var(--md-sys-color-on-surface);
+}
+
+.brand-subtitle {
+    font-family: 'Fira Sans', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-bottom: 2rem;
+}
+
+.data-note {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    opacity: 0.8;
+    margin-bottom: 2rem;
+}
+
+.data-note a {
+    color: var(--md-sys-color-on-surface);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* LOGO */
+#logo {
+    height: 80px; /* Un po' più piccolo ed elegante */
+    width: auto;
+    opacity: 0.9;
+}
+
+body.dark-theme #logo {
+    filter: invert(1) brightness(2);
+}
+
+/* =========================================
+   RIGHT COLUMN: TEAM GRID
+   ========================================= */
+.footer-team {
+    flex: 1;
+    min-width: 300px;
+}
+
+.team-title {
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--md-sys-color-outline);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* GRIGLIA 2x2 */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* CARD STUDENTE */
+.student-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* CHIP GITHUB (Stile M3) */
+.github-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    
+    background-color: var(--md-sys-color-surface); /* Bianco su sfondo grigio */
+    color: var(--md-sys-color-on-surface);
+    padding: 8px 16px;
+    border-radius: 12px; /* Squircle */
+    
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.github-chip:hover {
+    background-color: var(--md-sys-color-secondary-container); /* Viola */
+    color: var(--md-sys-color-on-secondary-container);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.matricola {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    padding-left: 8px; /* Allineato visivamente col testo sopra */
+    font-family: monospace;
+}
+
+/* =========================================
+   BOTTOM BAR
+   ========================================= */
+.footer-bottom {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--md-sys-color-outline);
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-brand, .footer-team {
+        text-align: center;
+    }
+    
+    .team-grid {
+        justify-content: center;
+    }
+    
+    /* Su mobile i nomi si centrano */
+    .student-card {
+        align-items: center;
+    }
 }

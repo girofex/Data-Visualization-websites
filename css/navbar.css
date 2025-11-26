@@ -1,162 +1,107 @@
-.navbar{
-  color: var(--black);
-  margin: 1rem auto;
-  padding: 1rem 1rem;
-  text-decoration: none;
-  height: 3rem;
-  width: 75%;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 0 1rem var(--black);
-  border-radius: 1rem;
-  font-family: "Roboto Slab", serif;
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
+/* =========================================
+   FLOATING NAVBAR (Material Design 3 Tabs)
+   ========================================= */
+
+/* The Container (The white floating stick) */
+.m3-navbar {
+    /* Background: Surface Container (Light grey/white) */
+    background-color: var(--md-sys-color-surface-container) !important;
+    
+    /* Layout Dimensions */
+    width: auto; /* Fit to content, don't stretch too wide */
+    max-width: 90%; 
+    min-height: 56px;
+    
+    /* Centering Position */
+    margin: 20px auto; 
+    padding: 4px 8px; /* Small padding so pills don't touch edges */
+    
+    /* Shape & Depth */
+    border-radius: 50px; /* Fully rounded capsule */
+    box-shadow: var(--md-sys-elevation-3); /* Floating effect */
+    border: 1px solid rgba(0,0,0,0.05);
+  
+    /* Flex Layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between links and dark mode button */
+    gap: 16px;
 }
 
-#mode{
-  color: var(--black);
-  margin-top: -0.2rem;
-  margin-left: -0.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  cursor: pointer;
+/* =========================================
+   THE LIST (The missing piece!)
+   ========================================= */
+.m3-nav-links {
+    list-style: none; /* Removes the ugly bullets */
+    margin: 0;
+    padding: 0;
+    display: flex;    /* Makes items go horizontal */
+    align-items: center;
+    gap: 4px; /* Tiny gap between tabs */
 }
 
-#mode:hover{
-  color: var(--orange) !important;
+/* =========================================
+   THE LINKS (Interactive Pills)
+   ========================================= */
+.m3-nav-link {
+    text-decoration: none;
+    font-family: "Roboto Slab", serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* Fixed height for touch targets */
+    padding: 0 16px; /* Horizontal breathing room */
+    
+    /* Color & Shape */
+    color: var(--md-sys-color-on-surface);
+    border-radius: 50px; /* Pill shape */
+    transition: all 0.2s ease-in-out;
 }
 
-.nav-link,
-.nav-link:focus,
-.nav-link:active{
-  color: var(--black);
+/* HOVER State: Subtle grey overlay */
+.m3-nav-link:hover {
+    background-color: rgba(29, 27, 32, 0.08); /* 8% Black */
+    color: var(--md-sys-color-on-surface);
 }
 
-.nav-link:hover{
-  text-decoration: none;
-  color: var(--orange);
-  text-shadow: 0 0 1rem #f86f60ad;
+body.dark-theme .m3-nav-link:hover {
+    background-color: rgba(230, 225, 229, 0.08); /* 8% White */
 }
 
-/* Side bar */
-.sidebar-wrapper{
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 1rem;
-  z-index: 100;
+/* ACTIVE State: The Lavender Pill (Matches your screenshot) */
+.m3-nav-link.active-page {
+    /* The Highlight Color (Purple/Lavender) */
+    background-color: var(--md-sys-color-secondary-container) !important;
+    
+    /* The Text Color (Dark Purple) */
+    color: var(--md-sys-color-on-secondary-container) !important;
+    
+    font-weight: 700; /* Bold text for active state */
+    text-decoration: none; /* No underline */
 }
 
-.sidebar-tick{
-  padding: 0.5rem;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+/* =========================================
+   DARK MODE BUTTON
+   ========================================= */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--md-sys-color-on-surface);
+    transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Prevents button from getting squished */
 }
 
-.sidebar-tick::before{
-  content: '';
-  height: 0.15rem;
-  background-color: var(--black);
-  transition: all 0.2s ease;
-  border-radius: 1rem;
-  flex-shrink: 0;
-}
-
-.sidebar-tick:hover::before,
-.sidebar-tick.active::before{
-  background-color: var(--orange);
-  height: 0.2rem;
-}
-
-.sidebar-tick[data-level="1"]::before{
-  width: 2rem;
-}
-
-.sidebar-tick[data-level="2"]::before{
-  width: 1.5rem;
-}
-
-.sidebar-tick[data-level="3"]::before{
-  width: 1rem;
-}
-
-.sidebar-tick[data-level="4"]::before{
-  width: 0.5rem;
-}
-
-.sidebar-menu {
-  position: fixed;
-  top: 0rem;
-  left: 2.7rem;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 0 1rem var(--black);
-  border-radius: 1rem;
-  padding: .5rem 1rem;
-  z-index: 999;
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 15px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-
-.sidebar-wrapper:hover .sidebar-menu {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.menu-item {
-  padding: .35rem 0;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.menu-item:hover {
-  color: var(--orange);
-}
-
-/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
-DARK MODE
-/*//*/*//*//*//*//*//*//*//*//*//*//*/
-
-.navbar-mode .nav-link,
-.navbar-mode .nav-link:focus,
-.navbar-mode .nav-link:active {
-  color: var(--white) !important;
-}
-
-.navbar-mode{
-  box-shadow: 0 0 1rem var(--white);
-}
-
-.navbar-mode .nav-link:hover {
-  color: var(--orange) !important;
-}
-
-.sidebar-link-mode::before {
-  background-color: var(--white);
-}
-
-.sidebar-link-mode::after {
-  color: var(--white);
-}
-
-.sidebar-link-mode:hover::before,
-.sidebar-link-mode.active::before {
-  background-color: var(--orange);
-}
-
-.sidebar-link-mode:hover::after,
-.sidebar-link-mode.active::after {
-  color: var(--orange);
-  text-shadow: 0 0 0.5rem rgba(248, 112, 96, 0.3);
+.theme-toggle-btn:hover {
+    background-color: rgba(0,0,0,0.05);
 }
