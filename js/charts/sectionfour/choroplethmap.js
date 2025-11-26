@@ -22,6 +22,18 @@ const rootSvg = d3.select("#choropleth")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom);
 
+rootSvg.insert("rect")
+  .attr("class", "rectangle")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .attr("fill", "none")
+  .attr("stroke", cssBlack)
+  .attr("stroke-width", 1)
+  .attr("rx", 10)
+  .attr("ry", 10);
+
 const svg = rootSvg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -58,6 +70,11 @@ d3.select('#zoom-out').on('click', () => {
     rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
   else
     rootSvg.transition().call(myZoom.scaleBy, 0.5);
+});
+d3.select('#zoom-restore').on('click', () => {
+  rootSvg.transition()
+    .duration(750)
+    .call(myZoom.transform, d3.zoomIdentity);
 });
 
 Promise.all([
@@ -137,6 +154,10 @@ Promise.all([
 DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
 window.updateChoroplethTheme = function(isDarkMode) {
+  const rectangle = d3.selectAll("#choropleth .rectangle");
+  if(!rectangle.empty())
+    rectangle.attr("stroke", isDarkMode ? cssWhite : cssBlack);
+
   const borders = d3.selectAll("#choropleth .borders");
   if(!borders.empty())
     borders.attr("stroke", isDarkMode ? cssBlack : cssWhite);

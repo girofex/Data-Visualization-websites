@@ -1,4 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+import { annotation, annotationLabel } from "https://cdn.jsdelivr.net/npm/d3-svg-annotation@2/+esm";
 
 const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
@@ -6,9 +7,9 @@ const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("-
 const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
 
-const margin = { top: 20, right: 10, bottom: 10, left: 450 };
-const width = 1200;
-const height = 600;
+const margin = { top: 25, right: 100, bottom: 10, left: 350 };
+const width = 800;
+const height = 300;
 
 const rootSvg = d3.select("#dot")
   .append("svg")
@@ -39,9 +40,9 @@ const tooltip = d3.select("body")
   .style("pointer-events", "none");
 
 const csvFiles = [
-  { name: "Ukraine-Russia", path: "resources/plots/sectionfour/dot1_alt.csv" },
-  { name: "Mexico", path: "resources/plots/sectionfour/dot2_alt.csv" },
-  { name: "Israel-Palestine", path: "resources/plots/sectionfour/dot3_alt.csv" }
+  { name: "Ukraine-Russia", path: "resources/plots/sectionfour/dot1.csv" },
+  { name: "Mexico", path: "resources/plots/sectionfour/dot2.csv" },
+  { name: "Israel-Palestine", path: "resources/plots/sectionfour/dot3.csv" }
 ];
 
 const geoFiles = [
@@ -50,44 +51,58 @@ const geoFiles = [
   "../resources/geojson/israelpalestine.geo.json"
 ];
 
+const capitals = [
+  [
+    { name: "Kyiv", coords: [30.5234, 50.4501], dx: -40, dy: 10 },
+    { name: "Moscow", coords: [37.6173, 55.7558], dx: 80, dy: 30 }
+  ],
+  [
+    { name: "Mexico City", coords: [-99.1332, 19.4326], dx: 80, dy: -25 }
+  ],
+  [
+    { name: "Jerusalem", coords: [35.2137, 31.7683], dx: 80, dy: -10 },
+    { name: "Ramallah", coords: [35.2065, 31.8986], dx: 80, dy: -55 },
+    { name: "Gaza City", coords: [34.4378, 31.5019], dx: -35, dy: -15 }
+  ]
+];
+
 Promise.all([
   ...geoFiles.map(url => d3.json(url)),
   ...csvFiles.map(file => d3.csv(file.path).then(data => ({ name: file.name, data })))
 ]).then(loadData => {
   const geojsons = loadData.slice(0, geoFiles.length);
   const datasets = loadData.slice(geoFiles.length);
-  const miniMapWidth = 400;
-  const miniMapHeight = 500;
-  const miniMapSpacing = 0;
-  
+  const sizes = [
+    { width: 600, height: 600 },
+    { width: 300, height: 300 },
+    { width: 300, height: 300 }
+  ];
   const maxEvents = d3.max(datasets.flatMap(d => d.data), d => +d.EVENTS);
+
   const radiusScale = d3.scaleSqrt()
-  .domain([1, maxEvents]) 
-  .range([4, 15]); 
+    .domain([1, maxEvents]) 
+    .range([4, 15]); 
 
   const maps = svg.selectAll(".mini-map")
     .data(geojsons)
     .enter()
     .append("g")
     .attr("class", "mini-map")
-    .attr("transform", (d, i) => `translate(${i * (miniMapWidth + miniMapSpacing)}, 0)`);
+    .attr("transform", (d, i) => `translate(${i * sizes[i].width}, 0)`);
 
   maps.each(function(geo, i) {
     const mapG = d3.select(this);
     const localData = datasets[i].data;
     const proj = d3.geoMercator();
-
     const path = d3.geoPath().projection(proj);
+    const { width: mapW, height: mapH } = sizes[i];
 
-    if (i === 0){
-      const customScale = 120;
-      const centralLongiitude = 300;
-      const centralLatitude = 50;
-      proj.rotate([-10, 0]);
-      proj.scale(customScale)
-      .center([centralLongiitude, centralLatitude]);
-    } else
-      proj.fitSize([miniMapWidth, miniMapHeight], geo);
+    if (i === 0)
+      proj.scale(120)
+          .center([300, 50])
+          .rotate([-10, 0]);
+    else
+      proj.fitSize([mapW, mapH], geo);
 
     mapG.append("path")
       .datum(geo)
@@ -98,13 +113,14 @@ Promise.all([
       .attr("d", path);
 
     //Dots
-    mapG.selectAll("circle")
+    mapG.selectAll("circle.event-dot")
       .data(localData)
       .enter()
       .append("circle")
+      .attr("class", "event-dot")
       .attr("cx", d => {
         const coords = proj([+d.CENTROID_LONGITUDE, +d.CENTROID_LATITUDE]);
-        return coords[0] + (Math.random()) * 5; // Add small random offset
+        return coords[0] + (Math.random()) * 5;
       })
       .attr("cy", d => {
         const coords = proj([+d.CENTROID_LONGITUDE, +d.CENTROID_LATITUDE]);
@@ -139,13 +155,55 @@ Promise.all([
           .attr("opacity", 0.8);
       });
 
+    //Capitals
+    const capitalGroup = mapG.append("g").attr("class", "capitals");
+    capitalGroup.selectAll(".capital")
+      .data(capitals[i])
+      .enter()
+      .append("circle")
+      .attr("class", "capital")
+      .attr("cx", d => proj(d.coords)[0])
+      .attr("cy", d => proj(d.coords)[1])
+      .attr("r", 5)
+      .attr("fill", cssBlack)
+      .attr("stroke", cssBlack)
+      .attr("stroke-width", 0.8);
+
+    //Annotations
+    const capitalAnnotations = capitals[i].map(cap => {
+      const [cx, cy] = proj(cap.coords);
+      return {
+        note: {
+          label: cap.name
+        },
+        x: cx,
+        y: cy,
+        dx: cap.dx,
+        dy: cap.dy,
+        color: cssBlack
+      };
+    });
+
+    const makeAnnotations = annotation()
+      .annotations(capitalAnnotations)
+      .type(annotationLabel)
+      .textWrap(120);
+
+    const annotationGroup = mapG.append("g")
+      .attr("class", "annotation-group")
+      .call(makeAnnotations);
+
+    annotationGroup.selectAll(".annotation-note-label")
+      .style("font-family", "Fira Sans")
+      .style("font-size", "12px")
+      .style("fill", cssBlack);
+
     //Label
     mapG.append("text")
       .attr("class", "titles")
-      .attr("x", 0)
-      .attr("y", -5)
+      .attr("x", path.centroid(geo)[0])
+      .attr("y", -10)
       .style("text-anchor", "middle")
-      .attr("x", miniMapWidth / 4)
       .style("font-size", "14px")
       .style("font-family", "Fira Sans")
       .style("font-weight", "bold")
@@ -155,7 +213,7 @@ Promise.all([
   //Legend
   const legend = rootSvg.append("g")
     .attr("class", "legend")
-    .attr("transform", `translate(0, 30)`);
+    .attr("transform", `translate(0, 150)`);
 
   Object.entries(eventColors).forEach(([eventType, color], i) => {
     const row = legend.append("g")
@@ -189,6 +247,22 @@ function updateDotMapTheme(isDarkMode) {
 
   d3.selectAll("#dot .legend text")
     .style("fill", isDarkMode ? cssWhite : cssBlack);
+
+  const capital = d3.selectAll("#dot .capital");
+  if (!capital.empty())
+    capital.style("fill", isDarkMode ? cssWhite : cssBlack);
+
+  const annotationLabels = d3.selectAll("#dot .annotation-note-label");
+  if (!annotationLabels.empty())
+    annotationLabels.style("fill", isDarkMode ? cssWhite : cssBlack);
+
+  const annotationLines = d3.selectAll("#dot .annotation-group line");
+  if (!annotationLines.empty())
+    annotationLines.style("stroke", isDarkMode ? cssWhite : cssBlack);
+
+  const connector = d3.selectAll("#dot .annotation-connector path");
+  if (!connector.empty())
+    connector.style("stroke", isDarkMode ? cssWhite : cssBlack);
 
   if (!tooltip.empty()) {
     tooltip

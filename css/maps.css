@@ -1,10 +1,25 @@
 .container-fill{
-    width: 80%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-fill,
+#dot{
+    margin-top: 5rem;
+}
+
+#choropleth{
+    cursor: grab;
+}
+
+#choropleth:active{
+    cursor: grabbing;
 }
 
 .btn{
+    margin: 0 auto;
+    width: 10rem;
     height: 3.5rem;
     display: flex;
     flex-direction: row;

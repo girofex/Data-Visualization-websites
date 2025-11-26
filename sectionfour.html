@@ -32,6 +32,7 @@
     <script src="js/charts/sectionfour/choroplethmap.js" defer type="module"></script>
     <script src="js/charts/sectionfour/dot.js" defer type="module"></script>
     <!-- <script src="js/charts/sectionfour/hexbin.js" defer type="module"></script>-->
+     <script src="js/charts/sectionfour/prism.js" defer type="module"></script>
 </head>
 
 <body>
@@ -73,15 +74,17 @@
                 ...
             </p>
         </div>
-    </section>
 
-    <div class="container-fluid container-fill">
-        <div id="choropleth"></div>
-        <div class="btn">
-            <button id="zoom-in"><i class="bi bi-zoom-in"></i></button>
-            <button id="zoom-out"><i class="bi bi-zoom-out"></i></button>
+        <div class="container-fluid container-fill">
+            <div id="choropleth">
+                <div class="btn">
+                    <button id="zoom-in"><i class="bi bi-zoom-in"></i></button>
+                    <button id="zoom-out"><i class="bi bi-zoom-out"></i></button>
+                    <button id="zoom-restore"><i class="bi bi-arrow-clockwise"></i></button>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
         
     <section class="container" style="margin-top: 5rem">
         <div class="column">
@@ -90,24 +93,26 @@
                 ...
             </p>
         </div>
-    </section>
 
-    <div class="container">
-        <div id="dot"></div>
-    </div>
+        <div class="container">
+            <div id="dot"></div>
+        </div>
+    </section>
 
     <section class="container" style="margin-top: 5rem">
         <div class="column">
-            <h2 id="h2">Hexbin Map</h2>
+            <h2 id="h2">Prism Map</h2>
             <p>
                 dropdown con prism map per vedere frequenza dei 3 eventi per stato. vision 3d e 2d
             </p>
         </div>
-    </section>
 
-    <div class="container">
-        <div id="hexbin"></div>
-    </div>
+        <!--
+        <div class="container">
+            <div id="prism"></div>
+        </div>
+        -->
+    </section>
 
     <div class="footer">
         <hr>
