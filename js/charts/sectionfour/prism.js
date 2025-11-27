@@ -2,9 +2,10 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
-const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
-const cssBlue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
-const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+
+var water_color = cssBlack;
+var countries_color = cssBlack;
+var borders_color = cssWhite;
 
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },
   width = 1000 - margin.left - margin.right,
@@ -82,7 +83,9 @@ Promise.all([
     }));
 
     const heightScale = d3.scaleLinear().domain([0, 1]).range([5, 15]);
-    const colorScale = d3.scaleSequential().domain([1,10]).interpolator(d3.interpolateRgb(cssWhite, cssOrange));
+    
+    const maxValue = d3.max(spikeData, d => d.value);
+    const colorScale = d3.scaleSequential().domain([0, maxValue]).interpolator(d3.interpolateInferno);
 
     function render() {
         context.clearRect(0, 0, width, height);
@@ -90,14 +93,14 @@ Promise.all([
         //Water
         context.beginPath();
         path({type: "Sphere"});
-        context.fillStyle = cssBlue;
+        context.fillStyle = water_color;
         context.fill();
 
         context.beginPath();
         path(topo); 
-        context.fillStyle = cssGreen;
+        context.fillStyle = countries_color;
         context.fill();
-        context.strokeStyle = cssBlack;
+        context.strokeStyle = borders_color;
         context.lineWidth = 0.5;
         context.stroke();
 
@@ -156,4 +159,16 @@ Promise.all([
         
         render();
     });
+
+    const initialTheme = document.body.classList.contains("body-mode");
+    window.updatePrismMapTheme(initialTheme);
 });
+
+/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+DARK MODE
+/*//*/*//*//*//*//*//*//*//*//*//*//*/
+window.updatePrismMapTheme = function(isDarkMode) {
+  water_color = isDarkMode ? cssWhite : cssBlack;
+  countries_color = isDarkMode ? cssWhite : cssBlack;
+  borders_color = isDarkMode ? cssBlack : cssWhite;
+};

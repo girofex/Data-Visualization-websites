@@ -7,7 +7,7 @@ const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--
 const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
 const cssGray = getComputedStyle(document.documentElement).getPropertyValue("--gray").trim();
 
-var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+var margin = { top: 10, right: 0, bottom: 0, left: 0 },
   width = 1000 - margin.left - margin.right,
   height = 700 - margin.top - margin.bottom;
 
@@ -37,7 +37,10 @@ rootSvg.insert("rect")
 const svg = rootSvg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
-const projection = d3.geoNaturalEarth1();
+const projection = d3.geoMercator()
+  .rotate([-10, 0])
+  .scale(130)
+  .translate([width / 1.8, height / 1.8]);
 
 const tooltip = d3.select("body")
   .append("div")

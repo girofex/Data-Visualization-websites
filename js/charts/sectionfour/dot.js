@@ -46,9 +46,9 @@ const csvFiles = [
 ];
 
 const geoFiles = [
-  "../resources/geojson/russiaukraine.geo.json",
-  "../resources/geojson/mexico.geo.json",
-  "../resources/geojson/israelpalestine.geo.json"
+  "resources/geojson/russiaukraine.geo.json",
+  "resources/geojson/mexico.geo.json",
+  "resources/geojson/israelpalestine.geo.json"
 ];
 
 const capitals = [
