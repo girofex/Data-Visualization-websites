@@ -37,10 +37,7 @@ rootSvg.insert("rect")
 const svg = rootSvg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
-const projection = d3.geoMercator()
-  .rotate([-10, 0])
-  .scale(130)
-  .translate([width / 1.8, height / 1.8]);
+const projection = d3.geoNaturalEarth1();
 
 const tooltip = d3.select("body")
   .append("div")
@@ -86,6 +83,10 @@ Promise.all([
   let topo = loadData[0];
   let eventData = loadData[1];
 
+  projection.fitSize([width, height], topo);
+
+  const pathGenerator = d3.geoPath().projection(projection);
+
   const countryEventMap = new Map();
   eventData.forEach(row => {
     countryEventMap.set(row.COUNTRY, row.EVENT_TYPE);
@@ -95,7 +96,7 @@ Promise.all([
     .attr("class", "borders")
     .data(topo.features)
     .join("path")
-    .attr("d", d3.geoPath().projection(projection))
+    .attr("d", pathGenerator)
     .attr("fill", d => {
       const countryName = d.properties.name;
       const eventType = countryEventMap.get(countryName);
@@ -128,7 +129,7 @@ Promise.all([
   //Legend
   const legend = rootSvg.append("g")
     .attr("class", "legend")
-    .attr("transform", `translate(20, ${height - 650})`);
+    .attr("transform", `translate(20, ${height - 650})`); 
 
   Object.entries(eventColors).forEach(([eventType, color], i) => {
     const legendRow = legend.append("g")
