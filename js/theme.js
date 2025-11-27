@@ -81,8 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateRidgeLinePlotTheme,
             window.updateLineChartTheme,
             updateChoroplethTheme,
-            updateDotMapTheme,
-            updatePrismMapTheme
+            updateDotMapTheme
         ].forEach(fn => {
             if (typeof fn === "function") fn(isDark);
         });

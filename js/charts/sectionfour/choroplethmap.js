@@ -61,11 +61,11 @@ let myZoom = d3.zoom()
 
 rootSvg.call(myZoom);
 
-d3.select('#zoom-in').on('click', () =>
+d3.select('#choropleth-zoom-in').on('click', () =>
   rootSvg.transition().call(myZoom.scaleBy, 2)
 );
 
-d3.select('#zoom-out').on('click', () => {
+d3.select('#choropleth-zoom-out').on('click', () => {
   const t = d3.zoomTransform(rootSvg.node());
   if (t.k <= 1.001)
     rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
@@ -73,7 +73,7 @@ d3.select('#zoom-out').on('click', () => {
     rootSvg.transition().call(myZoom.scaleBy, 0.5);
 });
 
-d3.select('#zoom-restore').on('click', () => {
+d3.select('#choropleth-zoom-restore').on('click', () => {
   rootSvg.transition()
     .duration(750)
     .call(myZoom.transform, d3.zoomIdentity);

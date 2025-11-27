@@ -3,11 +3,8 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
 const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+const cssBlue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
 const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
-const cssGray = getComputedStyle(document.documentElement).getPropertyValue("--gray").trim();
-var water_color = cssBlack;
-var countries_color = cssBlack;
-var borders_color = cssWhite;
 
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },
   width = 1000 - margin.left - margin.right,
@@ -42,23 +39,34 @@ const zoom = d3.zoom()
     .on("zoom", (event) => {
         const t = event.transform;
         projection.scale(250 * t.k);
+        
+        if(event.sourceEvent && event.sourceEvent.type === "mousemove") {
+            const rotate = projection.rotate();
+            const k = 75 / projection.scale();
+            projection.rotate([
+                rotate[0] + event.sourceEvent.movementX * k,
+                rotate[1] - event.sourceEvent.movementY * k
+            ]);
+        }
+
+        render();
     });
 
 canvas.call(zoom);
 
-d3.select("#zoom-in").on("click", () => {
+d3.select("#prism-zoom-in").on("click", () => {
     canvas.transition().call(zoom.scaleBy, 2);
 });
 
-d3.select("#zoom-out").on("click", () => {
+d3.select("#prism-zoom-out").on("click", () => {
     const t = d3.zoomTransform(canvas.node());
     if (t.k <= 1.001)
-        canvas.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
+        canvas.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
     else
         canvas.transition().call(zoom.scaleBy, 1 / 1.5);
 });
-
-d3.select("#zoom-restore").on("click", () => {
+d3.select("#prism-zoom-restore").on("click",
+ () => {
     canvas.transition().call(zoom.transform, d3.zoomIdentity);
 });
 
@@ -74,7 +82,7 @@ Promise.all([
     }));
 
     const heightScale = d3.scaleLinear().domain([0, 1]).range([5, 15]);
-    const colorScale = d3.scaleSequential().domain([1,10]).interpolator(d3.interpolateRgb(cssGray, cssOrange));
+    const colorScale = d3.scaleSequential().domain([1,10]).interpolator(d3.interpolateRgb(cssWhite, cssOrange));
 
     function render() {
         context.clearRect(0, 0, width, height);
@@ -82,15 +90,15 @@ Promise.all([
         //Water
         context.beginPath();
         path({type: "Sphere"});
-        context.fillStyle = water_color;
+        context.fillStyle = cssBlue;
         context.fill();
 
         context.beginPath();
         path(topo); 
-        context.fillStyle = countries_color;
+        context.fillStyle = cssGreen;
         context.fill();
-        context.strokeStyle = borders_color;
-        context.lineWidth = 1;
+        context.strokeStyle = cssBlack;
+        context.lineWidth = 0.5;
         context.stroke();
 
         //Spikes
@@ -132,12 +140,13 @@ Promise.all([
     canvas.call(d3.drag()
         .on("drag", (event) => {
             const rotate = projection.rotate();
-            const k = 75 / projection.scale()
-            
+            const k = 75 / projection.scale();
             projection.rotate([
                 rotate[0] + event.dx * k,
                 rotate[1] - event.dy * k
             ]);
+
+            render();
         })
     );
 
@@ -147,16 +156,4 @@ Promise.all([
         
         render();
     });
-
-    const initialTheme = document.body.classList.contains("body-mode");
-    window.updatePrismMapTheme(initialTheme);
 });
-
-/*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
-DARK MODE
-/*//*/*//*//*//*//*//*//*//*//*//*//*/
-window.updatePrismMapTheme = function(isDarkMode) {
-  water_color = isDarkMode ? cssWhite : cssBlack;
-  countries_color = isDarkMode ? cssWhite : cssBlack;
-  borders_color = isDarkMode ? cssBlack : cssWhite;
-};
