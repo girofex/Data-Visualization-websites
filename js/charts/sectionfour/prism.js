@@ -9,7 +9,7 @@ var borders_color = cssWhite;
 
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },
   width = 1000 - margin.left - margin.right,
-  height = 700 - margin.top - margin.bottom;
+  height = 800 - margin.top - margin.bottom;
 
 const canvas = d3.select("#prism")
     .append("canvas")
@@ -26,7 +26,7 @@ canvas.attr("width", width * devicePixelRatio)
 context.scale(devicePixelRatio, devicePixelRatio);
 
 const projection = d3.geoOrthographic()
-    .scale(250)
+    .scale(350)
     .translate([width / 2, height / 2])
     .clipAngle(90);
 
@@ -39,7 +39,7 @@ const zoom = d3.zoom()
     .scaleExtent([1, 10])
     .on("zoom", (event) => {
         const t = event.transform;
-        projection.scale(250 * t.k);
+        projection.scale(350 * t.k);
         
         if(event.sourceEvent && event.sourceEvent.type === "mousemove") {
             const rotate = projection.rotate();
