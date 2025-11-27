@@ -9,11 +9,13 @@
     margin-top: 5rem;
 }
 
-#choropleth{
+#choropleth,
+canvas{
     cursor: grab;
 }
 
-#choropleth:active{
+#choropleth:active,
+canvas:active{
     cursor: grabbing;
 }
 
@@ -48,6 +50,12 @@ button{
 
 .bi{
     color: var(--black);
+}
+
+canvas{
+    display: block;
+    width: 100vw;
+    height: 100vh;
 }
 
 /*///*//*/*//*/*//*/*//*/*//*/*//*/*

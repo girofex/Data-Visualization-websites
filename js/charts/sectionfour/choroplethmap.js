@@ -64,6 +64,7 @@ rootSvg.call(myZoom);
 d3.select('#zoom-in').on('click', () =>
   rootSvg.transition().call(myZoom.scaleBy, 2)
 );
+
 d3.select('#zoom-out').on('click', () => {
   const t = d3.zoomTransform(rootSvg.node());
   if (t.k <= 1.001)
@@ -71,6 +72,7 @@ d3.select('#zoom-out').on('click', () => {
   else
     rootSvg.transition().call(myZoom.scaleBy, 0.5);
 });
+
 d3.select('#zoom-restore').on('click', () => {
   rootSvg.transition()
     .duration(750)
