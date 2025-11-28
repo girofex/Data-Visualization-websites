@@ -1,0 +1,40 @@
+<head>
+    <link rel="stylesheet" href="./css/navbar.css">
+</head>
+
+<div id="navbar" class="m3-navbar-container">
+    <nav class="m3-navbar">
+        <ul class="m3-nav-links">
+            <li><a class="m3-nav-link active-page" href="#">Home</a></li>
+            <li><a class="m3-nav-link" href="./sectionone.html">Overview</a></li>
+            <li><a class="m3-nav-link" href="./sectiontwo.html">Conflicts</a></li>
+            <li><a class="m3-nav-link" href="./sectionthree.html">Time</a></li>
+            <li><a class="m3-nav-link" href="./sectionfour.html">Geography</a></li>
+        </ul>
+
+        <button class="theme-toggle-btn" onclick="switchMode()" aria-label="Toggle Dark Mode">
+            <span class="material-symbols-rounded" id="theme-icon">dark_mode</span>
+        </button>
+    </nav>
+</div>
+
+<div id="dot-nav" class="d-lg-none">
+    <a href="#section-title" class="dot-link active">
+        <span class="dot-label">Title</span>
+        <div class="dot-circle"></div>
+    </a>
+    <a href="#section-desc" class="dot-link">
+        <span class="dot-label">Project Description</span>
+        <div class="dot-circle"></div>
+    </a>
+</div>
+
+<aside id="sidebar" class="m3-sidebar d-none d-lg-block">
+    <div class="sidebar-header">On this page</div>
+    <h2 class="sidebar-title">Index</h2>
+
+    <nav class="sidebar-nav">
+        <a href="#section-title" class="sidebar-link active">Title</a>
+        <a href="#section-desc" class="sidebar-link">Project description</a>
+    </nav>
+</aside>
