@@ -5,8 +5,9 @@ const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--
 const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
+const cssGray = getComputedStyle(document.documentElement).getPropertyValue("--gray").trim();
 
-var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+var margin = { top: 10, right: 0, bottom: 0, left: 0 },
   width = 1000 - margin.left - margin.right,
   height = 700 - margin.top - margin.bottom;
 
@@ -21,12 +22,25 @@ const rootSvg = d3.select("#choropleth")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom);
 
+rootSvg.insert("rect")
+  .attr("class", "rectangle")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .attr("fill", "none")
+  .attr("stroke", cssBlack)
+  .attr("stroke-width", 1)
+  .attr("rx", 10)
+  .attr("ry", 10);
+
 const svg = rootSvg.append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
 const projection = d3.geoMercator()
+  .rotate([-10, 0])
   .scale(130)
-  .translate([width / 2, height / 1.5]);
+  .translate([width / 1.8, height / 1.8]);
 
 const tooltip = d3.select("body")
   .append("div")
@@ -47,15 +61,22 @@ let myZoom = d3.zoom()
 
 rootSvg.call(myZoom);
 
-d3.select('#zoom-in').on('click', () =>
+d3.select('#choropleth-zoom-in').on('click', () =>
   rootSvg.transition().call(myZoom.scaleBy, 2)
 );
-d3.select('#zoom-out').on('click', () => {
+
+d3.select('#choropleth-zoom-out').on('click', () => {
   const t = d3.zoomTransform(rootSvg.node());
   if (t.k <= 1.001)
     rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
   else
     rootSvg.transition().call(myZoom.scaleBy, 0.5);
+});
+
+d3.select('#choropleth-zoom-restore').on('click', () => {
+  rootSvg.transition()
+    .duration(750)
+    .call(myZoom.transform, d3.zoomIdentity);
 });
 
 Promise.all([
@@ -64,6 +85,10 @@ Promise.all([
 ]).then(function (loadData) {
   let topo = loadData[0];
   let eventData = loadData[1];
+
+  projection.fitSize([width, height], topo);
+
+  const pathGenerator = d3.geoPath().projection(projection);
 
   const countryEventMap = new Map();
   eventData.forEach(row => {
@@ -74,11 +99,11 @@ Promise.all([
     .attr("class", "borders")
     .data(topo.features)
     .join("path")
-    .attr("d", d3.geoPath().projection(projection))
+    .attr("d", pathGenerator)
     .attr("fill", d => {
       const countryName = d.properties.name;
       const eventType = countryEventMap.get(countryName);
-      return eventType ? eventColors[eventType] : "#cccccc";
+      return eventType ? eventColors[eventType] : cssGray;
     })
     .attr("stroke", cssBlack)
     .attr("stroke-width", 0.3)
@@ -107,7 +132,7 @@ Promise.all([
   //Legend
   const legend = rootSvg.append("g")
     .attr("class", "legend")
-    .attr("transform", `translate(20, ${height - 650})`);
+    .attr("transform", `translate(20, ${height - 650})`); 
 
   Object.entries(eventColors).forEach(([eventType, color], i) => {
     const legendRow = legend.append("g")
@@ -135,6 +160,10 @@ Promise.all([
 DARK MODE
 /*//*/*//*//*//*//*//*//*//*//*//*//*/
 window.updateChoroplethTheme = function(isDarkMode) {
+  const rectangle = d3.selectAll("#choropleth .rectangle");
+  if(!rectangle.empty())
+    rectangle.attr("stroke", isDarkMode ? cssWhite : cssBlack);
+
   const borders = d3.selectAll("#choropleth .borders");
   if(!borders.empty())
     borders.attr("stroke", isDarkMode ? cssBlack : cssWhite);

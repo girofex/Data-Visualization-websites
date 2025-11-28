@@ -1,10 +1,27 @@
 .container-fill{
-    width: 80%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-fill,
+#dot{
+    margin-top: 5rem;
+}
+
+#choropleth,
+canvas{
+    cursor: grab;
+}
+
+#choropleth:active,
+canvas:active{
+    cursor: grabbing;
 }
 
 .btn{
+    margin: 0 auto;
+    width: 10rem;
     height: 3.5rem;
     display: flex;
     flex-direction: row;
@@ -24,25 +41,31 @@
     box-shadow: 0 0 1rem #f86f60ad;
 }
 
-button {
+button{
     width: 2.5rem;
     border: none;
     background-color: transparent;
     cursor: pointer;
 }
 
-.bi {
+.bi{
     color: var(--black);
+}
+
+canvas{
+    display: block;
+    width: 100vw;
+    height: 100vh;
 }
 
 /*///*//*/*//*/*//*/*//*/*//*/*//*/*
 //DARK MODE
 /*//*///*//*//*//*//*//*//*//*//*/
-.btn-mode {
+.btn-mode{
     border-color: var(--white);
     box-shadow: 0 0 1rem var(--white);
 }
 
-.bi-mode {
+.bi-mode{
     color: var(--white);
 }
