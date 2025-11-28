@@ -1,0 +1,211 @@
+/* ---------------- NAVBAR ---------------- */
+.m3-navbar {
+    background-color: var(--surface-alt) !important;
+    width: auto;
+    max-width: 90%; 
+    min-height: 56px;
+    margin: 20px auto; 
+    padding: 4px 8px;
+    border-radius: 50px;
+    box-shadow: var(--elev-3);
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.m3-nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.m3-nav-link {
+    text-decoration: none;
+    font-family: var(--roboto);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 16px;
+    color: var(--surface-text);
+    border-radius: 50px;
+    transition: all 0.2s ease-in-out;
+}
+
+.m3-nav-link:hover {
+    background-color: rgba(29, 27, 32, 0.08);
+    color: var(--surface-text);
+}
+
+body.dark-theme .m3-nav-link:hover {
+    background-color: rgba(230, 225, 229, 0.08);
+}
+
+.m3-nav-link.active-page {
+    background-color: var(--accent) !important;
+    color: var(--accent-text) !important;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ---------------- SIDEBAR ---------------- */
+.m3-sidebar {
+    position: fixed;
+    right: 20px;
+    top: 200px;
+    width: 220px;
+    z-index: 900;
+    text-align: left;
+}
+
+.sidebar-header {
+    font-family: var(--roboto);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--surface-text);
+    opacity: 0.6;
+    margin-bottom: 8px;
+    padding-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-title {
+    font-family: var(--roboto);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--surface-text);
+    margin-bottom: 24px;
+    padding-left: 4px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+/* ---------------- Chip ---------------- */
+.sidebar-link {
+    text-decoration: none;
+    font-family: var(--fira);
+    font-size: 0.9rem;
+    color: var(--surface-text);
+    display: inline-block;
+    padding: 8px 16px;
+    width: auto;
+    min-width: 100px;
+    border-radius: 12px;
+    background-color: transparent;
+    border: 1px solid var(--outline);
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+    border-color: var(--surface-text);
+    background-color: transparent;
+    transform: translateY(-1px);
+}
+
+.sidebar-link.active {
+    background-color: transparent !important;
+    border: 2px solid var(--surface-text);
+    font-weight: 700;
+    padding: 7px 15px;
+}
+
+#dot-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dot-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-decoration: none;
+    cursor: pointer;
+    height: 20px; 
+}
+
+.dot-link:hover .dot-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.dot-link:hover .dot-circle {
+    opacity: 0.8;
+    transform: scale(1.2);
+}
+
+.dot-link.active .dot-circle {
+    background-color: transparent;
+    border-color: var(--surface-text);
+    opacity: 1;
+    transform: scale(1.5);
+    width: 12px;
+    height: 12px;
+}
+
+.dot-circle {
+    width: 10px;
+    height: 10px;
+    background-color: var(--surface-text); 
+    opacity: 0.3; 
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.dot-label {
+    position: absolute;
+    right: 25px;
+    background-color: var(--surface-alt);
+    color: var(--surface-text);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: var(--fira);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0; 
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    box-shadow: var(--shadow);
+}
+
+/* ---------------- DARK MODE ---------------- */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--surface-text);
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+}
+
+.theme-toggle-btn:hover {
+    background-color: rgba(0,0,0,0.05);
+}

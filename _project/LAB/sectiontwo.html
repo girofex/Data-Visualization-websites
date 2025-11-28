@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <title>Conflicts</title>
+    <link rel="shortcut icon" href="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="img/Plot twist no bg.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/dropdown.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/links.css">
+    <link rel="stylesheet" href="css/scrollbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/redirection.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/scrolling.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/charts/sectiontwo/boxplot-histogram.js" defer type="module"></script>
+    <script src="js/charts/sectiontwo/boxplot.js" defer type="module"></script>
+    <script src="js/charts/sectiontwo/histogram.js" defer type="module"></script>
+    <script src="js/charts/sectiontwo/ridgeline.js" defer type="module"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-expand">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <i class="bi bi-moon-fill" id="mode" alt="Change theme" onclick="switchMode()"></i>
+            </a>
+
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item" id="home">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sectionone.html">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Conflicts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sectionthree.html">Time</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sectionfour.html">Geography</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="sidebar-wrapper" id="sidebarWrapper">
+        <div class="sidebar-linklist-wrapper" id="sidebarLinks"></div>
+        <div class="sidebar-menu" id="sidebarMenu"></div>
+    </div>
+
+    <section class="container">
+        <div class="column">
+            <h2 id="h2">What Makes a Conflict Newsworthy?</h2>
+
+            <p>
+                In the last few years, our news have begun filling up with reports from mainly two conflicts,
+                the one between Russia and Ukraine, and the one between Israel and the Gazawi. What we intend to
+                question in this section is the reason for such interest.
+                <br><br>
+                Are those two the most problematic and newsworthy events of the last years?<br>
+                Are those two more deeply related to our economy and diplomatic relationships?<br>
+                In order to discuss these points, we compare those two areas with another hotspot in the world: Mexico.
+            </p>
+            
+            <h3 id="h3">Viral Events and Intimate Tragedies</h3>
+            <p>
+                We begin by comparing the distribution of the population exposure between the recorded events.
+                <br><br>
+                The first thing that catches the eye is the difference between Mexico and the other two conflicts.<br>
+                In the former, there is a small number of events recorded, while involving a great part of the population.<br>
+                In the other two conflicts, most events seem to involve a small part of the population:
+                it's very comprehensible in the Middle-Eastern case, since there's a relatively smaller population.
+            </p>
+            
+            <div id="dropdown"></div>
+        </div>
+
+        <div id="chart-container">
+            <div id="boxplot_container">
+                <div id="boxplot"></div>
+            </div>
+
+            <div id="histogram_container">
+                <div id="histogram"></div>
+            </div>
+        </div>
+
+        <div class="column">
+            <h2 id="h2">Do Deaths Make Noise?</h2>
+            <p>
+                Given the high amount of data, we now consider how many fatalities are recorded in relation to the event's size.
+                We can immediately see how events in Mexico usually result in less bloodshed, at least compared to the other
+                two test cases. The Ukrainian conflict in particular seems to record a high number of fatalities, stable
+                along the events reach. Losses in Palestine seem to grow with the population exposed instead.
+            </p>
+        </div>
+
+        <div id="ridgeline"></div>        
+    </section>
+
+    <div class="footer">
+        <hr>
+
+        <div class="container-fluid d-flex flex-column flex-lg-row">
+            <div class="container">
+                <div class="column" id="credits">
+                    <p>A Data Visualization project by</p>
+                    <h3>Plot twist</h3>
+                    <p>
+                        <span class="github" onclick="handleButtonClick('https://github.com/inkeaton', true)">Edoardo Vassallo</span> S4965918<br>
+                        <span class="github" onclick="handleButtonClick('https://github.com/girofex', true)">Federica Tamerisco</span> S4942412<br>
+                        <span class="github" onclick="handleButtonClick('https://github.com/IRYNASAVCHUK', true)">Iryna Savchuk</span> S4847306<br>
+                        <span class="github" onclick="handleButtonClick('https://github.com/saracaviglia', true)">Sara Caviglia</span> S5163676<br>
+                        <br><br>
+                        Data downloaded on October 28th 2025
+                    </p>
+                </div>
+                <div class="column">
+                    <img id="logo" src="img/DIBRIS_UniGe_black.svg" alt="Logo for the DIBRIS department of the University of Genoa">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <i class="bi bi-arrow-up-circle-fill" id="top" alt="Go to the top" onclick="GoTop()"></i>
+</body>
+
+</html>

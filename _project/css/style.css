@@ -1,0 +1,232 @@
+:root {
+    --roboto: 'Roboto Slab', serif;
+    --fira: 'Fira Sans', sans-serif;
+
+    --orange: #f87060;
+    --green: #69b3a2;
+    --blue: #1f77b4;
+    --red: #d62728;
+    --purple: #9467bd;
+    --yellow: #ffca4d;
+    --black: #131313;
+    --white: #e0e0e0;
+    --gray: #cccccc;
+
+    --primary: #131313;
+    --primary-text: var(--white);
+
+    --bg: var(--white);
+    --text: #131313;
+
+    --surface: var(--white);
+    --surface-text: #131313;
+    --surface-alt: var(--gray);
+
+    --accent: #f3b7b0;
+    --accent-text: #1d192b;
+
+    --outline: var(--white);
+
+    --elev-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --elev-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.05);
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+}
+
+/* ---------------- TYPOGRAPHY ---------------- */
+h1, h2, h3, h4, p {
+    padding: 1rem 0rem 0rem 1rem; 
+    font-family: var(--roboto);
+    color: var(--surface-text);
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 3.5rem;
+    font-style: normal;
+    line-height: 1.1;
+    text-align: center; 
+    margin-bottom: 3rem;
+    padding-left: 0; 
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    font-style: normal;
+    margin-top: 2rem;
+}
+
+h3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--surface-text); 
+    opacity: 0.8;
+}
+
+h4 {
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+p {
+    font-family: var(--fira);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    font-weight: 300;
+    font-style: normal;
+    color: var(--surface-text);
+    opacity: 0.9; 
+    margin-bottom: 1.5rem;
+}
+
+hr {
+    width: 100%;
+    height: 1px;
+    background-color: var(--surface-text);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    opacity: 0.2;
+    border: none;
+}
+
+a.link {
+    color: var(--surface-text);
+    font-weight: 400;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+a.link:hover {
+    color: var(--orange);
+    cursor: pointer;
+}
+
+#section-title h1 {
+    font-size: 4rem;
+    letter-spacing: -1px;
+    background: linear-gradient(45deg, var(--orange), var(--red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+/* ---------------- BODY ---------------- */
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    font-family: var(--fira);
+    overflow-x: hidden;
+}
+
+.main-content {
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    min-width: 320px; 
+}
+
+/* ---------------- Scrollbar ---------------- */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--outline);
+    border-radius: 20px;
+}
+
+/* ---------------- Icons ---------------- */
+.material-symbols-rounded {
+    font-size: 24px;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    transition: font-variation-settings 0.3s ease, transform 0.5s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ---------------- Wavy Line ---------------- */
+.wavy-line {
+    width: 100%;
+    height: 20px;
+    margin-top: 80px;
+    margin-bottom: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath d='M0,2 Q5,4 10,2 T20,2' fill='none' stroke='%23e6e1e5' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+    background-size: 40px 10px;
+    background-repeat: repeat-x;
+    background-position: center;
+    opacity: 0.8;
+}
+
+/* ---------------- DARK MODE ---------------- */
+body.dark-theme {
+    --black: var(--white);
+    --white: #121212;
+
+    --primary: var(--orange);
+    --primary-text: #000000;
+
+    --bg: #121212;
+    --text: var(--white);
+
+    --surface: #1e1e1e;
+    --surface-text: #e0e0e0;
+    --surface-alt: #2c2c2c;
+
+    --accent: #4a4458;
+    --accent-text: #f3b7b0;
+
+    --outline: #444444;
+}
+
+body.dark-theme #theme-icon {
+    transform: rotate(180deg);
+}
+
+body.dark-theme .wavy-line {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath d='M0,2 Q5,4 10,2 T20,2' fill='none' stroke='%2349454f' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 992px) {
+    .main-content { 
+        width: 85%; 
+        padding-top: 2rem;
+    }
+}
+
+/* ---------------- Tooltip ---------------- */
+.tooltip {
+    position: absolute;
+    font-family: var(--fira);
+    color: var(--surface-text);
+    background-color: var(--surface-container);
+    padding: 1rem 1rem;
+    border-radius: 0.5rem;
+    pointer-events: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* ---------------- Cards ---------------- */
+.content-card {
+    background-color: var(--surface-alt);
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 40px;
+    border: 1px solid var(--outline);
+}
+
+.content-card p:last-child {
+    margin-bottom: 0;
+}

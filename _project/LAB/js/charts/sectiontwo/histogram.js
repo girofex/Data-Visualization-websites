@@ -1,0 +1,169 @@
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const cssBlack = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
+const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
+const cssBlue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
+
+const tooltip = d3.select("body")
+  .append("div")
+  .attr("class", "tooltip");
+
+const csv = [
+  { name: "Mexico", path: "resources/plots/sectiontwo/mexico.csv" },
+  { name: "Ukraine-Russia", path: "resources/plots/sectiontwo/ukraine_russia.csv" },
+  { name: "Israel-Palestine", path: "resources/plots/sectiontwo/israel_palestine.csv" }
+];
+
+export function renderHistogram(){
+  Promise.all(csv.map(file => 
+    d3.csv(file.path).then(data => ({ name: file.name, data }))
+  ))
+  .then(function(datasets) {
+    const container = d3.select("#histogram_container");
+    container.selectAll("*").remove();
+
+    const margin = { top: 30, right: 20, bottom: 30, left: 60 },
+          width = 350 - margin.left - margin.right,
+          height = 350 - margin.top - margin.bottom;
+
+    const allData = datasets.flatMap(d => d.data);
+
+    //X scale
+    const x = d3.scaleLinear()
+      .domain(d3.extent(allData, d => +d.POPULATION_EXPOSURE))
+      .range([0, width]);
+
+    const color = d3.scaleOrdinal()
+      .domain(datasets.map(d => d.name))
+      .range([cssGreen, cssOrange, cssBlue]);
+    
+    const histogram = d3.histogram()
+      .value(d => +d.POPULATION_EXPOSURE)
+      .domain(x.domain())
+      .thresholds(x.ticks(10));
+
+    //Small multiple
+    const svg = container
+      .selectAll("uniqueChart")
+      .data(datasets)
+      .enter()
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+    
+      svg.append("text")
+        .attr("class", "yAxisTitle")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left - 3)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("font-weight", "bold")
+        .style("font-family", "Roboto Slab")
+        .text("Total Occurrences");
+
+      //Histograms
+      svg.each(function(dataset) {
+        const groupData = dataset.data;
+        const bins = histogram(groupData);
+
+      //Y domain
+      const yLocal = d3.scaleLinear()
+        .domain([0, 450])
+        .range([height, 0]);
+
+      const chart = d3.select(this);
+      const xAxis = d3.axisBottom(x).ticks(3)
+          .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
+
+      //X axis
+      chart.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .call(xAxis)
+        .selectAll("text")
+          .style("font-size", "12px")
+          .style("font-family", "Fira Sans");
+
+      //Y axis
+      chart.append("g")
+        .call(d3.axisLeft(yLocal).ticks(3))
+        .selectAll("text")
+          .style("font-size", "12px")
+          .style("font-family", "Fira Sans");
+
+      //Bars
+      chart.selectAll("rect")
+        .data(bins)
+        .enter()
+        .append("rect")
+          .attr("x", d => x(d.x0) + 1)
+          .attr("y", d => yLocal(d.length))
+          .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
+          .attr("height", d => height - yLocal(d.length))
+          .style("fill", color(dataset.name))
+          .style("opacity", 1)
+          .on("mouseover", function(event, d) {
+            d3.select(this)
+              .style("opacity", 0.7);
+
+            const formattedNumber = d3.format(",.0f")(d.length);
+          
+            tooltip
+              .style("opacity", 1)
+              .html(`<strong>Total Occurrences: </strong>${formattedNumber}`);
+          })
+        
+          .on("mousemove", function(event, d) {
+            tooltip
+              .style("left", (event.pageX + 10) + "px")
+              .style("top", (event.pageY - 10) + "px");
+          })
+          
+          .on("mouseout", function() {
+            d3.select(this)
+              .style("opacity", 1);
+            
+            tooltip.style("opacity", 0);
+          });
+
+      chart.append("text")
+        .attr("class", "xAxisTitle")
+        .attr("x", 0)
+        .attr("y", -10)
+        .text(dataset.name)
+        .style("font-size", "12px")
+        .style("font-weight", "bold")
+        .style("font-family", "Roboto Slab");
+    });
+
+    const initialTheme = document.body.classList.contains("body-mode");
+    window.updateHistogramTheme(initialTheme);
+  });
+
+  /*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*
+  DARK MODE
+  /*//*/*//*//*//*//*//*//*//*//*//*//*/
+
+  window.updateHistogramTheme = function(isDarkMode) {
+    const yAxisTitle = d3.selectAll("#histogram_container .yAxisTitle");
+    if (!yAxisTitle.empty())
+      yAxisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
+
+    const xAxisTitle = d3.selectAll("#histogram_container .xAxisTitle");
+    if (!xAxisTitle.empty())
+      xAxisTitle.style("fill", isDarkMode ? cssWhite : cssBlack);
+  
+    if (!tooltip.empty()) {
+      tooltip
+        .style("background-color", isDarkMode ? cssBlack : cssWhite)
+        .style("color", isDarkMode ? cssWhite : cssBlack)
+        .style("border", `1px solid ${isDarkMode ? cssWhite : cssBlack}`);
+    }
+  };
+}
