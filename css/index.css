@@ -1,0 +1,179 @@
+/* =========================================
+   INDEX.CSS - HYBRID LAYOUT
+   ========================================= 
+   This file manages the main reading layout and typography.
+   It combines the new Material Design structure with your 
+   original font weights and spacing preferences.
+*/
+
+:root {
+    /* Defining the accent color here if not defined globally */
+    --brand-orange: #FF6B35; /* Example orange, matches your 'hover' states */
+}
+
+body {
+    /* Using the variables defined in style.css */
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    font-family: "Fira Sans", sans-serif;
+    overflow-x: hidden; /* Prevents horizontal scrollbars */
+    margin: 0;
+}
+
+/* =========================================
+   MAIN LAYOUT CONTAINER
+   ========================================= */
+
+/* The Main Column
+   Goal: Replicates your old ".column" class which was width: 45%.
+   Design Principle: Keeping text narrow (approx 60-75 chars per line) 
+   makes it significantly easier for the human eye to read.
+*/
+.main-content {
+    width: 50%; /* Similar to your original 45% */
+    margin: 0 auto; /* Centers the block horizontally */
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  
+    /* Protection for small screens: prevents it from getting too thin */
+    min-width: 320px; 
+}
+
+/* Responsive Adjustment: 
+   On tablets and mobiles, the text needs to be wider to fill the screen.
+*/
+@media (max-width: 992px) {
+    .main-content { 
+        width: 85%; 
+        padding-top: 2rem;
+    }
+}
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
+
+/* General Indentation Rule 
+   Replicates your specific design choice of padding headers/paragraphs slightly.
+*/
+h1, h2, h3, h4, p {
+    padding: 1rem 0rem 0rem 1rem; 
+    font-family: "Roboto Slab", serif;
+    color: var(--md-sys-color-on-surface);
+}
+
+/* Main Title (H1) */
+h1 {
+    font-weight: 800; /* Extra Bold (Legacy Style) */
+    font-size: 3.5rem; /* Large and impactful */
+    font-style: normal;
+    line-height: 1.1;
+    text-align: center; 
+    margin-bottom: 3rem;
+  
+    /* Override padding for centered title */
+    padding-left: 0; 
+}
+
+/* Subtitles (H2) */
+h2 {
+    font-weight: 700; /* Bold */
+    font-size: 2rem;
+    font-style: normal;
+    margin-top: 2rem;
+}
+
+/* Section Headers (H3) */
+h3 {
+    font-weight: 600; /* Semi-Bold */
+    font-size: 1.5rem;
+    /* Using the accent color (or default text color if preferred) */
+    color: var(--md-sys-color-on-surface); 
+    opacity: 0.8;
+}
+
+h4 {
+    font-weight: 500; /* Medium */
+    font-size: 1.25rem;
+}
+
+/* PARAGRAPHS - The "Thin" Style */
+p {
+    font-family: "Fira Sans", sans-serif;
+    font-size: 1.125rem; /* approx 18px */
+    line-height: 1.7; /* High line-height for better readability */
+  
+    /* LEGACY STYLE: Keeping your original preference for thin text */
+    font-weight: 300; /* Light */
+    font-style: normal;
+  
+    /* Dynamic Color: Slightly softer than pure black/white */
+    color: var(--md-sys-color-on-surface);
+    opacity: 0.9; 
+  
+    margin-bottom: 1.5rem;
+}
+
+/* =========================================
+   UTILITY ELEMENTS
+   ========================================= */
+
+/* Separator Line */
+hr {
+    width: 100%;
+    height: 1px;
+    /* Using the border color variable (if defined) or a transparent on-surface */
+    background-color: var(--md-sys-color-on-surface);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    opacity: 0.2; /* Subtle divider */
+    border: none;
+}
+
+/* Inline Text Links */
+a.link {
+    color: var(--md-sys-color-on-surface);
+    font-weight: 400; /* Normal weight */
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+a.link:hover {
+    color: var(--brand-orange); /* Highlight color */
+    cursor: pointer;
+}
+
+/* Tooltip Styling (if used in charts) */
+.tooltip {
+    position: absolute;
+    font-family: "Fira Sans", sans-serif;
+    color: var(--md-sys-color-on-surface);
+    background-color: var(--md-sys-color-surface-container);
+    padding: 1rem 1rem;
+    border-radius: 0.5rem;
+    pointer-events: none;
+    /* Soft shadow for depth */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Back To Top Button */
+#top {
+    font-size: 3rem;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 1000;
+    cursor: pointer;
+    color: var(--md-sys-color-on-surface);
+    transition: transform 0.2s ease, color 0.2s ease;
+    opacity: 0.6;
+}
+
+#top:hover {
+    color: var(--brand-orange) !important;
+    opacity: 1;
+    transform: translateY(-3px);
+}
