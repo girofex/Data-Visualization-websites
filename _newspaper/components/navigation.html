@@ -1,0 +1,34 @@
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/navigation.css">
+
+    <script type="module" src="../js/navigation.js"></script>
+    <script type="module" src="../js/theme.js"></script>
+</head>
+
+<div id="navbar" class="m3-navbar-container">
+    <nav class="m3-navbar">
+        <button class="theme-toggle-btn" onclick="switchMode()" aria-label="Toggle Dark Mode">
+            <span class="material-symbols-outlined" id="mode">dark_mode</span>
+        </button>
+
+        <a class="m3-nav-link home" href="./index.html">PlotTwist paper</a></li>
+
+        <span style="position: relative">
+            <md-button id="usage-anchor">
+                <span class="material-symbols-outlined" id="menu">menu</span>
+            </md-button>
+            <md-menu id="usage-menu" anchor="usage-anchor">
+                <md-menu-item>
+                    <div slot="text" class="section" data-href="./sectionone.html">Section One</div>
+                </md-menu-item>
+                <md-menu-item>
+                    <div slot="text" class="section" data-href="./sectiontwo.html">Section Two</div>
+                </md-menu-item>
+                <md-menu-item>
+                    <div slot="text" class="section" data-href="./sectionthree.html">Section Three</div>
+                </md-menu-item>
+            </md-menu>
+        </span>
+    </nav>
+</div>

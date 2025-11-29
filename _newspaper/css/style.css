@@ -1,0 +1,65 @@
+:root {
+  /* COLORS */
+  --beige: #C4BDB2;
+  --black: #1C1C1A;
+  --orange: #B23D10;
+
+  /* TYPOGRAPHY */
+  --unifraktur: "UnifrakturCook", cursive;
+  --pirata: "Pirata One", system-ui;
+  
+  --antic: "Antic Didone", serif;
+
+  --prata: "Prata", serif;
+  --bodoni: "Bodoni Moda", serif;
+}
+
+#page {
+  position: relative;
+  background: var(--beige);
+  color: var(--black);
+  width: 100%;
+  min-height: 100vh;
+}
+
+.home,
+h1{
+  font-family: var(--unifraktur) !important;
+}
+
+.home,
+h2{
+  font-size: 1.5rem !important;
+}
+
+.section,
+h2{
+  font-family: var(--antic);
+}
+
+p{
+  font-family: var(--prata);
+}
+
+a{
+  color: var(--black);
+}
+
+/* ICONS */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 600,
+    'GRAD' 0,
+    'opsz' 48;
+  font-size: 48px;
+  width: 40px;
+  height: 40px;
+}
+
+/* ---------------- DARK MODE ---------------- */
+#page.dark-theme {
+  background-color: var(--black);
+  color: var(--beige);
+}

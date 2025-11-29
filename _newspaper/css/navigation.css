@@ -1,0 +1,58 @@
+/* ---------------- NAVBAR ---------------- */
+.m3-navbar-container {
+    position: relative;
+    z-index: 1000;
+}
+
+.m3-navbar {
+    background-color: var(--beige) !important;
+    width: auto;
+    min-height: 4rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+button{
+    background-color: transparent;
+    border: none;
+}
+
+.home{
+    text-decoration: none;
+}
+
+.home:hover{
+    background-color: var(--beige) !important;
+    color: var(--black) !important;
+}
+
+#usage-menu{
+    background-color: var(--beige);
+}
+
+/* Icons */
+#mode{
+    transition: font-variation-settings 0.3s ease, transform 0.5s cubic-bezier(0.2, 0, 0, 1);
+}
+
+#mode,
+#menu {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+#mode:hover,
+#menu:hover {
+  background-color: var(--orange);
+  color: var(--beige);
+}
