@@ -1,7 +1,7 @@
 import '@material/web/all.js';
 import { setupNavbar } from './navigation.js';
 
-//COMPONENTS
+// -------- Components --------
 function includeComponent(id, file, callback) {
   fetch(file)
     .then(response => {
@@ -20,7 +20,7 @@ function includeComponent(id, file, callback) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  //GRAIN EFFECT
+  //Grain effect
   grained('#page', {
     animate: false,
     patternWidth: 100,
@@ -34,4 +34,17 @@ document.addEventListener("DOMContentLoaded", () => {
   includeComponent("navbar", "./components/navigation.html", () => {
     setupNavbar();;
   });
+});
+
+// -------- Torn images --------
+document.querySelectorAll('.column img').forEach(img => {
+  // Randomize mask slightly for torn effect
+  const xShift = Math.random() * 20 - 10; // -10% to +10%
+  const yShift = Math.random() * 20 - 10; // -10% to +10%
+  img.style.webkitMaskPosition = `${50 + xShift}% ${50 + yShift}%`;
+  img.style.maskPosition = `${50 + xShift}% ${50 + yShift}%`;
+
+  // Optional: subtle random rotation for more realism
+  const rotate = Math.random() * 4 - 2; // -2deg to +2deg
+  img.style.transform = `rotate(${rotate}deg)`;
 });

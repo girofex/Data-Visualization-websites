@@ -1,11 +1,20 @@
-/* ---------------- NAVBAR ---------------- */
+/* -------- Navbar -------- */
 .m3-navbar-container {
     position: relative;
     z-index: 1000;
 }
 
+#navbar-grain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
 .m3-navbar {
-    background-color: var(--beige) !important;
     width: auto;
     min-height: 4rem;
     padding: 1rem;
@@ -14,6 +23,8 @@
     align-items: center;
     justify-content: center;
     justify-content: space-between;
+    position: relative;
+    z-index: 2;
 }
 
 button{
@@ -30,11 +41,27 @@ button{
     color: var(--black) !important;
 }
 
-#usage-menu{
-    background-color: var(--beige);
+md-menu {
+  --md-menu-container-color: var(--beige);
 }
 
-/* Icons */
+md-menu::part(popup),
+md-menu::part(surface) {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+}
+
+md-menu-item {
+  --md-menu-item-container-color: var(--beige);
+  --md-menu-item-label-text-color: var(--black) !important;
+}
+
+md-menu-item:hover {
+  --md-menu-item-container-color: var(--orange);
+  --md-menu-item-label-text-color: var(--beige);
+}
+
+/* -------- Icons -------- */
 #mode{
     transition: font-variation-settings 0.3s ease, transform 0.5s cubic-bezier(0.2, 0, 0, 1);
 }

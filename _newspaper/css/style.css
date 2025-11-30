@@ -1,10 +1,10 @@
 :root {
-  /* COLORS */
+  /* Colors */
   --beige: #C4BDB2;
   --black: #1C1C1A;
   --orange: #B23D10;
 
-  /* TYPOGRAPHY */
+  /* Typography */
   --unifraktur: "UnifrakturCook", cursive;
   --pirata: "Pirata One", system-ui;
   
@@ -16,14 +16,14 @@
 
 #page {
   position: relative;
+  z-index: 0;
   background: var(--beige);
   color: var(--black);
   width: 100%;
   min-height: 100vh;
 }
 
-.home,
-h1{
+.home{
   font-family: var(--unifraktur) !important;
 }
 
@@ -32,20 +32,38 @@ h2{
   font-size: 1.5rem !important;
 }
 
+h1{
+  font-size: 3rem;
+  font-weight: 1000;
+}
+
+.title{
+  background-color: var(--black);
+  color: var(--beige);
+  text-align: center;
+  padding: 1rem;
+}
+
 .section,
+h1,
 h2{
   font-family: var(--antic);
 }
 
+h2{
+  font-weight: 600;
+}
+
 p{
   font-family: var(--prata);
+  font-weight: 300;
 }
 
 a{
   color: var(--black);
 }
 
-/* ICONS */
+/* -------- Icons -------- */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
   font-variation-settings:
@@ -58,7 +76,42 @@ a{
   height: 40px;
 }
 
-/* ---------------- DARK MODE ---------------- */
+/* -------- Columns -------- */
+.grid{
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.5fr;
+  width: 100%;
+}
+
+.column {
+  padding: 1rem;
+}
+
+.middle_column{
+  border-left: 1px solid var(--black);
+  border-right: 1px solid var(--black);
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  -webkit-mask-image: url('https://i.postimg.cc/DZYqPDTD/bordernew.png');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 110% 110%;
+  -webkit-mask-position: center;
+  -webkit-mask-composite: destination-in;
+  mask-image: url('https://i.postimg.cc/DZYqPDTD/bordernew.png');
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  mask-composite: intersect;
+  
+  filter: drop-shadow(4px 4px 6px var(--black));
+}
+
+/* -------- DARK MODE -------- */
 #page.dark-theme {
   background-color: var(--black);
   color: var(--beige);
