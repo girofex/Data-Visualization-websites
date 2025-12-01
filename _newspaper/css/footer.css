@@ -1,20 +1,28 @@
 .m3-footer {
-    background-color: var(--surface-alt);
-    color: var(--surface-text);
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    margin-top: 0;
-    padding: 60px 20px 20px 20px;
+    border-top: 1px solid var(--black);
+    padding: 1rem;
     position: relative;
+    z-index: 0;
 }
 
 .footer-container {
-    max-width: 1100px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+#footer-grain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ---------------- Brand ---------------- */
@@ -25,33 +33,19 @@
 }
 
 .brand-title {
-    font-family: var(--roboto);
-    font-size: 2rem;
-    font-weight: 700;
     margin-bottom: 0.2rem;
-    color: var(--surface-text);
 }
 
 .brand-subtitle {
-    font-family: var(--fira);
-    text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 0.8rem;
     opacity: 0.6;
     margin-bottom: 2rem;
 }
 
 .data-note {
-    font-size: 0.9rem;
     line-height: 1.6;
     opacity: 0.8;
     margin-bottom: 2rem;
-}
-
-.data-note a {
-    color: var(--surface-text);
-    font-weight: 600;
-    text-decoration: underline;
 }
 
 /* ---------------- Logo ---------------- */
@@ -72,10 +66,8 @@ body.dark-theme #logo {
 }
 
 .team-title {
-    font-family: var(--roboto);
-    font-size: 1.2rem;
     margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--outline);
+    border-bottom: 1px solid var(--black);
     display: inline-block;
     padding-bottom: 5px;
 }
@@ -96,26 +88,20 @@ body.dark-theme #logo {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background-color: var(--surface);
-    color: var(--surface-text);
+    background-color: var(--beige);
+    color: var(--black);
     padding: 8px 16px;
     border-radius: 12px;
-    
-    font-family: var(--fira);
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-    
     border: 1px solid transparent;
     transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .github-chip:hover {
-    background-color: var(--accent);
-    color: var(--accent-text);
+    background-color: var(--orange);
+    color: var(--beige);
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .matricola {
@@ -128,7 +114,7 @@ body.dark-theme #logo {
 .footer-bottom {
     margin-top: 60px;
     padding-top: 20px;
-    border-top: 1px solid var(--outline);
+    border-top: 1px solid var(--black);
     text-align: center;
     font-size: 0.8rem;
     opacity: 0.5;
@@ -140,15 +126,16 @@ body.dark-theme #logo {
         flex-direction: column;
         text-align: center;
     }
-    
-    .footer-brand, .footer-team {
+
+    .footer-brand,
+    .footer-team {
         text-align: center;
     }
-    
+
     .team-grid {
         justify-content: center;
     }
-    
+
     .student-card {
         align-items: center;
     }

@@ -1,5 +1,15 @@
 // -------- Footer --------
 export function setupFooter() {
+    const footerHTML = `
+      <footer class="m3-footer" id="section-credits">
+        <div id="footer-grain"></div>
+        <div class="footer-container">
+          ...
+        </div>
+      </footer>
+    `;
+
+    document.getElementById('footer').innerHTML = footerHTML;
     setupGrain();
 }
 

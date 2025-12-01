@@ -14,16 +14,23 @@
   --bodoni: "Bodoni Moda", serif;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
 #page {
   position: relative;
   z-index: 0;
   background: var(--beige);
   color: var(--black);
   width: 100%;
-  min-height: 100vh;
+  min-height: auto;
 }
 
-.home{
+.home,
+.brand-title{
   font-family: var(--unifraktur) !important;
 }
 
@@ -32,7 +39,8 @@ h2{
   font-size: 1.5rem !important;
 }
 
-h1{
+h1,
+.brand-title{
   font-size: 3rem;
   font-weight: 1000;
 }
@@ -50,17 +58,33 @@ h2{
   font-family: var(--antic);
 }
 
-h2{
+h2,
+.brand-subtitle{
   font-weight: 600;
 }
 
-p{
+p,
+.team-title{
   font-family: var(--prata);
   font-weight: 300;
 }
 
 a{
   color: var(--black);
+}
+
+.brand-subtitle{
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-note {
+  font-size: 0.9rem;
+}
+
+.data-note a {
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 /* -------- Icons -------- */
@@ -81,6 +105,8 @@ a{
   display: grid;
   grid-template-columns: 1.2fr 1.6fr 1.2fr;
   width: 100%;
+  gap: 20px;
+  padding-bottom: 20px;
 }
 
 .column {
