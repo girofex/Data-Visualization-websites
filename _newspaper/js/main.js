@@ -1,5 +1,6 @@
 import '@material/web/all.js';
 import { setupNavbar } from './navigation.js';
+import { setupFooter } from './footer.js';
 
 // -------- Components --------
 function includeComponent(id, file, callback) {
@@ -32,7 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   includeComponent("navbar", "./components/navigation.html", () => {
-    setupNavbar();;
+    setupNavbar();
+  });
+
+  includeComponent("footer", "./components/footer.html", () => {
+    setupFooter();
   });
 });
 
