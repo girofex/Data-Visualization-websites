@@ -1,18 +1,16 @@
-.m3-footer {
-    border-top: 1px solid var(--black);
-    padding: 1rem;
-    position: relative;
-    z-index: 0;
+.m3-footer,
+.team-title,
+a,
+.footer-bottom{
+    color: var(--beige);
 }
 
-.footer-container {
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 40px;
-    position: relative;
-    z-index: 1;
+.m3-footer {
+    margin-top: 2rem;
+    border-top: 1px solid var(--black);
+    padding-top: 2rem;
+    z-index: 0;
+    background-color: var(--black);
 }
 
 #footer-grain {
@@ -26,33 +24,20 @@
 }
 
 /* ---------------- Brand ---------------- */
-.footer-brand {
-    flex: 1;
-    min-width: 300px;
-    text-align: left;
+.footer-brand,
+.footer-team{
+    text-align: center;
 }
 
 .brand-title {
-    margin-bottom: 0.2rem;
-}
-
-.brand-subtitle {
     letter-spacing: 2px;
-    opacity: 0.6;
-    margin-bottom: 2rem;
-}
-
-.data-note {
-    line-height: 1.6;
-    opacity: 0.8;
-    margin-bottom: 2rem;
 }
 
 /* ---------------- Logo ---------------- */
 #logo {
-    height: 80px;
+    margin: 2rem;
+    height: 5rem;
     width: auto;
-    opacity: 0.9;
 }
 
 body.dark-theme #logo {
@@ -60,78 +45,46 @@ body.dark-theme #logo {
 }
 
 /* ---------------- Team ---------------- */
-.footer-team {
-    flex: 1;
-    min-width: 300px;
-}
-
 .team-title {
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--black);
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--beige);
     display: inline-block;
-    padding-bottom: 5px;
 }
 
 .team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .student-card {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    padding: 0.7rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    width: 10rem;
+    border: 1px solid var(--beige);
 }
 
-.github-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--beige);
-    color: var(--black);
-    padding: 8px 16px;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.github-chip:hover {
+.student-card:hover {
     background-color: var(--orange);
-    color: var(--beige);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.matricola {
-    font-size: 0.75rem;
-    opacity: 0.5;
-    padding-left: 8px;
-    font-family: monospace;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .footer-bottom {
-    margin-top: 60px;
-    padding-top: 20px;
-    border-top: 1px solid var(--black);
+    padding: 1rem;
     text-align: center;
     font-size: 0.8rem;
-    opacity: 0.5;
+    opacity: 0.7;
+}
+
+a:hover{
+    color: var(--orange);
 }
 
 /* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 768px) {
-    .footer-container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .footer-brand,
-    .footer-team {
-        text-align: center;
-    }
-
     .team-grid {
         justify-content: center;
     }

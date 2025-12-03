@@ -22,7 +22,7 @@ function includeComponent(id, file, callback) {
 
 document.addEventListener("DOMContentLoaded", () => {
   //Grain effect
-  grained('#page', {
+  grained('#main-grain', { 
     animate: false,
     patternWidth: 100,
     patternHeight: 100,

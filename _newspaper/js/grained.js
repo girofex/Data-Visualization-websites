@@ -110,7 +110,7 @@
 
         var rule = 'background-image: url(' + noise + ');';
         rule += 'position: absolute; content: ""; height: 300%; width: 300%; left: -100%; top: -100%;';
-        rule += 'z-index: -999999; pointer-events: none;';
+        rule += 'z-index: 1; pointer-events: none;';
         pre = prefixes.length;
 
         //selecter element to add grains

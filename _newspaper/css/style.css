@@ -20,6 +20,21 @@ html, body {
   min-height: 100%;
 }
 
+#main-grain {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+#main-grain::before{
+  z-index: 9999 !important;
+  mix-blend-mode: multiply;
+}
+
 #page {
   position: relative;
   z-index: 0;
@@ -29,8 +44,7 @@ html, body {
   min-height: auto;
 }
 
-.home,
-.brand-title{
+.home{
   font-family: var(--unifraktur) !important;
 }
 
@@ -39,8 +53,7 @@ h2{
   font-size: 1.5rem !important;
 }
 
-h1,
-.brand-title{
+h1{
   font-size: 3rem;
   font-weight: 1000;
 }
@@ -59,12 +72,13 @@ h2{
 }
 
 h2,
-.brand-subtitle{
+.brand-title{
   font-weight: 600;
 }
 
 p,
-.team-title{
+.team-title,
+.student-card{
   font-family: var(--prata);
   font-weight: 300;
 }
@@ -73,18 +87,17 @@ a{
   color: var(--black);
 }
 
-.brand-subtitle{
-  text-transform: uppercase;
+.brand-title,
+.student-card{
   font-size: 0.8rem;
 }
 
-.data-note {
-  font-size: 0.9rem;
+.brand-title{
+  text-transform: uppercase;
 }
 
-.data-note a {
-  font-weight: 600;
-  text-decoration: underline;
+.student-card > a{
+  text-decoration: none;
 }
 
 /* -------- Icons -------- */
