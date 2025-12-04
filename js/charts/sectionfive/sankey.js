@@ -57,9 +57,12 @@ Promise.all([
         .attr("class", "link")
         .attr("d", sankeyLinkHorizontal())
         .attr("stroke", d => {
-            if (d.source.name.startsWith("E:")) return color["Event"];
-            if (d.source.name.startsWith("S:")) return color["Sub Event"];
-            if (d.source.name.startsWith("D:")) return color["Disorder"];
+            if (d.source.name.startsWith("E:"))
+                return color["Event"];
+            if (d.source.name.startsWith("S:"))
+                return color["Sub Event"];
+            if (d.source.name.startsWith("D:"))
+                return color["Disorder"];
         })
         .attr("stroke-width", d => Math.max(1, d.width))
         .attr("fill", "none")
@@ -122,7 +125,7 @@ Promise.all([
         })
         .on("mouseleave", () => tooltip.style("opacity", 0));
 
-    // Node labels
+    //Node labels
     node.append("text")
         .attr("class", "nodeLabels")
         .attr("x", d => d.x0 - 6)

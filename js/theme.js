@@ -83,7 +83,8 @@ document.addEventListener("DOMContentLoaded", function() {
             window.updateChoroplethTheme,
             window.updateDotMapTheme,
             window.updatePrismMapTheme,
-            window.updateSankeyDiagramTheme
+            window.updateSankeyDiagramTheme,
+            window.updateBubbleTheme
         ].forEach(fn => {
             if (typeof fn === "function") fn(isDark);
         });
