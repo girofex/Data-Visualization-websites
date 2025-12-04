@@ -6,7 +6,6 @@ const cssWhite = getComputedStyle(document.documentElement).getPropertyValue("--
 const cssOrange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const cssGreen = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 const cssPurple = getComputedStyle(document.documentElement).getPropertyValue("--purple").trim();
-const cssGray = getComputedStyle(document.documentElement).getPropertyValue("--gray").trim();
 
 // Setup Dimensions
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },

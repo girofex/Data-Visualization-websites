@@ -1,20 +1,29 @@
-.node rect {
-  cursor: move;
-  fill-opacity: .9;
-  shape-rendering: crispEdges;
+body {
+    font-family: Arial, sans-serif;
+    background: #f6f6f6;
 }
 
-.node text {
-  pointer-events: none;
-  text-shadow: 0 1px 0 var(--white);
+#sankey {
+    width: 1300px;
+    height: 900px;
+    margin: 0 auto;
+}
+
+text {
+    font-size: 12px;
+    pointer-events: none;
+}
+
+.node rect {
+    cursor: pointer;
+    shape-rendering: crispEdges;
 }
 
 .link {
-  fill: none;
-  stroke: var(--black);
-  stroke-opacity: .2;
+    fill: none;
+    stroke-opacity: 0.4;
 }
 
 .link:hover {
-  stroke-opacity: .5;
+    stroke-opacity: 0.9;
 }
