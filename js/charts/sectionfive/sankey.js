@@ -57,21 +57,28 @@ Promise.all([
         .attr("class", "link")
         .attr("d", sankeyLinkHorizontal())
         .attr("stroke", d => {
-            if (d.source.name.startsWith("E:"))
-                return color["Event"];
-            if (d.source.name.startsWith("S:"))
-                return color["Sub Event"];
-            if (d.source.name.startsWith("D:"))
-                return color["Disorder"];
+            if (d.source.name.startsWith("E:")) return color["Event"];
+            if (d.source.name.startsWith("S:")) return color["Sub Event"];
+            if (d.source.name.startsWith("D:")) return color["Disorder"];
         })
         .attr("stroke-width", d => Math.max(1, d.width))
-        .on("mousemove", (event, d) => {
+        .attr("fill", "none")
+        .style("stroke-opacity", 0.4)
+        .on("mousemove", function (event, d) {
+            d3.select(this).style("stroke-opacity", 0.9);
+
+            const formatNumber = d3.format(",");
+            const formatted = formatNumber(d.value).replace(/,/g, ".");
+
             tooltip.style("opacity", 1)
-                .html(`<span>Value: ${d.value}</span>`)
-                .style("left", (event.pageX + 15) + "px")
-                .style("top", (event.pageY - 20) + "px");
+                .html(`<span>Value: ${formatted}</span>`)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
         })
-        .on("mouseleave", () => tooltip.style("opacity", 0));
+        .on("mouseleave", function (event, d) {
+            d3.select(this).style("stroke-opacity", 0.4);
+            tooltip.style("opacity", 0);
+        });
 
     //Nodes
     const node = svg.append("g")
@@ -100,10 +107,15 @@ Promise.all([
                 d.name.startsWith("S:") ? "Sub Event" :
                     d.name.startsWith("D:") ? "Disorder" : "Node";
 
+            const formatNumber = d3.format(",");
+            const formatted = formatNumber(d.value).replace(/,/g, ".");
+
+            const formatWord = d.name.slice(2);
+
             tooltip.style("opacity", 1)
                 .html(`<strong>${label}</strong><br>
-                    ${d.name}<br>
-                    <span>Count: ${d.value}</span>`
+                    ${formatWord}<br>
+                    <span>Count: ${formatted}</span>`
                 )
                 .style("left", (event.pageX + 15) + "px")
                 .style("top", (event.pageY - 20) + "px");
@@ -121,6 +133,7 @@ Promise.all([
         .filter(d => d.x0 < width / 2)
         .attr("x", d => d.x1 + 6)
         .attr("text-anchor", "start")
+        .attr("pointer-events", "none")
         .style("font-size", "12px")
         .style("font-family", "Fira Sans");
 
